@@ -374,7 +374,6 @@ public class PayloadSpec {
 
 	@Override
 	public String toString(){
-		log.debug("PayloadSpec toString");
 		if (encodingName == null || encodingName == "") {
 			return "";
 		}
