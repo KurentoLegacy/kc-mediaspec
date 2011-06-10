@@ -1,7 +1,5 @@
 package com.tikal.media.format;
 
-
-
 import gov.nist.javax.sdp.fields.SDPFieldNames;
 
 import java.util.StringTokenizer;
@@ -15,20 +13,20 @@ import org.apache.commons.logging.LogFactory;
 import com.tikal.sdp.enums.MediaType;
 
 /**
- * <p> A payload indentify the format of the RTP connection protocol and determines 
- * its interpretation by the application.* 
+ * <p>
+ * A payload indentify the format of the RTP connection protocol and determines
+ * its interpretation by the application.*
  * </p>
- * Example : 
- * 	m=audio 60000 RPT/AVP 0
- *  a=rtpmap:0 PCMU/8000
- *  
- *  This audio channel accept payload 0 and it identify with PCMU codec working in 8000Hz
- *  
- *  Refer to RFC 1889 for RTP payloads specifications
- *  
- *  
+ * Example : m=audio 60000 RPT/AVP 0 a=rtpmap:0 PCMU/8000
+ * 
+ * This audio channel accept payload 0 and it identify with PCMU codec working
+ * in 8000Hz
+ * 
+ * Refer to RFC 1889 for RTP payloads specifications
+ * 
+ * 
  * @author Qiang
- *
+ * 
  */
 public class PayloadSpec {
 	private static Log log = LogFactory.getLog(PayloadSpec.class);
@@ -46,14 +44,14 @@ public class PayloadSpec {
 	// RTP parameters
 	private Integer payload;
 	private Integer port;
-	
+
 	// Code parameters
 	private CodecFormat codecFormat;
 
-	public PayloadSpec(){
-		
+	public PayloadSpec() {
+
 	}
-	
+
 	public PayloadSpec(int payload) {
 		this.payload = payload;
 
@@ -61,8 +59,8 @@ public class PayloadSpec {
 	}
 
 	/**
-	 * Creates a PayloadSpec from a string. Format of the string must be: [ payloadNumber
-	 * encodingName/clockRate]
+	 * Creates a PayloadSpec from a string. Format of the string must be: [
+	 * payloadNumber encodingName/clockRate]
 	 * 
 	 * @param info
 	 * @throws SdpException
@@ -74,12 +72,12 @@ public class PayloadSpec {
 	}
 
 	public void setRtpMap(String info) {
-		StringTokenizer token = new StringTokenizer(info);		
+		StringTokenizer token = new StringTokenizer(info);
 		int payloadId = Integer.parseInt(token.nextToken());
 
 		if (payloadId != payload)
 			return;
-		
+
 		if (!token.hasMoreTokens()) {
 			fillStaticPayloadParameters();
 			log.debug("Payload without encoding name and clock rate, it must be an specific payload");
@@ -89,7 +87,8 @@ public class PayloadSpec {
 		String stringToken = token.nextToken();
 		String[] values = stringToken.split("/");
 		if (values.length != 2 && values.length != 3) {
-			log.warn("Format not spected encodingName/clockRate ["+stringToken+"]");
+			log.warn("Format not spected encodingName/clockRate ["
+					+ stringToken + "]");
 		}
 		encodingName = values[0];
 		if (encodingName == null || encodingName == "") {
@@ -102,74 +101,33 @@ public class PayloadSpec {
 		if (values.length >= 3)
 			encodingParams = values[2];
 	}
-	
+
 	private void fillStaticPayloadParameters() {
 		/*
-		      According to RFC 3551
-
-              PT   encoding    media type  clock rate   channels
-                    name                    (Hz)
-               ___________________________________________________
-               0    PCMU        A            8,000       1
-               1    reserved    A
-               2    reserved    A
-               3    GSM         A            8,000       1
-               4    G723        A            8,000       1
-               5    DVI4        A            8,000       1
-               6    DVI4        A           16,000       1
-               7    LPC         A            8,000       1
-               8    PCMA        A            8,000       1
-               9    G722        A            8,000       1
-               10   L16         A           44,100       2
-               11   L16         A           44,100       1
-               12   QCELP       A            8,000       1
-               13   CN          A            8,000       1
-               14   MPA         A           90,000       (see text)
-               15   G728        A            8,000       1
-               16   DVI4        A           11,025       1
-               17   DVI4        A           22,050       1
-               18   G729        A            8,000       1
-               19   reserved    A
-               20   unassigned  A
-               21   unassigned  A
-               22   unassigned  A
-               23   unassigned  A
-               dyn  G726-40     A            8,000       1
-               dyn  G726-32     A            8,000       1
-               dyn  G726-24     A            8,000       1
-               dyn  G726-16     A            8,000       1
-               dyn  G729D       A            8,000       1
-               dyn  G729E       A            8,000       1
-               dyn  GSM-EFR     A            8,000       1
-               dyn  L8          A            var.        var.
-               dyn  RED         A                        (see text)
-               dyn  VDVI        A            var.        1
-
-               Table 4: Payload types (PT) for audio encodings
-
-               PT      encoding    media type  clock rate
-                       name                    (Hz)
-               _____________________________________________
-               24      unassigned  V
-               25      CelB        V           90,000
-               26      JPEG        V           90,000
-               27      unassigned  V
-               28      nv          V           90,000
-               29      unassigned  V
-               30      unassigned  V
-               31      H261        V           90,000
-               32      MPV         V           90,000
-               33      MP2T        AV          90,000
-               34      H263        V           90,000
-               35-71   unassigned  ?
-               72-76   reserved    N/A         N/A
-               77-95   unassigned  ?
-               96-127  dynamic     ?
-               dyn     H263-1998   V           90,000
-
-               Table 5: Payload types (PT) for video and combined
-                        encodings
-
+		 * According to RFC 3551
+		 * 
+		 * PT encoding media type clock rate channels name (Hz)
+		 * ___________________________________________________ 0 PCMU A 8,000 1
+		 * 1 reserved A 2 reserved A 3 GSM A 8,000 1 4 G723 A 8,000 1 5 DVI4 A
+		 * 8,000 1 6 DVI4 A 16,000 1 7 LPC A 8,000 1 8 PCMA A 8,000 1 9 G722 A
+		 * 8,000 1 10 L16 A 44,100 2 11 L16 A 44,100 1 12 QCELP A 8,000 1 13 CN
+		 * A 8,000 1 14 MPA A 90,000 (see text) 15 G728 A 8,000 1 16 DVI4 A
+		 * 11,025 1 17 DVI4 A 22,050 1 18 G729 A 8,000 1 19 reserved A 20
+		 * unassigned A 21 unassigned A 22 unassigned A 23 unassigned A dyn
+		 * G726-40 A 8,000 1 dyn G726-32 A 8,000 1 dyn G726-24 A 8,000 1 dyn
+		 * G726-16 A 8,000 1 dyn G729D A 8,000 1 dyn G729E A 8,000 1 dyn GSM-EFR
+		 * A 8,000 1 dyn L8 A var. var. dyn RED A (see text) dyn VDVI A var. 1
+		 * 
+		 * Table 4: Payload types (PT) for audio encodings
+		 * 
+		 * PT encoding media type clock rate name (Hz)
+		 * _____________________________________________ 24 unassigned V 25 CelB
+		 * V 90,000 26 JPEG V 90,000 27 unassigned V 28 nv V 90,000 29
+		 * unassigned V 30 unassigned V 31 H261 V 90,000 32 MPV V 90,000 33 MP2T
+		 * AV 90,000 34 H263 V 90,000 35-71 unassigned ? 72-76 reserved N/A N/A
+		 * 77-95 unassigned ? 96-127 dynamic ? dyn H263-1998 V 90,000
+		 * 
+		 * Table 5: Payload types (PT) for video and combined encodings
 		 */
 
 		switch (payload) {
@@ -200,6 +158,7 @@ public class PayloadSpec {
 			clockRate = 44100;
 			break;
 		case 14:
+			encodingName = "MPA";
 		case 25:
 		case 26:
 		case 28:
@@ -211,9 +170,10 @@ public class PayloadSpec {
 			break;
 		}
 	}
-	
+
 	/**
 	 * Gets media type
+	 * 
 	 * @see MediaType
 	 * @param mediaType
 	 */
@@ -222,7 +182,8 @@ public class PayloadSpec {
 	}
 
 	/**
-	 * Sets  media type.
+	 * Sets media type.
+	 * 
 	 * @see MediaType
 	 * @return MediaType
 	 */
@@ -232,6 +193,7 @@ public class PayloadSpec {
 
 	/**
 	 * Gets encoding name
+	 * 
 	 * @return Encoding name
 	 */
 	public String getEncodingName() {
@@ -240,6 +202,7 @@ public class PayloadSpec {
 
 	/**
 	 * Sets media's encoding name
+	 * 
 	 * @param encodingName
 	 */
 	public void setEncodingName(String encodingName) {
@@ -248,6 +211,7 @@ public class PayloadSpec {
 
 	/**
 	 * Gets clock rate of encoding
+	 * 
 	 * @return
 	 */
 	public Integer getClockRate() {
@@ -256,6 +220,7 @@ public class PayloadSpec {
 
 	/**
 	 * Sets clock rate of encoding
+	 * 
 	 * @param clockRate
 	 */
 	public void setClockRate(Integer clockRate) {
@@ -264,6 +229,7 @@ public class PayloadSpec {
 
 	/**
 	 * Returns a payload associated with the encoding
+	 * 
 	 * @return
 	 */
 	public Integer getPayload() {
@@ -272,6 +238,7 @@ public class PayloadSpec {
 
 	/**
 	 * Sets the payload of encoding
+	 * 
 	 * @param payload
 	 */
 	public void setPayload(Integer payload) {
@@ -279,7 +246,8 @@ public class PayloadSpec {
 	}
 
 	/**
-	 * Returns  the port of communication.
+	 * Returns the port of communication.
+	 * 
 	 * @return Port
 	 */
 	public Integer getPort() {
@@ -288,6 +256,7 @@ public class PayloadSpec {
 
 	/**
 	 * Sets the port of communication
+	 * 
 	 * @param port
 	 */
 	public void setPort(Integer port) {
@@ -296,22 +265,22 @@ public class PayloadSpec {
 
 	/**
 	 * Returns codec format of the media
+	 * 
 	 * @return CodecFormat
 	 */
 	public CodecFormat getCodecFormat() {
 		return codecFormat;
 	}
-	
+
 	/**
 	 * Sets the media codec format.
+	 * 
 	 * @param codecFormat
 	 */
 	public void setCodecFormat(CodecFormat codecFormat) {
 		this.codecFormat = codecFormat;
 	}
 
-	
-	
 	/**
 	 * Sets the encoding params
 	 * 
@@ -361,24 +330,28 @@ public class PayloadSpec {
 
 	/**
 	 * Two PayloadSpec are equals if they have the same media type and the same
-	 * encoding name.
-	 * Or their payload < 96 and equals
+	 * encoding name. Or their payload < 96 and equals
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		PayloadSpec cmpObj = (PayloadSpec) obj;
-		if((this.payload < 96) && (this.payload == cmpObj.getPayload()))
-			return true;
-		return mediaType == cmpObj.getMediaType() && encodingName.equalsIgnoreCase(cmpObj.encodingName); 
+		if (this.payload < 96) {
+			if (this.payload == cmpObj.getPayload())
+				return true;
+			else
+				return false;
+		}
+		return mediaType == cmpObj.getMediaType()
+				&& encodingName.equalsIgnoreCase(cmpObj.encodingName);
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		if (encodingName == null || encodingName == "") {
 			return "";
 		}
-		String sdpLine = SDPFieldNames.ATTRIBUTE_FIELD + SdpConstants.RTPMAP + ":"
-				+ payload + " " + encodingName + "/" + clockRate;
+		String sdpLine = SDPFieldNames.ATTRIBUTE_FIELD + SdpConstants.RTPMAP
+				+ ":" + payload + " " + encodingName + "/" + clockRate;
 
 		if (encodingParams != null && encodingParams != "") {
 			sdpLine += "/" + encodingParams;
@@ -386,11 +359,11 @@ public class PayloadSpec {
 
 		sdpLine += ENDLINE;
 		if (formatParams != null)
-			sdpLine += SDPFieldNames.ATTRIBUTE_FIELD + SdpConstants.FMTP + ":" + payload
-					+ " " + formatParams + ENDLINE;
+			sdpLine += SDPFieldNames.ATTRIBUTE_FIELD + SdpConstants.FMTP + ":"
+					+ payload + " " + formatParams + ENDLINE;
 		return sdpLine;
 	}
-	
+
 	@Override
 	public Object clone() {
 		PayloadSpec obj = new PayloadSpec();
@@ -402,7 +375,7 @@ public class PayloadSpec {
 		obj.encodingName = encodingName;
 		obj.encodingParams = encodingParams;
 		obj.formatParams = formatParams;
-		return obj; 
+		return obj;
 	}
 
 	public static int getPayloadFromString(String info) throws SdpException {
