@@ -2,6 +2,7 @@ package com.tikal.media.format;
 
 import gov.nist.javax.sdp.fields.SDPFieldNames;
 
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.sdp.SdpConstants;
@@ -343,6 +344,25 @@ public class PayloadSpec {
 
 	public String getFormatParams() {
 		return formatParams;
+	}
+
+	public void setFormatParams(Properties params) {
+		if (params == null)
+			return;
+
+		StringBuilder sb = new StringBuilder();
+
+		for (Object key : params.keySet()) {
+			params.get(key);
+			if (!sb.toString().equals("")) {
+				sb.append(";");
+			}
+			sb.append(key.toString());
+			sb.append("=");
+			sb.append(params.get(key));
+		}
+
+		this.formatParams = sb.toString();
 	}
 
 	public void setFormatParams(String params) {
