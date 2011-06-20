@@ -111,7 +111,8 @@ public class MediaSpec {
 					payload = getPayloadById(payloadList,
 							PayloadSpec.getPayloadFromString(field.getValue()));
 					if (payload != null)
-						payload.setFormatParams(field.getValue());
+						payload.setFormatParams(PayloadSpec.removePayloadFromString(field
+								.getValue()));
 				} else if (mode != null) {
 					this.mode = mode;
 				} else {

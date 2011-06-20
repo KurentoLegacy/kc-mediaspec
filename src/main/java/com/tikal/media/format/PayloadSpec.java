@@ -349,24 +349,7 @@ public class PayloadSpec {
 		if (params == null)
 			return;
 
-		StringTokenizer token = new StringTokenizer(params);
-		try {
-			int payloadId = Integer.parseInt(token.nextToken());
-
-			if (payloadId != payload)
-				return;
-		} catch (Exception e) {
-			token = new StringTokenizer(params);
-		}
-
-		StringBuilder sb = new StringBuilder();
-		while (token.hasMoreTokens()) {
-			sb.append(token.nextToken());
-			if (token.hasMoreTokens())
-				sb.append(" ");
-		}
-
-		this.formatParams = sb.toString();
+		this.formatParams = params;
 	}
 
 	/**
@@ -424,6 +407,29 @@ public class PayloadSpec {
 		if (!token.hasMoreTokens())
 			throw new SdpException("Error getting payload from string");
 		return Integer.parseInt(token.nextToken());
+	}
+
+	public static String removePayloadFromString(String info) throws SdpException {
+		StringTokenizer token = new StringTokenizer(info);
+		if (!token.hasMoreTokens()) {
+			return info;
+		}
+
+
+		try {
+			Integer.parseInt(token.nextToken());
+
+			StringBuilder sb = new StringBuilder();
+			while (token.hasMoreTokens()) {
+				sb.append(token.nextToken());
+				if (token.hasMoreTokens())
+					sb.append(" ");
+			}
+
+			return sb.toString();
+		} catch (Exception e) {
+			return info;
+		}
 	}
 
 }
