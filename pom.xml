@@ -7,8 +7,9 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>mediaspec</name>
-	<url>http://maven.apache.org</url>
+	<name>tk-mediaspec</name>
+	<description>TODO: Add description here</description>
+	<url>http://193.147.51.37/site/tk-mediaspec</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -87,4 +88,10 @@
 		</plugins>
 	</build>
 
+	<distributionManagement>
+		<site>
+			<id>maven-site</id>
+			<url>scp://193.147.51.37/var/www/site/tk-mediaspec/</url>
+		</site>
+	</distributionManagement>
 </project>
