@@ -91,7 +91,7 @@
 	<distributionManagement>
 		<site>
 			<id>maven-site</id>
-			<url>scp://193.147.51.37/var/www/site/tk-mediaspec/</url>
+			<url>scp://193.147.51.37/var/www/site/tk-mediaspec/${project.version}</url>
 		</site>
 	</distributionManagement>
 </project>
