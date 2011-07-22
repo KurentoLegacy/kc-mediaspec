@@ -85,6 +85,33 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doCheck>false</doCheck>
+					<doUpdate>false</doUpdate>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<SCM-Revision>${buildNumber}</SCM-Revision>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -94,4 +121,10 @@
 			<url>scp://193.147.51.37/var/www/site/tk-mediaspec/${project.version}</url>
 		</site>
 	</distributionManagement>
+
+	<scm>
+		<connection>scm:svn:http://www.kurento.com/svn/mms_gstreamer/src/tk-mediaspec/trunk</connection>
+		<developerConnection>scm:svn:https://www.kurento.com/svn/mms_gstreamer/src/tk-mediaspec/trunk</developerConnection>
+		<url>scm:svn:https://www.kurento.com/svn/mms_gstreamer/src</url>
+	</scm>
 </project>
