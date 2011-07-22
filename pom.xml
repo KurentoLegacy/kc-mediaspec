@@ -9,7 +9,7 @@
 
 	<name>tk-mediaspec</name>
 	<description>TODO: Add description here</description>
-	<url>http://193.147.51.37/site/tk-mediaspec</url>
+	<url>http://repository.kurento.com/site/tk-mediaspec</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
