@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>tk-mediaspec</name>
-	<description>TODO: Add description here</description>
+	<description>Library to manage SDPs.</description>
 	<url>http://repository.kurento.com/site/tk-mediaspec</url>
 
 	<properties>
@@ -133,8 +133,8 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:svn:http://www.kurento.com/svn/mms_gstreamer/src/tk-mediaspec/trunk</connection>
-		<developerConnection>scm:svn:https://www.kurento.com/svn/mms_gstreamer/src/tk-mediaspec/trunk</developerConnection>
-		<url>scm:svn:https://www.kurento.com/svn/mms_gstreamer/src</url>
+		<connection>scm:git:ssh://repository.kurento.com/git/tk-mediaspec</connection>
+		<developerConnection>scm:git:ssh://repository.kurento.com/git/tk-mediaspec</developerConnection>
+		<url>scm:git:ssh://repository.kurento.com/git/tk-mediaspec</url>
 	</scm>
 </project>
