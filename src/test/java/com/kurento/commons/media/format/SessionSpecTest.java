@@ -1,4 +1,4 @@
-package com.tikal.media.format;
+package com.kurento.commons.media.format;
 
 import javax.sdp.SdpException;
 
@@ -8,6 +8,8 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+
+import com.kurento.commons.media.format.SessionSpec;
 
 
 public class SessionSpecTest extends TestCase {

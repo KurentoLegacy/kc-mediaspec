@@ -2,14 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.tikal.media</groupId>
-	<artifactId>tk-mediaspec</artifactId>
+	<groupId>com.kurento.commons</groupId>
+	<artifactId>kc-mediaspec</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>tk-mediaspec</name>
+	<name>kc-mediaspec</name>
 	<description>Library to manage SDPs.</description>
-	<url>http://repository.kurento.com/site/tk-mediaspec</url>
+	<url>http://repository.kurento.com/site/kc-mediaspec</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -118,7 +118,7 @@
 	<distributionManagement>
 		<site>
 			<id>maven-site</id>
-			<url>scp://repository.kurento.com/var/www/kurento/site/tk-mediaspec/${project.version}</url>
+			<url>scp://repository.kurento.com/var/www/kurento/site/kc-mediaspec/${project.version}</url>
 		</site>
 		<repository>
 			<id>releases</id>
@@ -133,8 +133,8 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:ssh://repository.kurento.com/git/tk-mediaspec</connection>
-		<developerConnection>scm:git:ssh://repository.kurento.com/git/tk-mediaspec</developerConnection>
-		<url>scm:git:ssh://repository.kurento.com/git/tk-mediaspec</url>
+		<connection>scm:git:ssh://repository.kurento.com/git/kc-mediaspec</connection>
+		<developerConnection>scm:git:ssh://repository.kurento.com/git/kc-mediaspec</developerConnection>
+		<url>scm:git:ssh://repository.kurento.com/git/kc-mediaspec</url>
 	</scm>
 </project>

@@ -1,4 +1,4 @@
-package com.tikal.media.mediaspec;
+package com.kurento.commons.media.mediaspec;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

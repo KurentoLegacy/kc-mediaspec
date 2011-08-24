@@ -1,4 +1,4 @@
-package com.tikal.sdp.enums;
+package com.kurento.commons.sdp.enums;
 
 public enum Mode {
 	SENDRECV(0, "sendrecv"),

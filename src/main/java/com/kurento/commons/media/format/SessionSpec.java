@@ -1,4 +1,4 @@
-package com.tikal.media.format;
+package com.kurento.commons.media.format;
 
 import gov.nist.javax.sdp.fields.SDPFieldNames;
 import gov.nist.javax.sdp.fields.SDPKeywords;

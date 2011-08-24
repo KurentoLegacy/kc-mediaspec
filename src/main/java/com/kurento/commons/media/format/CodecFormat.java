@@ -1,4 +1,4 @@
-package com.tikal.media.format;
+package com.kurento.commons.media.format;
 
 public class CodecFormat {
 	

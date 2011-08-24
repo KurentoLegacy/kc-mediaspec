@@ -1,4 +1,4 @@
-package com.tikal.sdp.enums;
+package com.kurento.commons.sdp.enums;
 
 public enum MediaType {
 	AUDIO(0, "audio"),

@@ -1,4 +1,4 @@
-package com.tikal.media.format;
+package com.kurento.commons.media.format;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import com.tikal.sdp.enums.MediaType;
+import com.kurento.commons.sdp.enums.MediaType;
 
 public class SpecTools {
 	

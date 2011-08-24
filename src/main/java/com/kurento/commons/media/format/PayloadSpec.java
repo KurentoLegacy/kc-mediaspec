@@ -1,4 +1,4 @@
-package com.tikal.media.format;
+package com.kurento.commons.media.format;
 
 import gov.nist.javax.sdp.fields.SDPFieldNames;
 
@@ -11,7 +11,7 @@ import javax.sdp.SdpException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.tikal.sdp.enums.MediaType;
+import com.kurento.commons.sdp.enums.MediaType;
 
 /**
  * <p>
