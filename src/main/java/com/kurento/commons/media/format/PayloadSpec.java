@@ -379,14 +379,12 @@ public class PayloadSpec {
 	@Override
 	public boolean equals(Object obj) {
 		PayloadSpec cmpObj = (PayloadSpec) obj;
-		if (this.payload < 96) {
-			if (this.payload == cmpObj.getPayload())
+		if (this.payload < 96 && this.payload == cmpObj.payload)
 				return true;
-			else
-				return false;
-		}
-		return mediaType == cmpObj.getMediaType()
-				&& encodingName.equalsIgnoreCase(cmpObj.encodingName);
+
+		return mediaType.equals(cmpObj.mediaType)
+				&& encodingName.equalsIgnoreCase(cmpObj.encodingName)
+				&& clockRate.equals(cmpObj.getClockRate());
 	}
 
 	@Override

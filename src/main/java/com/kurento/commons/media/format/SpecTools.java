@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.sdp.SdpException;
+
 import com.kurento.commons.sdp.enums.MediaType;
 
 public class SpecTools {
@@ -71,15 +73,29 @@ public class SpecTools {
 		List<MediaSpec> inputList = session1.getMediaSpec();
 		List<MediaSpec> resourceList = session2.getMediaSpec();
 		SessionSpec value = getCopyWithSessionInfo(session1);
-		
+
 		List<MediaSpec> resultList = new Vector<MediaSpec>();	
 		MediaSpec media = null;
 		for(MediaSpec media1 : inputList){
+			media = null;
 			for (MediaSpec media2:resourceList ) {
+				if (media1.getMediaType() != media2.getMediaType())
+					continue;
+
 				media = media2.intersecPayload(media1, false);
-				if (media != null && !resultList.contains(media)) {
-					resultList.add(media);
+				break;
+			}
+
+			if (media != null)
+				resultList.add(media);
+			else {
+				MediaSpec ms = new MediaSpec();
+				try {
+					ms.setMediaType(media1.getMediaType());
+				} catch (SdpException e) {
+					e.printStackTrace();
 				}
+				resultList.add(ms.intersecPayload(media1, false));
 			}
 		}
 		value.setMediaSpec(resultList);

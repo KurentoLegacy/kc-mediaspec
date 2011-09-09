@@ -53,6 +53,7 @@ public class MediaSpec {
 
 	// Protocol used for the transmission, now just RTP/AVP;
 	Protocol protocol;
+	MediaType mediaType;
 
 	Mode mode;
 
@@ -62,7 +63,6 @@ public class MediaSpec {
 	public MediaSpec() {
 		payloadList = new Vector<PayloadSpec>();
 		protocol = getDefaultProtocol();
-
 	}
 
 	/**
@@ -74,6 +74,7 @@ public class MediaSpec {
 		protocol = getDefaultProtocol();
 		Vector<AttributeField> atributeList = md.getAttributes(false);
 		payloadList = new Vector<PayloadSpec>();
+		mediaType = MediaType.getInstance(media.getMediaType());
 
 		for (Object format : media.getMediaFormats(false)) {
 			try {
@@ -82,7 +83,7 @@ public class MediaSpec {
 				if (payId < 96) {
 					PayloadSpec payload = new PayloadSpec(payId);
 					payload.setPort(media.getMediaPort());
-					payload.setMediaType(MediaType.getInstance(media.getMediaType()));
+					payload.setMediaType(mediaType);
 					payloadList.add(payload);
 				}
 			} catch (SdpException e) {
@@ -191,7 +192,16 @@ public class MediaSpec {
 	 * @param payloadList
 	 */
 	public void setPayloadList(List<PayloadSpec> payloadList) {
-		this.payloadList = payloadList;
+		this.payloadList = new Vector<PayloadSpec>();
+		if (payloadList != null && !payloadList.isEmpty()) {
+			if (mediaType == null) {
+				mediaType = payloadList.get(0).getMediaType();
+			}
+			for (PayloadSpec payload : payloadList) {
+				if (payload.getMediaType() == mediaType)
+					this.payloadList.add(payload);
+			}
+		}
 	}
 
 	/**
@@ -228,10 +238,23 @@ public class MediaSpec {
 	}
 	
 	public MediaType getMediaType(){
+		if (mediaType != null)
+			return mediaType;
+
 		if (payloadList.isEmpty()) {
 			return null;
 		}
-		return payloadList.get(0).getMediaType();
+
+		mediaType = payloadList.get(0).getMediaType();
+
+		return mediaType;
+	}
+
+	public void setMediaType(MediaType mt) throws SdpException {
+		if (mediaType != null && mediaType != mt)
+			throw new SdpException("MediaType already set, it can not be changed");
+
+		mediaType = mt;
 	}
 
 	public Mode getMode() {
@@ -245,8 +268,13 @@ public class MediaSpec {
 	}
 	
 	public MediaSpec intersecPayload(MediaSpec media, boolean changePayload) {
-		MediaSpec cmpObj = null;	
-		//List<PayloadSpec> intersecList = new ArrayList<PayloadSpec>(media.getPayloadList());
+		MediaSpec intersect = new MediaSpec();
+		intersect.getMediaType();
+		try {
+			intersect.setMediaType(mediaType);
+		} catch (SdpException e) {
+		}
+
 		List<PayloadSpec> intersecList = new ArrayList<PayloadSpec>();
 		int payloadNum = 0;
 		for (PayloadSpec payload : media.getPayloadList()) {
@@ -259,12 +287,20 @@ public class MediaSpec {
 				intersecList.add(payload);
 			}
 		}
+
+		if (mode == Mode.SENDONLY) {
+			intersect.setMode(Mode.RECVONLY);
+		} else if (mode == Mode.RECVONLY) {
+			intersect.setMode(Mode.SENDONLY);
+		} else
+			intersect.setMode(mode);
+
 		if (!intersecList.isEmpty()) {
-			//if (changePayload){
-			cmpObj	= new MediaSpec();
-			cmpObj.setPayloadList(intersecList);
-		}
-		return cmpObj;
+			intersect.setPayloadList(intersecList);
+		} else
+			intersect.setMode(Mode.INACTIVE);
+
+		return intersect;
 	}
 
 	@Override
@@ -272,6 +308,11 @@ public class MediaSpec {
 		boolean equalValue = true;
 		MediaSpec cmpObj = (MediaSpec) obj;
 		List<PayloadSpec> cmpPayloadList = cmpObj.getPayloadList();
+
+		if ((mode != cmpObj.mode)
+				&& ((mode == null && cmpObj.mode != Mode.SENDONLY) && (mode != Mode.SENDONLY && cmpObj.mode == null)))
+			return false;
+
 		if (payloadList.size() != cmpPayloadList.size()) {
 			equalValue = false;
 		}
@@ -287,6 +328,11 @@ public class MediaSpec {
 	public Object clone() {		
 		MediaSpec obj = new MediaSpec();
 		obj.setMode(mode);
+		obj.protocol = protocol;
+		try {
+			obj.setMediaType(mediaType);
+		} catch (SdpException e) {
+		}
 		List<PayloadSpec> objList = new Vector<PayloadSpec>();		
 		for (PayloadSpec payload : payloadList){
 			objList.add((PayloadSpec)payload.clone());
