@@ -84,6 +84,7 @@ public class SpecTools {
 		List<MediaSpec> localList = local.getMediaSpec();
 		SessionSpec newSpec = getCopyWithSessionInfo(remote);
 		List<MediaSpec> newSpecList = new Vector<MediaSpec>();
+		List<MediaSpec> usedMedias = new Vector<MediaSpec>();
 
 		newSpec.setRemoteHandler(local.getRemoteHandler());
 		newSpec.setOriginAddress(local.getOriginAddress());
@@ -92,16 +93,19 @@ public class SpecTools {
 		for (MediaSpec media1 : remoteList) {
 			media = null;
 			for (MediaSpec media2 : localList) {
-				if (media1.getMediaType() != media2.getMediaType())
+				if (media1.getMediaType() != media2.getMediaType() || usedMedias.contains(media2))
 					continue;
 
 				media = media2.intersecPayload(media1, false);
-				break;
+				if (media.getPort() != 0) {
+					usedMedias.add(media2);
+					break;
+				}
 			}
 
-			if (media != null)
+			if (media != null) {
 				newSpecList.add(media);
-			else {
+			} else {
 				MediaSpec ms = new MediaSpec();
 				try {
 					ms.setMediaType(media1.getMediaType());
@@ -114,6 +118,6 @@ public class SpecTools {
 		newSpec.setMediaSpec(newSpecList);
 		return newSpec;
 
-	}	
+	}
 
 }
