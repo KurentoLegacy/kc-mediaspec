@@ -293,9 +293,9 @@ public class MediaSpec {
 				&& media.mode == Mode.SENDONLY) {
 			intersect.setMode(Mode.INACTIVE);
 		} else if (mode == Mode.SENDONLY || media.mode == Mode.RECVONLY) {
-			intersect.setMode(Mode.RECVONLY);
-		} else if (mode == Mode.RECVONLY || media.mode == Mode.SENDONLY) {
 			intersect.setMode(Mode.SENDONLY);
+		} else if (mode == Mode.RECVONLY || media.mode == Mode.SENDONLY) {
+			intersect.setMode(Mode.RECVONLY);
 		} else {
 			intersect.setMode(Mode.SENDRECV);
 		}
