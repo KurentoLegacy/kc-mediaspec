@@ -36,7 +36,7 @@ public class PayloadSpec {
 
 	// Media Info
 	private MediaType mediaType;
-	private String encodingName;
+	private String encodingName = "";
 	private Integer clockRate;
 	private String encodingParams = "";
 
@@ -174,41 +174,124 @@ public class PayloadSpec {
 
 		switch (payload) {
 		case 0:
-		case 3:
-		case 4:
-		case 5:
-		case 7:
-		case 8:
-		case 9:
-		case 12:
-		case 13:
-		case 15:
-		case 18:
 			clockRate = 8000;
+			encodingName = "PCMU";
+			mediaType = MediaType.AUDIO;
 			break;
-		case 16:
-			clockRate = 11025;
+		case 3:
+			clockRate = 8000;
+			encodingName = "GSM";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 4:
+			clockRate = 8000;
+			encodingName = "G723";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 5:
+			clockRate = 8000;
+			encodingName = "DVI4";
+			mediaType = MediaType.AUDIO;
 			break;
 		case 6:
 			clockRate = 16000;
+			encodingName = "DVI4";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 7:
+			clockRate = 8000;
+			encodingName = "LPC";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 8:
+			clockRate = 8000;
+			encodingName = "PCMA";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 9:
+			clockRate = 8000;
+			encodingName = "G722";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 10:
+			clockRate = 44100;
+			encodingName = "L16";
+			mediaType = MediaType.AUDIO;
+			encodingParams = "2";
+			break;
+		case 11:
+			clockRate = 44100;
+			encodingName = "L16";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 12:
+			clockRate = 8000;
+			encodingName = "QCELP";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 13:
+			clockRate = 8000;
+			encodingName = "CN";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 14:
+			clockRate = 90000;
+			encodingName = "MPA";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 15:
+			clockRate = 8000;
+			encodingName = "G728";
+			mediaType = MediaType.AUDIO;
+			break;
+		case 16:
+			clockRate = 11025;
+			encodingName = "DVI4";
+			mediaType = MediaType.AUDIO;
 			break;
 		case 17:
 			clockRate = 22050;
+			encodingName = "DVI4";
+			mediaType = MediaType.AUDIO;
 			break;
-		case 10:
-		case 11:
-			clockRate = 44100;
+		case 18:
+			clockRate = 8000;
+			encodingName = "G729";
+			mediaType = MediaType.AUDIO;
 			break;
-		case 14:
-			encodingName = "MPA";
 		case 25:
+			clockRate = 90000;
+			encodingName = "CelB";
+			mediaType = MediaType.VIDEO;
+			break;
 		case 26:
+			clockRate = 90000;
+			encodingName = "JPEG";
+			mediaType = MediaType.VIDEO;
+			break;
 		case 28:
+			clockRate = 90000;
+			encodingName = "nv";
+			mediaType = MediaType.VIDEO;
+			break;
 		case 31:
+			clockRate = 90000;
+			encodingName = "H261";
+			mediaType = MediaType.VIDEO;
+			break;
 		case 32:
+			clockRate = 90000;
+			encodingName = "MPV";
+			mediaType = MediaType.VIDEO;
+			break;
 		case 33:
+			clockRate = 90000;
+			encodingName = "MP2T";
+			break;
 		case 34:
 			clockRate = 90000;
+			encodingName = "H263";
+			mediaType = MediaType.VIDEO;
 			break;
 		}
 	}
