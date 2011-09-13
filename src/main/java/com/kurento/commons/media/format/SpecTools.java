@@ -69,16 +69,29 @@ public class SpecTools {
 		return clone;
 	}
 	
-	public static SessionSpec intersectionSessionSpec(SessionSpec session1, SessionSpec session2){
-		List<MediaSpec> inputList = session1.getMediaSpec();
-		List<MediaSpec> resourceList = session2.getMediaSpec();
-		SessionSpec value = getCopyWithSessionInfo(session1);
+	/**
+	 * Merge two sessionSpecs in order to do the negotiation. This function
+	 * works when the local party is the acceptor.
+	 * 
+	 * @param remote
+	 *            Remote session spec
+	 * @param local
+	 *            Local Session spec
+	 * @return A new created session spec with the negotiated medias
+	 */
+	public static SessionSpec intersectionSessionSpec(SessionSpec remote, SessionSpec local) {
+		List<MediaSpec> remoteList = remote.getMediaSpec();
+		List<MediaSpec> localList = local.getMediaSpec();
+		SessionSpec newSpec = getCopyWithSessionInfo(remote);
+		List<MediaSpec> newSpecList = new Vector<MediaSpec>();
 
-		List<MediaSpec> resultList = new Vector<MediaSpec>();	
+		newSpec.setRemoteHandler(local.getRemoteHandler());
+		newSpec.setOriginAddress(local.getOriginAddress());
+
 		MediaSpec media = null;
-		for(MediaSpec media1 : inputList){
+		for (MediaSpec media1 : remoteList) {
 			media = null;
-			for (MediaSpec media2:resourceList ) {
+			for (MediaSpec media2 : localList) {
 				if (media1.getMediaType() != media2.getMediaType())
 					continue;
 
@@ -87,7 +100,7 @@ public class SpecTools {
 			}
 
 			if (media != null)
-				resultList.add(media);
+				newSpecList.add(media);
 			else {
 				MediaSpec ms = new MediaSpec();
 				try {
@@ -95,11 +108,11 @@ public class SpecTools {
 				} catch (SdpException e) {
 					e.printStackTrace();
 				}
-				resultList.add(ms.intersecPayload(media1, false));
+				newSpecList.add(ms.intersecPayload(media1, false));
 			}
 		}
-		value.setMediaSpec(resultList);
-		return  value;		
+		newSpec.setMediaSpec(newSpecList);
+		return newSpec;
 
 	}	
 

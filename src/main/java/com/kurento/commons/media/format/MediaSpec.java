@@ -288,12 +288,17 @@ public class MediaSpec {
 			}
 		}
 
-		if (mode == Mode.SENDONLY) {
+		if (mode == Mode.INACTIVE || media.mode == Mode.INACTIVE || mode == Mode.RECVONLY
+				&& media.mode == Mode.RECVONLY || mode == Mode.SENDONLY
+				&& media.mode == Mode.SENDONLY) {
+			intersect.setMode(Mode.INACTIVE);
+		} else if (mode == Mode.SENDONLY || media.mode == Mode.RECVONLY) {
 			intersect.setMode(Mode.RECVONLY);
-		} else if (mode == Mode.RECVONLY) {
+		} else if (mode == Mode.RECVONLY || media.mode == Mode.SENDONLY) {
 			intersect.setMode(Mode.SENDONLY);
-		} else
-			intersect.setMode(mode);
+		} else {
+			intersect.setMode(Mode.SENDRECV);
+		}
 
 		if (!intersecList.isEmpty()) {
 			intersect.setPayloadList(intersecList);
