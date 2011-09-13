@@ -2,8 +2,10 @@ package com.kurento.commons.media.format;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -137,6 +139,16 @@ public class SpecTools {
 			spec.setMode(Mode.RECVONLY);
 		else if (spec.getMode() == Mode.RECVONLY)
 			spec.setMode(Mode.SENDONLY);
+	}
+	
+	public static Map<MediaType, Mode> getModesOfFirstMediaTypes(
+			SessionSpec session) {
+		Map<MediaType, Mode> map = new HashMap<MediaType, Mode>();
+		for (MediaSpec media : session.getMediaSpec()) {
+			if (!map.containsValue(media.getMediaType()))
+				map.put(media.getMediaType(), media.getMode());
+		}
+		return map;
 	}
 
 }
