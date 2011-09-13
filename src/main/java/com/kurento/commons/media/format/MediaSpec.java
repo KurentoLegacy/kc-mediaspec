@@ -284,7 +284,7 @@ public class MediaSpec {
 					payloadNum = payloadList.get(index).getPayload();
 					payload.setPayload(payloadNum);
 				}
-				intersecList.add(payload);
+				intersecList.add((PayloadSpec) payload.clone());
 			}
 		}
 
@@ -305,6 +305,7 @@ public class MediaSpec {
 		} else
 			intersect.setMode(Mode.INACTIVE);
 
+		intersect.setPort(this.getPort());
 		return intersect;
 	}
 
