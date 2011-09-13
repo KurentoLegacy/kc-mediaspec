@@ -49,17 +49,21 @@ public class CombineSessionSpecTest extends TestCase {
 			SessionSpec spec = new SessionSpec(sdp);
 			SessionSpec spec2 = new SessionSpec(sdp2);
 
-			SessionSpec intersect = SpecTools.intersectionSessionSpec(spec, spec2);
-			SessionSpec intersect2 = SpecTools.intersectionSessionSpec(spec2, spec);
+			SessionSpec intersect[] = SpecTools.intersectionSessionSpec(spec, spec2);
+			SessionSpec intersect2[] = SpecTools.intersectionSessionSpec(spec2, spec);
 
 			System.out.println("---------------------------------");
 			System.out.println(spec.toString());
 			System.out.println("---------------------------------");
 			System.out.println(spec2.toString());
 			System.out.println("---------------------------------");
-			System.out.println(intersect.toString());
+			System.out.println(intersect[0].toString());
 			System.out.println("---------------------------------");
-			System.out.println(intersect2.toString());
+			System.out.println(intersect[1].toString());
+			System.out.println("---------------------------------");
+			System.out.println(intersect2[0].toString());
+			System.out.println("---------------------------------");
+			System.out.println(intersect2[1].toString());
 			System.out.println("---------------------------------");
 		} catch (SdpException e) {
 			e.printStackTrace();

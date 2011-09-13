@@ -10,6 +10,7 @@ import java.util.Vector;
 import javax.sdp.SdpException;
 
 import com.kurento.commons.sdp.enums.MediaType;
+import com.kurento.commons.sdp.enums.Mode;
 
 public class SpecTools {
 	
@@ -77,47 +78,65 @@ public class SpecTools {
 	 *            Remote session spec
 	 * @param local
 	 *            Local Session spec
-	 * @return A new created session spec with the negotiated medias
+	 * @return An array of new created session spec with the negotiated medias.
+	 *         The first one is the local spec and the second the remote.
 	 */
-	public static SessionSpec intersectionSessionSpec(SessionSpec remote, SessionSpec local) {
+	public static SessionSpec[] intersectionSessionSpec(SessionSpec remote, SessionSpec local) {
 		List<MediaSpec> remoteList = remote.getMediaSpec();
 		List<MediaSpec> localList = local.getMediaSpec();
-		SessionSpec newSpec = getCopyWithSessionInfo(remote);
-		List<MediaSpec> newSpecList = new Vector<MediaSpec>();
+		SessionSpec newLocalSpec = getCopyWithSessionInfo(remote);
+		SessionSpec newRemoteSpec = getCopyWithSessionInfo(remote);
+		List<MediaSpec> newLocalSpecList = new Vector<MediaSpec>();
+		List<MediaSpec> newRemoteSpecList = new Vector<MediaSpec>();
 		List<MediaSpec> usedMedias = new Vector<MediaSpec>();
 
-		newSpec.setRemoteHandler(local.getRemoteHandler());
-		newSpec.setOriginAddress(local.getOriginAddress());
+		newLocalSpec.setRemoteHandler(local.getRemoteHandler());
+		newLocalSpec.setOriginAddress(local.getOriginAddress());
 
-		MediaSpec media = null;
+		MediaSpec localMedia, remoteMedia;
 		for (MediaSpec media1 : remoteList) {
-			media = null;
+			localMedia = null;
+			remoteMedia = null;
 			for (MediaSpec media2 : localList) {
 				if (media1.getMediaType() != media2.getMediaType() || usedMedias.contains(media2))
 					continue;
 
-				media = media2.intersecPayload(media1, false);
-				if (media.getPort() != 0) {
+				localMedia = media2.intersecPayload(media1, false);
+				remoteMedia = (MediaSpec) localMedia.clone();
+				changeMode(remoteMedia);
+				remoteMedia.setPort(media1.getPort());
+
+				if (localMedia.getPort() != 0) {
 					usedMedias.add(media2);
 					break;
 				}
 			}
 
-			if (media != null) {
-				newSpecList.add(media);
-			} else {
+			if (localMedia == null) {
 				MediaSpec ms = new MediaSpec();
 				try {
 					ms.setMediaType(media1.getMediaType());
 				} catch (SdpException e) {
 					e.printStackTrace();
 				}
-				newSpecList.add(ms.intersecPayload(media1, false));
+				localMedia = ms.intersecPayload(media1, false);
+				remoteMedia = (MediaSpec) localMedia.clone();
 			}
-		}
-		newSpec.setMediaSpec(newSpecList);
-		return newSpec;
 
+			newLocalSpecList.add(localMedia);
+			newRemoteSpecList.add(remoteMedia);
+		}
+		newLocalSpec.setMediaSpec(newLocalSpecList);
+		newRemoteSpec.setMediaSpec(newRemoteSpecList);
+		return new SessionSpec[] { newLocalSpec, newRemoteSpec };
+
+	}
+
+	private static void changeMode(MediaSpec spec) {
+		if (spec.getMode() == Mode.SENDONLY)
+			spec.setMode(Mode.RECVONLY);
+		else if (spec.getMode() == Mode.RECVONLY)
+			spec.setMode(Mode.SENDONLY);
 	}
 
 }
