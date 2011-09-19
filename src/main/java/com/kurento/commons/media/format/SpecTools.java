@@ -73,64 +73,64 @@ public class SpecTools {
 	}
 	
 	/**
-	 * Merge two sessionSpecs in order to do the negotiation. This function
-	 * works when the local party is the acceptor.
+	 * Merge two sessionSpecs in order to do the negotiation. The
 	 * 
-	 * @param remote
-	 *            Remote session spec
-	 * @param local
-	 *            Local Session spec
+	 * @param answerer
+	 *            The answerer session spec offer
+	 * @param offerer
+	 *            The original session spec offer
 	 * @return An array of new created session spec with the negotiated medias.
-	 *         The first one is the local spec and the second the remote.
+	 *         The first one is the new answer spec and the second the offer
+	 *         just with the intersected medias.
 	 */
-	public static SessionSpec[] intersectionSessionSpec(SessionSpec remote, SessionSpec local) {
-		List<MediaSpec> remoteList = remote.getMediaSpec();
-		List<MediaSpec> localList = local.getMediaSpec();
-		SessionSpec newLocalSpec = getCopyWithSessionInfo(remote);
-		SessionSpec newRemoteSpec = getCopyWithSessionInfo(remote);
-		List<MediaSpec> newLocalSpecList = new Vector<MediaSpec>();
-		List<MediaSpec> newRemoteSpecList = new Vector<MediaSpec>();
+	public static SessionSpec[] intersectSessionSpec(SessionSpec answerer, SessionSpec offerer) {
+		List<MediaSpec> offererList = offerer.getMediaSpec();
+		List<MediaSpec> answererList = answerer.getMediaSpec();
+		SessionSpec newAnswererSpec = getCopyWithSessionInfo(offerer);
+		SessionSpec newOffererSpec = getCopyWithSessionInfo(offerer);
+		List<MediaSpec> newAnswererSpecList = new Vector<MediaSpec>();
+		List<MediaSpec> newOffererSpecList = new Vector<MediaSpec>();
 		List<MediaSpec> usedMedias = new Vector<MediaSpec>();
 
-		newLocalSpec.setRemoteHandler(local.getRemoteHandler());
-		newLocalSpec.setOriginAddress(local.getOriginAddress());
+		newAnswererSpec.setRemoteHandler(answerer.getRemoteHandler());
+		newAnswererSpec.setOriginAddress(answerer.getOriginAddress());
 
-		MediaSpec localMedia, remoteMedia;
-		for (MediaSpec media1 : remoteList) {
-			localMedia = null;
-			remoteMedia = null;
-			for (MediaSpec media2 : localList) {
+		MediaSpec answererMedia, offererMedia;
+		for (MediaSpec media1 : offererList) {
+			answererMedia = null;
+			offererMedia = null;
+			for (MediaSpec media2 : answererList) {
 				if (media1.getMediaType() != media2.getMediaType() || usedMedias.contains(media2))
 					continue;
 
-				localMedia = media2.intersecPayload(media1, false);
-				remoteMedia = (MediaSpec) localMedia.clone();
-				changeMode(remoteMedia);
-				remoteMedia.setPort(media1.getPort());
+				answererMedia = media2.intersecPayload(media1, false);
+				offererMedia = (MediaSpec) answererMedia.clone();
+				changeMode(offererMedia);
+				offererMedia.setPort(media1.getPort());
 
-				if (localMedia.getPort() != 0) {
+				if (answererMedia.getPort() != 0) {
 					usedMedias.add(media2);
 					break;
 				}
 			}
 
-			if (localMedia == null) {
+			if (answererMedia == null) {
 				MediaSpec ms = new MediaSpec();
 				try {
 					ms.setMediaType(media1.getMediaType());
 				} catch (SdpException e) {
 					e.printStackTrace();
 				}
-				localMedia = ms.intersecPayload(media1, false);
-				remoteMedia = (MediaSpec) localMedia.clone();
+				answererMedia = ms.intersecPayload(media1, false);
+				offererMedia = (MediaSpec) answererMedia.clone();
 			}
 
-			newLocalSpecList.add(localMedia);
-			newRemoteSpecList.add(remoteMedia);
+			newAnswererSpecList.add(answererMedia);
+			newOffererSpecList.add(offererMedia);
 		}
-		newLocalSpec.setMediaSpec(newLocalSpecList);
-		newRemoteSpec.setMediaSpec(newRemoteSpecList);
-		return new SessionSpec[] { newLocalSpec, newRemoteSpec };
+		newAnswererSpec.setMediaSpec(newAnswererSpecList);
+		newOffererSpec.setMediaSpec(newOffererSpecList);
+		return new SessionSpec[] { newAnswererSpec, newOffererSpec };
 
 	}
 

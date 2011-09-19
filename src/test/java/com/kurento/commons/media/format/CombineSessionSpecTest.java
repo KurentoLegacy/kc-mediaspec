@@ -49,8 +49,8 @@ public class CombineSessionSpecTest extends TestCase {
 			SessionSpec spec = new SessionSpec(sdp);
 			SessionSpec spec2 = new SessionSpec(sdp2);
 
-			SessionSpec intersect[] = SpecTools.intersectionSessionSpec(spec, spec2);
-			SessionSpec intersect2[] = SpecTools.intersectionSessionSpec(spec2, spec);
+			SessionSpec intersect[] = SpecTools.intersectSessionSpec(spec, spec2);
+			SessionSpec intersect2[] = SpecTools.intersectSessionSpec(spec2, spec);
 
 			System.out.println("---------------------------------");
 			System.out.println(spec.toString());
