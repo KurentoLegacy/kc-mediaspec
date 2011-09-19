@@ -77,7 +77,7 @@ public class IntersectionTest extends TestCase {
 			SessionSpec spec = new SessionSpec(sdp);
 			SessionSpec spec2 = new SessionSpec(sdp2);
 			
-			SessionSpec intersect[] = SpecTools.intersectSessionSpec(spec, spec2);
+			SessionSpec intersect[] = SpecTools.intersectSessionSpec(spec2, spec);
 
 			System.out.println("---------------------------------");
 			System.out.println(spec.toString());
