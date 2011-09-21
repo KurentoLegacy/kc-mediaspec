@@ -75,18 +75,24 @@ public class MediaSpec {
 		Vector<AttributeField> atributeList = md.getAttributes(false);
 		payloadList = new Vector<PayloadSpec>();
 		mediaType = MediaType.getInstance(media.getMediaType());
+		Vector<?> medias = null;
 
-		for (Object format : media.getMediaFormats(false)) {
-			try {
-				int payId = PayloadSpec.getPayloadFromString((String) format);
+		if (media != null)
+			medias = media.getMediaFormats(false);
 
-				if (payId < 96) {
-					PayloadSpec payload = new PayloadSpec(payId);
-					payload.setPort(media.getMediaPort());
-					payload.setMediaType(mediaType);
-					payloadList.add(payload);
+		if (medias != null) {
+			for (Object format : medias) {
+				try {
+					int payId = PayloadSpec.getPayloadFromString((String) format);
+
+					if (payId < 96) {
+						PayloadSpec payload = new PayloadSpec(payId);
+						payload.setPort(media.getMediaPort());
+						payload.setMediaType(mediaType);
+						payloadList.add(payload);
+					}
+				} catch (SdpException e) {
 				}
-			} catch (SdpException e) {
 			}
 		}
 

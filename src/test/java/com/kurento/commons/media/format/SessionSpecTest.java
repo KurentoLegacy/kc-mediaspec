@@ -9,8 +9,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
-import com.kurento.commons.media.format.SessionSpec;
-
 
 public class SessionSpecTest extends TestCase {
 
@@ -61,6 +59,16 @@ public class SessionSpecTest extends TestCase {
 			"a=rtpmap:98 H263-1998/90000\r\n" +
 			"a=fmtp:98 CIF=1;QCIF=1\r\n";
 
+	private static String sdp5 = "v=0\r\n" +
+			"o=jcadenlin 123456 654321 IN IP4 193.147.51.16\r\n" +
+			"s=A conversation\r\n" +
+			"c=IN IP4 193.147.51.16\r\n" +
+			"t=0 0\r\n" +
+			"m=audio 0 RTP/AVP\r\n" +
+			"m=video 9078 RTP/AVP 98\r\n" +
+			"a=rtpmap:98 H263-1998/90000\r\n" +
+			"a=fmtp:98 CIF=1;QCIF=1\r\n";
+
 	public void testInit() throws Exception {
 		PatternLayout layout = new PatternLayout("[%c{1}.%M:%L]-%-5p - %m%n");
 		Logger logger = Logger.getRootLogger();
@@ -99,6 +107,16 @@ public class SessionSpecTest extends TestCase {
 
 		try {
 			SessionSpec spec = new SessionSpec(sdp4);
+
+			System.out.println("---------------------------------");
+			System.out.println(spec.toString());
+			System.out.println("---------------------------------");
+		} catch (SdpException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			SessionSpec spec = new SessionSpec(sdp5);
 
 			System.out.println("---------------------------------");
 			System.out.println(spec.toString());
