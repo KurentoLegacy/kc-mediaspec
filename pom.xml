@@ -6,7 +6,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>kc-mediaspec</name>
+	<name>Kurento Common MediaSpec</name>
 	<description>Library to manage SDPs.</description>
 	<url>http://repository.kurento.com/docs/kc-mediaspec</url>
 
