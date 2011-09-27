@@ -1,0 +1,17 @@
+   ------
+   Kurento Commons MediaSpec
+   ------
+   ------
+   Date
+   ------
+
+Kurento Commons MediaSpec
+
+* Introduction
+
+	Kurento Commons MediaSpec is a library to manage SDPs. It provide functionality to parse a text SDP to obtain
+	a set of data structures, specially classes to represent it, and also we can obtain the text SDP from these structures.
+
+
+	
+	
