@@ -8,11 +8,40 @@
 
 	<name>kc-mediaspec</name>
 	<description>Library to manage SDPs.</description>
-	<url>http://repository.kurento.com/site/kc-mediaspec</url>
+	<url>http://repository.kurento.com/docs/kc-mediaspec</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
+	<developers>
+		<developer>
+			<id>jcaden</id>
+			<name>José Antonio Santos Cadenas</name>
+		</developer>
+		<developer>
+			<id>qiang</id>
+			<name>Qiang Zhou</name>
+		</developer>
+	</developers>
+
+	<contributors>
+		<contributor>
+			<name>Javier López Fernández</name>
+		</contributor>
+		<contributor>
+			<name>Miguel París Díaz</name>
+		</contributor>
+	</contributors>
+	
+	<mailingLists>
+		<mailingList>
+			<name>Kurento</name>
+			<subscribe>http://groups.google.com/group/kurento/subscribe</subscribe>
+			<post>http://groups.google.com/group/kurento/post</post>
+			<archive>http://groups.google.com/group/kurento/about</archive>
+		</mailingList>
+	</mailingLists>
 
 	<dependencies>
 		<dependency>
@@ -128,14 +157,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>2.2</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.wagon</groupId>
-						<artifactId>wagon-ssh</artifactId>
-						<version>1.0</version>
-					</dependency>
-				</dependencies>
+				<version>3.0</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -168,8 +190,8 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:ssh://repository.kurento.com/git/kc-mediaspec</connection>
+		<connection>scm:http://kurento.googlecode.com</connection>
 		<developerConnection>scm:git:ssh://repository.kurento.com/git/kc-mediaspec</developerConnection>
-		<url>scm:git:ssh://repository.kurento.com/git/kc-mediaspec</url>
+		<url>https://repository.kurento.com/git/kurento-android-sdk/?p=kc-mediaspec</url>
 	</scm>
 </project>
