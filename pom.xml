@@ -13,7 +13,12 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
+	<organization>
+		<name>Kurento</name>
+		<url>http://www.kurento.com</url>
+	</organization>
+
 	<developers>
 		<developer>
 			<id>jcaden</id>
@@ -33,7 +38,7 @@
 			<name>Miguel París Díaz</name>
 		</contributor>
 	</contributors>
-	
+
 	<mailingLists>
 		<mailingList>
 			<name>Kurento</name>
