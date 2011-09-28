@@ -3,7 +3,7 @@
 
 	<groupId>com.kurento.commons</groupId>
 	<artifactId>kc-mediaspec</artifactId>
-	<version>1.0.0-RC-1</version>
+	<version>1.0.0-RC-2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Kurento Common MediaSpec</name>
