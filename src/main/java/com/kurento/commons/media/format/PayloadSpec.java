@@ -534,7 +534,7 @@ public class PayloadSpec {
 		}
 	}
 
-	public void setBandWidth(int bandWidth) {
+	protected void setBandWidth(int bandWidth) {
 		this.bandWidth = bandWidth;
 	}
 
