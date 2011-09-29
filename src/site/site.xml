@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Kurento Commons MediaSpec">
+	<bannerLeft>
+		<name>Kurento Project</name>
+		<src>http://www.kurento.com/kurento/sites/all/themes/bartikplus/logo.png
+		</src>
+		<href>http://www.kurento.com</href>
+	</bannerLeft>
+
+	<body>
+		<links>
+			<item name="Kurento" href="http://www.kurento.com/" />
+		</links>
+		<menu ref="reports" />
+	</body>
+</project>
