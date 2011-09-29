@@ -45,6 +45,7 @@ public class PayloadSpec {
 	// RTP parameters
 	private Integer payload;
 	private Integer port;
+	private int bandWidth = -1;
 
 	// Code parameters
 	private CodecFormat codecFormat;
@@ -531,6 +532,14 @@ public class PayloadSpec {
 		} catch (Exception e) {
 			return info;
 		}
+	}
+
+	public void setBandWidth(int bandWidth) {
+		this.bandWidth = bandWidth;
+	}
+
+	public int getBandWidth() {
+		return bandWidth;
 	}
 
 }

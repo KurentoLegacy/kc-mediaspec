@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.sdp.BandWidth;
 import javax.sdp.Media;
 import javax.sdp.MediaDescription;
 import javax.sdp.SdpConstants;
@@ -54,6 +55,7 @@ public class MediaSpec {
 	// Protocol used for the transmission, now just RTP/AVP;
 	Protocol protocol;
 	MediaType mediaType;
+	int bandWidth = -1;
 
 	Mode mode;
 
@@ -128,6 +130,7 @@ public class MediaSpec {
 			}
 		}
 
+		setBandWidth(md.getBandwidth(BandWidth.AS));
 	}
 
 	private PayloadSpec getPayloadById(List<PayloadSpec> list, int id) {
@@ -173,6 +176,7 @@ public class MediaSpec {
 		}
 		media.setMediaFormats(payloadAcepted);
 		mediaDs.setMedia(media);
+		mediaDs.setBandwidth(BandWidth.AS, bandWidth);
 		return mediaDs;
 	}
 
@@ -204,8 +208,10 @@ public class MediaSpec {
 				mediaType = payloadList.get(0).getMediaType();
 			}
 			for (PayloadSpec payload : payloadList) {
-				if (payload.getMediaType() == mediaType)
+				if (payload.getMediaType() == mediaType) {
 					this.payloadList.add(payload);
+					payload.setBandWidth(this.bandWidth);
+				}
 			}
 		}
 	}
@@ -273,6 +279,16 @@ public class MediaSpec {
 		this.mode = mode;
 	}
 	
+	public int getBandWidth() {
+		return bandWidth;
+	}
+
+	public void setBandWidth(int bandWidth) {
+		this.bandWidth = bandWidth;
+		for (PayloadSpec p : payloadList)
+			p.setBandWidth(this.bandWidth);
+	}
+
 	public MediaSpec intersecPayload(MediaSpec media, boolean changePayload) {
 		MediaSpec intersect = new MediaSpec();
 		intersect.getMediaType();
@@ -311,13 +327,19 @@ public class MediaSpec {
 		} else
 			intersect.setMode(Mode.INACTIVE);
 
+		if (bandWidth == -1)
+			intersect.setBandWidth(media.bandWidth);
+		else if (media.bandWidth == -1)
+			intersect.setBandWidth(bandWidth);
+		else
+			intersect.setBandWidth(bandWidth < media.bandWidth ? bandWidth : media.bandWidth);
+
 		intersect.setPort(this.getPort());
 		return intersect;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		boolean equalValue = true;
 		MediaSpec cmpObj = (MediaSpec) obj;
 		List<PayloadSpec> cmpPayloadList = cmpObj.getPayloadList();
 
@@ -326,14 +348,18 @@ public class MediaSpec {
 			return false;
 
 		if (payloadList.size() != cmpPayloadList.size()) {
-			equalValue = false;
+			return false;
 		}
 		for (PayloadSpec payload : payloadList){
 			if (!cmpPayloadList.contains(payload)) {
-				equalValue = false;
+				return false;
 			}
 		}
-		return equalValue;
+
+		if (cmpObj.bandWidth != bandWidth)
+			return false;
+
+		return true;
 	}
 	
 	@Override
@@ -350,6 +376,7 @@ public class MediaSpec {
 			objList.add((PayloadSpec)payload.clone());
 		}
 		obj.setPayloadList(objList);
+		obj.setBandWidth(this.bandWidth);
 		return obj;
 	}
 
@@ -369,6 +396,9 @@ public class MediaSpec {
 
 		if (mode != null)
 			string.append(SDPFieldNames.ATTRIBUTE_FIELD).append(mode).append(ENDLINE);
+		if (bandWidth > 0)
+			string.append(SDPFieldNames.BANDWIDTH_FIELD).append(BandWidth.AS).append(":")
+					.append(bandWidth).append(ENDLINE);
 		return string.toString();			   
 		
 	}

@@ -52,6 +52,7 @@ public class SessionSpecTest extends TestCase {
 			"c=IN IP4 193.147.51.16\r\n" +
 			"t=0 0\r\n" +
 			"m=audio 7078 RTP/AVP 8 101\r\n" +
+			"b=AS:256\n\r" +
 			"a=rtpmap:8 PCMA/8000/1\r\n" +
 			"a=rtpmap:101 telephone-event/8000/1\r\n" +
 			"a=fmtp:101 0-11\r\n" +
@@ -67,7 +68,23 @@ public class SessionSpecTest extends TestCase {
 			"m=audio 0 RTP/AVP\r\n" +
 			"m=video 9078 RTP/AVP 98\r\n" +
 			"a=rtpmap:98 H263-1998/90000\r\n" +
-			"a=fmtp:98 CIF=1;QCIF=1\r\n";
+			"a=fmtp:98 CIF=1;QCIF=1\r\n" +
+			"b=AS:256\n\r";
+
+	private static String sdp6 = "v=0\n\r" +
+			"o=mhandley 2890844526 2890842807 IN IP4 126.16.64.4\n\r" +
+			"s=SDP Seminar\n\r" +
+			"i=A Seminar on the session description protocol\n\r" +
+			"c=IN IP4 224.2.17.12/127\n\r" +
+			"t=2873397496 2873404696\n\r" +
+			"m=audio 49170 RTP/AVP 0\n\r" +
+			"b=AS:64\n\r" +
+			"b=RS:800\n\r" +
+			"b=RR:2400\n\r" +
+			"m=video 51372 RTP/AVP 31\n\r" +
+			"b=AS:256\n\r" +
+			"b=RS:800\n\r" +
+			"b=RR:2400\n\r";
 
 	public void testInit() throws Exception {
 		PatternLayout layout = new PatternLayout("[%c{1}.%M:%L]-%-5p - %m%n");
@@ -83,6 +100,7 @@ public class SessionSpecTest extends TestCase {
 			System.out.println("---------------------------------");
 		} catch (SdpException e) {
 			e.printStackTrace();
+			throw e;
 		}
 
 		try {
@@ -93,6 +111,7 @@ public class SessionSpecTest extends TestCase {
 			System.out.println("---------------------------------");
 		} catch (SdpException e) {
 			e.printStackTrace();
+			throw e;
 		}
 
 		try {
@@ -103,6 +122,7 @@ public class SessionSpecTest extends TestCase {
 			System.out.println("---------------------------------");
 		} catch (SdpException e) {
 			e.printStackTrace();
+			throw e;
 		}
 
 		try {
@@ -113,6 +133,7 @@ public class SessionSpecTest extends TestCase {
 			System.out.println("---------------------------------");
 		} catch (SdpException e) {
 			e.printStackTrace();
+			throw e;
 		}
 
 		try {
@@ -123,6 +144,18 @@ public class SessionSpecTest extends TestCase {
 			System.out.println("---------------------------------");
 		} catch (SdpException e) {
 			e.printStackTrace();
+			throw e;
+		}
+
+		try {
+			SessionSpec spec = new SessionSpec(sdp6);
+
+			System.out.println("---------------------------------");
+			System.out.println(spec.toString());
+			System.out.println("---------------------------------");
+		} catch (SdpException e) {
+			e.printStackTrace();
+			throw e;
 		}
 	}
 }
