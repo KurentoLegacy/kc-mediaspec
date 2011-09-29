@@ -150,6 +150,7 @@ public class MediaSpec {
 	 * @return MediaDescription
 	 * @throws SdpException
 	 */
+	@Deprecated
 	public MediaDescription getMediaDescription() throws SdpException {
 		MediaDescription mediaDs = new MediaDescriptionImpl();
 		Media media = new MediaField();
