@@ -104,9 +104,8 @@ public class SessionSpec implements Serializable{
 				log.debug("Getting: " + o);
 			}
 
-			// TODO: Revisar la construccion del handlerID
-			remoteHandlerId = originAddress;// ;connection.getAddress() != null ?
-											// connection.getAddress() :"";
+			remoteHandlerId = originAddress;
+
 			remoteHandler = connection.getAddress() != null ? connection.getAddress()
 					: "";
 
