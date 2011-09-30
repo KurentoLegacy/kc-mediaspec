@@ -77,6 +77,7 @@ public class SessionSpecTest extends TestCase {
 			"i=A Seminar on the session description protocol\n\r" +
 			"c=IN IP4 224.2.17.12/127\n\r" +
 			"t=2873397496 2873404696\n\r" +
+			"b=AS:100\n\r" +
 			"m=audio 49170 RTP/AVP 0\n\r" +
 			"b=AS:64\n\r" +
 			"b=RS:800\n\r" +

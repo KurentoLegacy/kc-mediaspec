@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
+import javax.sdp.BandWidth;
 import javax.sdp.Connection;
 import javax.sdp.MediaDescription;
 import javax.sdp.Origin;
@@ -109,9 +110,14 @@ public class SessionSpec implements Serializable{
 			remoteHandler = connection.getAddress() != null ? connection.getAddress()
 					: "";
 
+			int bandWidth = sdp.getBandwidth(BandWidth.AS);
+
 			@SuppressWarnings("unchecked")
 			Vector<MediaDescription> mediaDescriptions = sdp.getMediaDescriptions(true);
 			for (MediaDescription media : mediaDescriptions) {
+				int mediaBandWidth = media.getBandwidth(BandWidth.AS);
+				if (bandWidth >= 0 && (mediaBandWidth <= 0 || mediaBandWidth > bandWidth))
+					media.setBandwidth(BandWidth.AS, bandWidth);
 				mediaSpec.add(new MediaSpec(media));
 			}
 		} catch (Exception e) {
