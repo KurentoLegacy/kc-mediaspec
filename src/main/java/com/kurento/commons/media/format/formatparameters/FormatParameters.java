@@ -6,12 +6,6 @@ package com.kurento.commons.media.format.formatparameters;
 public interface FormatParameters {
 
 	/**
-	 * 
-	 * @return String with a=fmtp attribute
-	 */
-	public String getFormatParamsStr();
-
-	/**
 	 * Intersect this FormatParameters with another.
 	 * 
 	 * @param other FormatParameters object which the intersection will do.

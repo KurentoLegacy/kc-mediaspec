@@ -15,11 +15,6 @@ public abstract class FormatParametersBase implements FormatParameters {
 	}
 
 	@Override
-	public String getFormatParamsStr() {
-		return formatParamsStr;
-	}
-
-	@Override
 	public FormatParameters intersect(FormatParameters other) {
 		// TODO Auto-generated method stub
 		return null;
