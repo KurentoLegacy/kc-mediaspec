@@ -23,6 +23,14 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 	private ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
 
+	public H263CPCF getCpcf() {
+		return cpcf;
+	}
+
+	public ArrayList<ResolutionMPI> getResolutionsList() {
+		return resolutionsList;
+	}
+
 	public ArrayList<H263FormatParametersProfile> getProfilesList() {
 		return profilesList;
 	}
