@@ -20,4 +20,8 @@ public abstract class FormatParametersBase implements FormatParameters {
 		return null;
 	}
 
+	public String toString() {
+		return this.formatParamsStr;
+	}
+
 }
