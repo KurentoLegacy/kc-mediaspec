@@ -12,40 +12,7 @@ import com.kurento.commons.media.format.formatparameters.FormatParameters;
  */
 public class H263FormatParameters extends VideoFormatParametersBase {
 
-	private enum PictureSize {
-		SQCIF(128, 96, "SQCIF"), QCIF(176, 144, "QCIF"), CIF(352, 288, "CIF"), CIF4(
-				704, 576, "4CIF"), CIF16(1408, 1152, "16CIF"), CUSTOM(-1, -1,
-				"CUSTOM");
 
-		private int width;
-		private int height;
-		private String str;
-
-		private PictureSize(int width, int height, String str) {
-			this.width = width;
-			this.height = height;
-			this.str = str;
-		}
-
-		public String toString() {
-			return str;
-		}
-
-		public static PictureSize getPictureSizeFromSize(int width, int height) {
-			if (SQCIF.width == width && SQCIF.height == height)
-				return SQCIF;
-			else if (QCIF.width == width && QCIF.height == height)
-				return QCIF;
-			else if (CIF.width == width && CIF.height == height)
-				return CIF;
-			else if (CIF4.width == width && CIF4.height == height)
-				return CIF4;
-			else if (CIF16.width == width && CIF16.height == height)
-				return CIF16;
-
-			return PictureSize.CUSTOM;
-		}
-	}
 
 	private ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
 
