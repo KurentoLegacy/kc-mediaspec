@@ -5,6 +5,7 @@ public class H263FormatParametersProfile {
 	private int width;
 	private int height;
 	private int maxFrameRate;
+	private PictureSize pictureSize;
 
 	public int getWidth() {
 		return width;
@@ -27,5 +28,12 @@ public class H263FormatParametersProfile {
 		this.height = height;
 		this.maxFrameRate = frameRate;
 		this.pictureSize = PictureSize.getPictureSizeFromSize(width, height);
+	}
+
+	public H263FormatParametersProfile(PictureSize pictureSize, int mpi) {
+		this.width = pictureSize.getWidth();
+		this.height = pictureSize.getHeight();
+		this.maxFrameRate = 30 / mpi;
+		this.pictureSize = pictureSize;
 	}
 }
