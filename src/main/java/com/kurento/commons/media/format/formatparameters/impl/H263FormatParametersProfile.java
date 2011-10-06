@@ -18,9 +18,14 @@ public class H263FormatParametersProfile {
 		return maxFrameRate;
 	}
 
+	public PictureSize getPictureSize() {
+		return pictureSize;
+	}
+
 	public H263FormatParametersProfile(int width, int height, int frameRate) {
 		this.width = width;
 		this.height = height;
 		this.maxFrameRate = frameRate;
+		this.pictureSize = PictureSize.getPictureSizeFromSize(width, height);
 	}
 }
