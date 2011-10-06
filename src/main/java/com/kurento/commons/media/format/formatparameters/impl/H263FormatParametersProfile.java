@@ -4,7 +4,7 @@ public class H263FormatParametersProfile {
 
 	private int width;
 	private int height;
-	private int frameRate;
+	private int maxFrameRate;
 
 	public int getWidth() {
 		return width;
@@ -14,13 +14,13 @@ public class H263FormatParametersProfile {
 		return height;
 	}
 
-	public int getFrameRate() {
-		return frameRate;
+	public int getMaxFrameRate() {
+		return maxFrameRate;
 	}
 
 	public H263FormatParametersProfile(int width, int height, int frameRate) {
 		this.width = width;
 		this.height = height;
-		this.frameRate = frameRate;
+		this.maxFrameRate = frameRate;
 	}
 }
