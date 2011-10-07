@@ -11,6 +11,8 @@ import javax.sdp.SdpException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.kurento.commons.media.format.formatparameters.FormatParametersFactory;
+import com.kurento.commons.media.format.formatparameters.FormatParameters;
 import com.kurento.commons.sdp.enums.MediaType;
 
 /**
@@ -39,8 +41,8 @@ public class PayloadSpec {
 	private String encodingName = "";
 	private Integer clockRate;
 	private String encodingParams = "";
-
-	private String formatParams;
+	
+	private FormatParameters formatParameters;
 
 	// RTP parameters
 	private Integer payload;
@@ -108,68 +110,68 @@ public class PayloadSpec {
 		/*
 	      According to RFC 3551
 
-        PT   encoding    media type  clock rate   channels
-              name                    (Hz)
-         ___________________________________________________
-         0    PCMU        A            8,000       1
-         1    reserved    A
-         2    reserved    A
-         3    GSM         A            8,000       1
-         4    G723        A            8,000       1
-         5    DVI4        A            8,000       1
-         6    DVI4        A           16,000       1
-         7    LPC         A            8,000       1
-         8    PCMA        A            8,000       1
-         9    G722        A            8,000       1
-         10   L16         A           44,100       2
-         11   L16         A           44,100       1
-         12   QCELP       A            8,000       1
-         13   CN          A            8,000       1
-         14   MPA         A           90,000       (see text)
-         15   G728        A            8,000       1
-         16   DVI4        A           11,025       1
-         17   DVI4        A           22,050       1
-         18   G729        A            8,000       1
-         19   reserved    A
-         20   unassigned  A
-         21   unassigned  A
-         22   unassigned  A
-         23   unassigned  A
-         dyn  G726-40     A            8,000       1
-         dyn  G726-32     A            8,000       1
-         dyn  G726-24     A            8,000       1
-         dyn  G726-16     A            8,000       1
-         dyn  G729D       A            8,000       1
-         dyn  G729E       A            8,000       1
-         dyn  GSM-EFR     A            8,000       1
-         dyn  L8          A            var.        var.
-         dyn  RED         A                        (see text)
-         dyn  VDVI        A            var.        1
+      PT   encoding    media type  clock rate   channels
+            name                    (Hz)
+       ___________________________________________________
+       0    PCMU        A            8,000       1
+       1    reserved    A
+       2    reserved    A
+       3    GSM         A            8,000       1
+       4    G723        A            8,000       1
+       5    DVI4        A            8,000       1
+       6    DVI4        A           16,000       1
+       7    LPC         A            8,000       1
+       8    PCMA        A            8,000       1
+       9    G722        A            8,000       1
+       10   L16         A           44,100       2
+       11   L16         A           44,100       1
+       12   QCELP       A            8,000       1
+       13   CN          A            8,000       1
+       14   MPA         A           90,000       (see text)
+       15   G728        A            8,000       1
+       16   DVI4        A           11,025       1
+       17   DVI4        A           22,050       1
+       18   G729        A            8,000       1
+       19   reserved    A
+       20   unassigned  A
+       21   unassigned  A
+       22   unassigned  A
+       23   unassigned  A
+       dyn  G726-40     A            8,000       1
+       dyn  G726-32     A            8,000       1
+       dyn  G726-24     A            8,000       1
+       dyn  G726-16     A            8,000       1
+       dyn  G729D       A            8,000       1
+       dyn  G729E       A            8,000       1
+       dyn  GSM-EFR     A            8,000       1
+       dyn  L8          A            var.        var.
+       dyn  RED         A                        (see text)
+       dyn  VDVI        A            var.        1
 
-         Table 4: Payload types (PT) for audio encodings
+       Table 4: Payload types (PT) for audio encodings
 
-         PT      encoding    media type  clock rate
-                 name                    (Hz)
-         _____________________________________________
-         24      unassigned  V
-         25      CelB        V           90,000
-         26      JPEG        V           90,000
-         27      unassigned  V
-         28      nv          V           90,000
-         29      unassigned  V
-         30      unassigned  V
-         31      H261        V           90,000
-         32      MPV         V           90,000
-         33      MP2T        AV          90,000
-         34      H263        V           90,000
-         35-71   unassigned  ?
-         72-76   reserved    N/A         N/A
-         77-95   unassigned  ?
-         96-127  dynamic     ?
-         dyn     H263-1998   V           90,000
+       PT      encoding    media type  clock rate
+               name                    (Hz)
+       _____________________________________________
+       24      unassigned  V
+       25      CelB        V           90,000
+       26      JPEG        V           90,000
+       27      unassigned  V
+       28      nv          V           90,000
+       29      unassigned  V
+       30      unassigned  V
+       31      H261        V           90,000
+       32      MPV         V           90,000
+       33      MP2T        AV          90,000
+       34      H263        V           90,000
+       35-71   unassigned  ?
+       72-76   reserved    N/A         N/A
+       77-95   unassigned  ?
+       96-127  dynamic     ?
+       dyn     H263-1998   V           90,000
 
-         Table 5: Payload types (PT) for video and combined
-                  encodings
+       Table 5: Payload types (PT) for video and combined
+                encodings
 
 	 */
 
@@ -426,11 +428,11 @@ public class PayloadSpec {
 		return encodingParams;
 	}
 
-	public String getFormatParams() {
-		return formatParams;
-	}
+	// public String getFormatParams() {
+	// return formatParams;
+	// }
 
-	public void setFormatParams(Properties params) {
+	public void setFormatParams(Properties params) throws SdpException {
 		if (params == null)
 			return;
 
@@ -446,14 +448,14 @@ public class PayloadSpec {
 			sb.append(params.get(key));
 		}
 
-		this.formatParams = sb.toString();
+		this.formatParameters = FormatParametersFactory.createFormatParameters(
+				encodingName, sb.toString());
 	}
 
-	public void setFormatParams(String params) {
-		if (params == null)
-			return;
-
-		this.formatParams = params;
+	public void setFormatParams(String params) throws SdpException {
+		if (params != null)
+			this.formatParameters = FormatParametersFactory
+					.createFormatParameters(encodingName, params);
 	}
 
 	/**
@@ -464,7 +466,7 @@ public class PayloadSpec {
 	public boolean equals(Object obj) {
 		PayloadSpec cmpObj = (PayloadSpec) obj;
 		if (this.payload < 96 && this.payload == cmpObj.payload)
-				return true;
+			return true;
 
 		return mediaType.equals(cmpObj.mediaType)
 				&& encodingName.equalsIgnoreCase(cmpObj.encodingName)
@@ -484,9 +486,9 @@ public class PayloadSpec {
 		}
 
 		sdpLine += ENDLINE;
-		if (formatParams != null)
+		if (formatParameters != null)
 			sdpLine += SDPFieldNames.ATTRIBUTE_FIELD + SdpConstants.FMTP + ":"
-					+ payload + " " + formatParams + ENDLINE;
+					+ payload + " " + formatParameters + ENDLINE;
 		return sdpLine;
 	}
 
@@ -500,7 +502,7 @@ public class PayloadSpec {
 		obj.payload = payload;
 		obj.encodingName = encodingName;
 		obj.encodingParams = encodingParams;
-		obj.formatParams = formatParams;
+		obj.formatParameters = formatParameters;
 		return obj;
 	}
 
@@ -511,12 +513,12 @@ public class PayloadSpec {
 		return Integer.parseInt(token.nextToken());
 	}
 
-	public static String removePayloadFromString(String info) throws SdpException {
+	public static String removePayloadFromString(String info)
+			throws SdpException {
 		StringTokenizer token = new StringTokenizer(info);
 		if (!token.hasMoreTokens()) {
 			return info;
 		}
-
 
 		try {
 			Integer.parseInt(token.nextToken());
