@@ -111,92 +111,15 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		createProfiles(cpcf, resolutionsList);
 	}
 
-	public H263FormatParameters(
-			ArrayList<H263FormatParametersProfile> profilesList)
-			throws SdpException {
-		super();
-		init(profilesList);
-	}
-
-	@Override
-	public FormatParameters intersect(FormatParameters other)
-			throws SdpException {
-		ArrayList<H263FormatParametersProfile> intersectProfilesList = new ArrayList<H263FormatParametersProfile>();
-		for (H263FormatParametersProfile myProfile : profilesList) {
-			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) other)
-					.getProfilesList()) {
-				H263FormatParametersProfile intersectProfile = myProfile
-						.intersect(otherProfile);
-				if (intersectProfile != null)
-					intersectProfilesList.add(intersectProfile);
-			}
-		}
-
-		return new H263FormatParameters(intersectProfilesList);
-	}
-
-	public H263CPCF getCpcf() {
-		return cpcf;
-	}
-
-	public ArrayList<ResolutionMPI> getResolutionsList() {
-		return resolutionsList;
-	}
-
-	public ArrayList<H263FormatParametersProfile> getProfilesList() {
-		return profilesList;
-	}
-
-	@Override
-	public boolean equals(FormatParameters o) {
-		if (!(o instanceof H263FormatParameters))
-			return false;
-
-		boolean existProfile = false;
-		for (H263FormatParametersProfile myProfile : profilesList) {
-			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) o)
-					.getProfilesList()) {
-				existProfile = myProfile.compareTo(otherProfile) == 0;
-				if (existProfile)
-					break;
-			}
-			if (!existProfile)
-				return false;
-			existProfile = false;
-		}
-		return true;
-	}
-
-	private void createProfiles(H263CPCF cpcf,
-			ArrayList<ResolutionMPI> resolutionsList) {
-		int frameRateBase = FRAME_RATE_BASE;
-		if (cpcf != null)
-			frameRateBase = 1800000 / (cpcf.getCd() * cpcf.getCf());
-
-		for (ResolutionMPI rmpi : resolutionsList) {
-			if (PictureSize.CUSTOM.equals(rmpi.getPictureSize())) {
-				profilesList.add(new H263FormatParametersProfile(rmpi
-						.getWidth(), rmpi.getHeight(), frameRateBase
-						/ rmpi.getMpi()));
-			} else {
-				if (frameRateBase == FRAME_RATE_BASE)
-					profilesList.add(new H263FormatParametersProfile(rmpi
-							.getPictureSize(), rmpi.getMpi()));
-				else
-					profilesList.add(new H263FormatParametersProfile(rmpi
-							.getWidth(), rmpi.getHeight(), frameRateBase
-							/ rmpi.getMpi()));
-			}
-		}
-	}
-
 	/**
 	 * Creates a H263FormatParameters from a list of profiles
 	 * 
 	 * @param profilesList
 	 */
-	private void init(ArrayList<H263FormatParametersProfile> profilesList)
+	public H263FormatParameters(
+			ArrayList<H263FormatParametersProfile> profilesList)
 			throws SdpException {
+		super();
 		this.profilesList = profilesList;
 
 		if (profilesList == null)
@@ -278,9 +201,79 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 				initStr.append(";");
 				this.formatParamsStr = initStr.toString() + str.toString();
 			}
+		}
+	}
 
+	@Override
+	public FormatParameters intersect(FormatParameters other)
+			throws SdpException {
+		ArrayList<H263FormatParametersProfile> intersectProfilesList = new ArrayList<H263FormatParametersProfile>();
+		for (H263FormatParametersProfile myProfile : profilesList) {
+			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) other)
+					.getProfilesList()) {
+				H263FormatParametersProfile intersectProfile = myProfile
+						.intersect(otherProfile);
+				if (intersectProfile != null)
+					intersectProfilesList.add(intersectProfile);
+			}
 		}
 
+		return new H263FormatParameters(intersectProfilesList);
+	}
+
+	public H263CPCF getCpcf() {
+		return cpcf;
+	}
+
+	public ArrayList<ResolutionMPI> getResolutionsList() {
+		return resolutionsList;
+	}
+
+	public ArrayList<H263FormatParametersProfile> getProfilesList() {
+		return profilesList;
+	}
+
+	@Override
+	public boolean equals(FormatParameters o) {
+		if (!(o instanceof H263FormatParameters))
+			return false;
+
+		boolean existProfile = false;
+		for (H263FormatParametersProfile myProfile : profilesList) {
+			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) o)
+					.getProfilesList()) {
+				existProfile = myProfile.compareTo(otherProfile) == 0;
+				if (existProfile)
+					break;
+			}
+			if (!existProfile)
+				return false;
+			existProfile = false;
+		}
+		return true;
+	}
+
+	private void createProfiles(H263CPCF cpcf,
+			ArrayList<ResolutionMPI> resolutionsList) {
+		int frameRateBase = FRAME_RATE_BASE;
+		if (cpcf != null)
+			frameRateBase = 1800000 / (cpcf.getCd() * cpcf.getCf());
+
+		for (ResolutionMPI rmpi : resolutionsList) {
+			if (PictureSize.CUSTOM.equals(rmpi.getPictureSize())) {
+				profilesList.add(new H263FormatParametersProfile(rmpi
+						.getWidth(), rmpi.getHeight(), frameRateBase
+						/ rmpi.getMpi()));
+			} else {
+				if (frameRateBase == FRAME_RATE_BASE)
+					profilesList.add(new H263FormatParametersProfile(rmpi
+							.getPictureSize(), rmpi.getMpi()));
+				else
+					profilesList.add(new H263FormatParametersProfile(rmpi
+							.getWidth(), rmpi.getHeight(), frameRateBase
+							/ rmpi.getMpi()));
+			}
+		}
 	}
 
 	/**
