@@ -2,7 +2,7 @@ package com.kurento.commons.media.format.formatparameters.impl;
 
 import com.kurento.commons.media.format.formatparameters.VideoFormatParameters;
 
-public class VideoFormatParametersBase extends FormatParametersBase implements
+public abstract class VideoFormatParametersBase extends FormatParametersBase implements
 		VideoFormatParameters {
 
 	public VideoFormatParametersBase() {
