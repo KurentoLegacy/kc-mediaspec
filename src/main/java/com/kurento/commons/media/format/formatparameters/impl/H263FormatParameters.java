@@ -26,9 +26,73 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	
 	private static final int FRAME_RATE_BASE = 30;
 
+	/**
+	 * Creates a H263FormatParameters from a string. Format of the string must
+	 * be as: [CPCF=36,1000,0,1,1,0,0,2;CUSTOM=640,480,2;CIF=1;QCIF=1]
+	 * 
+	 * @param formatParamsStr
+	 */
 	public H263FormatParameters(String formatParamsStr) throws SdpException {
 		super(formatParamsStr);
-		init(formatParamsStr);
+		this.formatParamsStr = formatParamsStr;
+
+		ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
+		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, ";");
+
+		int frameRateBase = FRAME_RATE_BASE;
+		while (tokenizer.hasMoreTokens()) {
+			StringTokenizer tokenizer2 = new StringTokenizer(tokenizer.nextToken(), "=");
+
+			String first = tokenizer2.nextToken();
+			if (first.equalsIgnoreCase("CPCF")) {
+				StringTokenizer tokenizer3 = new StringTokenizer(tokenizer2.nextToken(), ",");
+				int cd = Integer.parseInt(tokenizer3.nextToken());
+				if (cd < 1 || cd > 127)
+					throw new SdpException(
+							"The cd parameter in CPCF must be an integer from 1 to 127");
+				int cf = Integer.parseInt(tokenizer3.nextToken());
+				if (cf != 1000 && cf != 1001)
+					throw new SdpException("The cf parameter in CPCF must be 1000 or 1001");
+				int[] mpis = new int[6];
+				for (int i = 0; i < 6; i++) {
+					int mpi = Integer.parseInt(tokenizer3.nextToken());
+					if (cd < 1 || cd > 2048)
+						throw new SdpException(
+								"The MPI parameters in CPCF must have a value in the range from from 1 to 2048");
+					mpis[i] = mpi;
+				}
+				this.cpcf = new H263CPCF(cd, cf, mpis);
+				frameRateBase = 1800000 / (cd * cf);
+			} else {
+				PictureSize pictSize = PictureSize.getPictureSizeFromString(first);
+				if (pictSize == null)
+					throw new SdpException("Incorrect fmtp string");
+
+				ResolutionMPI resolutionMPI;
+				if (PictureSize.CUSTOM.equals(pictSize)) {
+					StringTokenizer tokenizer3 = new StringTokenizer(tokenizer2.nextToken(), ",");
+					int width = Integer.parseInt(tokenizer3.nextToken());
+					int height = Integer.parseInt(tokenizer3.nextToken());
+					int mpi = Integer.parseInt(tokenizer3.nextToken());
+					profilesList.add(new H263FormatParametersProfile(width, height, frameRateBase
+							/ mpi));
+					resolutionMPI = new ResolutionMPI(pictSize, mpi);
+					resolutionMPI.setWidth(width);
+					resolutionMPI.setHeight(height);
+				} else {
+					int mpi = Integer.parseInt(tokenizer2.nextToken());
+					resolutionMPI = new ResolutionMPI(pictSize, mpi);
+					if (frameRateBase == FRAME_RATE_BASE)
+						profilesList.add(new H263FormatParametersProfile(pictSize, mpi));
+					else
+						profilesList.add(new H263FormatParametersProfile(pictSize.getWidth(),
+								pictSize.getHeight(), frameRateBase / mpi));
+				}
+				this.resolutionsList.add(resolutionMPI);
+			}
+		}
+
+		this.profilesList = profilesList;
 	}
 
 	public H263FormatParameters(H263CPCF cpcf,
@@ -128,81 +192,6 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 							/ rmpi.getMpi()));
 			}
 		}
-	}
-
-	/**
-	 * Creates a H263FormatParameters from a string. Format of the string must
-	 * be as: [CPCF=36,1000,0,1,1,0,0,2;CUSTOM=640,480,2;CIF=1;QCIF=1]
-	 * 
-	 * @param formatParamsStr
-	 */
-	private void init(String formatParamsStr) throws SdpException {
-		this.formatParamsStr = formatParamsStr;
-
-		ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
-		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, ";");
-
-		int frameRateBase = FRAME_RATE_BASE;
-		while (tokenizer.hasMoreTokens()) {
-			StringTokenizer tokenizer2 = new StringTokenizer(
-					tokenizer.nextToken(), "=");
-
-			String first = tokenizer2.nextToken();
-			if (first.equalsIgnoreCase("CPCF")) {
-				StringTokenizer tokenizer3 = new StringTokenizer(
-						tokenizer2.nextToken(), ",");
-				int cd = Integer.parseInt(tokenizer3.nextToken());
-				if (cd < 1 || cd > 127)
-					throw new SdpException(
-							"The cd parameter in CPCF must be an integer from 1 to 127");
-				int cf = Integer.parseInt(tokenizer3.nextToken());
-				if (cf != 1000 && cf != 1001)
-					throw new SdpException(
-							"The cf parameter in CPCF must be 1000 or 1001");
-				int[] mpis = new int[6];
-				for (int i = 0; i < 6; i++) {
-					int mpi = Integer.parseInt(tokenizer3.nextToken());
-					if (cd < 1 || cd > 2048)
-						throw new SdpException(
-								"The MPI parameters in CPCF must have a value in the range from from 1 to 2048");
-					mpis[i] = mpi;
-				}
-				this.cpcf = new H263CPCF(cd, cf, mpis);
-				frameRateBase = 1800000 / (cd * cf);
-			} else {
-				PictureSize pictSize = PictureSize
-						.getPictureSizeFromString(first);
-				if (pictSize == null)
-					throw new SdpException("Incorrect fmtp string");
-
-				ResolutionMPI resolutionMPI;
-				if (PictureSize.CUSTOM.equals(pictSize)) {
-					StringTokenizer tokenizer3 = new StringTokenizer(
-							tokenizer2.nextToken(), ",");
-					int width = Integer.parseInt(tokenizer3.nextToken());
-					int height = Integer.parseInt(tokenizer3.nextToken());
-					int mpi = Integer.parseInt(tokenizer3.nextToken());
-					profilesList.add(new H263FormatParametersProfile(width,
-							height, frameRateBase / mpi));
-					resolutionMPI = new ResolutionMPI(pictSize, mpi);
-					resolutionMPI.setWidth(width);
-					resolutionMPI.setHeight(height);
-				} else {
-					int mpi = Integer.parseInt(tokenizer2.nextToken());
-					resolutionMPI = new ResolutionMPI(pictSize, mpi);
-					if (frameRateBase == FRAME_RATE_BASE)
-						profilesList.add(new H263FormatParametersProfile(
-								pictSize, mpi));
-					else
-						profilesList.add(new H263FormatParametersProfile(
-								pictSize.getWidth(), pictSize.getHeight(),
-								frameRateBase / mpi));
-				}
-				this.resolutionsList.add(resolutionMPI);
-			}
-		}
-
-		this.profilesList = profilesList;
 	}
 
 	/**
