@@ -1,21 +1,15 @@
 package com.kurento.commons.sdp.enums;
 
 public enum Mode {
-	SENDRECV(0, "sendrecv"),
-	SENDONLY(1, "sendonly"),
-	RECVONLY(2, "recvonly"),
-	INACTIVE(3, "inactive");
+	SENDRECV("sendrecv"),
+	SENDONLY("sendonly"),
+	RECVONLY("recvonly"),
+	INACTIVE("inactive");
 
-	private int id;
 	private String desc;
 
-	private Mode(int id, String desc) {
-		this.id = id;
+	private Mode(String desc) {
 		this.desc = desc;
-	}
-
-	public int getId() {
-		return id;
 	}
 
 	public String toString() {
