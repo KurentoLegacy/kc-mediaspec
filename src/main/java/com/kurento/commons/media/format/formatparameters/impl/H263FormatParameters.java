@@ -25,18 +25,6 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	
 	private static final int FRAME_RATE_BASE = 30;
 
-	public H263CPCF getCpcf() {
-		return cpcf;
-	}
-
-	public ArrayList<ResolutionMPI> getResolutionsList() {
-		return resolutionsList;
-	}
-
-	public ArrayList<H263FormatParametersProfile> getProfilesList() {
-		return profilesList;
-	}
-
 	public H263FormatParameters(String formatParamsStr) throws SdpException {
 		super(formatParamsStr);
 		init(formatParamsStr);
@@ -70,6 +58,18 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		}
 
 		return new H263FormatParameters(intersectProfilesList);
+	}
+
+	public H263CPCF getCpcf() {
+		return cpcf;
+	}
+
+	public ArrayList<ResolutionMPI> getResolutionsList() {
+		return resolutionsList;
+	}
+
+	public ArrayList<H263FormatParametersProfile> getProfilesList() {
+		return profilesList;
 	}
 
 	@Override
