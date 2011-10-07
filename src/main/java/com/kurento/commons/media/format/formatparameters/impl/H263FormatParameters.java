@@ -16,6 +16,7 @@ import com.kurento.commons.media.format.formatparameters.FormatParameters;
  */
 public class H263FormatParameters extends VideoFormatParametersBase {
 
+	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(H263FormatParameters.class);
 
 	private H263CPCF cpcf;
