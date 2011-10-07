@@ -247,10 +247,10 @@ public class FormatParametersTest extends TestCase {
 		System.out
 				.println("Obtained intersect: " + h263fpIntersect2.toString());
 		System.out.println("compare: "
-				+ h263fpIntersect2.compareTo(h263fpIntersectExpected2));
+				+ h263fpIntersect2.equals(h263fpIntersectExpected2));
 		System.out.println("---------------------------------");
 		assertEquals(fmtpStrIntersect2, h263fpIntersect2.toString());
-		assertEquals(0, h263fpIntersect2.compareTo(h263fpIntersectExpected2));
+		assertTrue(h263fpIntersect2.equals(h263fpIntersectExpected2));
 
 	}
 

@@ -17,7 +17,7 @@ public class GenericFormatParameters extends FormatParametersBase {
 	}
 
 	@Override
-	public int compareTo(FormatParameters o) {
-		return -1;
+	public boolean equals(FormatParameters o) {
+		return false;
 	}
 }

@@ -73,9 +73,9 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	}
 
 	@Override
-	public int compareTo(FormatParameters o) {
+	public boolean equals(FormatParameters o) {
 		if (!(o instanceof H263FormatParameters))
-			return -1;
+			return false;
 
 		boolean existProfile = false;
 		for (H263FormatParametersProfile myProfile : profilesList) {
@@ -86,10 +86,10 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 					break;
 			}
 			if (!existProfile)
-				return -1;
+				return false;
 			existProfile = false;
 		}
-		return 0;
+		return true;
 	}
 
 	private void init(H263CPCF cpcf, ArrayList<ResolutionMPI> resolutionsList) {

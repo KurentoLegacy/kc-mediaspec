@@ -5,7 +5,7 @@ import javax.sdp.SdpException;
 /**
  * Principal interface to manage a=fmtp attribute of payloads
  */
-public interface FormatParameters extends Comparable<FormatParameters> {
+public interface FormatParameters {
 
 	/**
 	 * Intersect this FormatParameters with another.
@@ -15,4 +15,12 @@ public interface FormatParameters extends Comparable<FormatParameters> {
 	 */
 	public FormatParameters intersect(FormatParameters other) throws SdpException;
 
+	/**
+	 * Compares two FormatParameters and indicates if they are equals
+	 *
+	 * @param other
+	 *            The format parameter class to compare with
+	 * @return True if both classes are equal
+	 */
+	public boolean equals(FormatParameters other);
 }
