@@ -97,7 +97,6 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 	public H263FormatParameters(H263CPCF cpcf,
 			ArrayList<ResolutionMPI> resolutionsList) throws SdpException {
-		super();
 		this.cpcf = cpcf;
 		this.resolutionsList = resolutionsList;
 
@@ -119,7 +118,6 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	public H263FormatParameters(
 			ArrayList<H263FormatParametersProfile> profilesList)
 			throws SdpException {
-		super();
 		this.profilesList = profilesList;
 
 		if (profilesList == null)

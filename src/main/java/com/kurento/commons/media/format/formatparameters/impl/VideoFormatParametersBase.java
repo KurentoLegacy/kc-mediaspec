@@ -6,7 +6,6 @@ public abstract class VideoFormatParametersBase extends FormatParametersBase imp
 		VideoFormatParameters {
 
 	public VideoFormatParametersBase() {
-		super();
 	}
 
 	public VideoFormatParametersBase(String formatParamsStr) {
