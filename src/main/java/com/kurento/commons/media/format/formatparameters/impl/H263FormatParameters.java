@@ -22,6 +22,8 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	private ArrayList<ResolutionMPI> resolutionsList = new ArrayList<ResolutionMPI>();
 
 	private ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
+	
+	private static final int FRAME_RATE_BASE = 30;
 
 	public H263CPCF getCpcf() {
 		return cpcf;
@@ -106,7 +108,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 	private void createProfiles(H263CPCF cpcf,
 			ArrayList<ResolutionMPI> resolutionsList) {
-		int frameRateBase = 30;
+		int frameRateBase = FRAME_RATE_BASE;
 		if (cpcf != null)
 			frameRateBase = 1800000 / (cpcf.getCd() * cpcf.getCf());
 
@@ -114,9 +116,9 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 			if (PictureSize.CUSTOM.equals(rmpi.getPictureSize())) {
 				profilesList.add(new H263FormatParametersProfile(rmpi
 						.getWidth(), rmpi.getHeight(), frameRateBase
-						/ rmpi.getMpi())); // TODO: improve
+						/ rmpi.getMpi()));
 			} else {
-				if (frameRateBase == 30)
+				if (frameRateBase == FRAME_RATE_BASE)
 					profilesList.add(new H263FormatParametersProfile(rmpi
 							.getPictureSize(), rmpi.getMpi()));
 				else
@@ -129,7 +131,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 	/**
 	 * Creates a H263FormatParameters from a string. Format of the string must
-	 * be: [CPCF=36,1000,0,1,1,0,0,2;CUSTOM=640,480,2;CIF=1;QCIF=1]
+	 * be as: [CPCF=36,1000,0,1,1,0,0,2;CUSTOM=640,480,2;CIF=1;QCIF=1]
 	 * 
 	 * @param formatParamsStr
 	 */
@@ -139,7 +141,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
 		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, ";");
 
-		int frameRateBase = 30;
+		int frameRateBase = FRAME_RATE_BASE;
 		while (tokenizer.hasMoreTokens()) {
 			StringTokenizer tokenizer2 = new StringTokenizer(
 					tokenizer.nextToken(), "=");
@@ -180,14 +182,14 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 					int height = Integer.parseInt(tokenizer3.nextToken());
 					int mpi = Integer.parseInt(tokenizer3.nextToken());
 					profilesList.add(new H263FormatParametersProfile(width,
-							height, frameRateBase / mpi)); // TODO: improve
+							height, frameRateBase / mpi));
 					resolutionMPI = new ResolutionMPI(pictSize, mpi);
 					resolutionMPI.setWidth(width);
 					resolutionMPI.setHeight(height);
 				} else {
 					int mpi = Integer.parseInt(tokenizer2.nextToken());
 					resolutionMPI = new ResolutionMPI(pictSize, mpi);
-					if (frameRateBase == 30)
+					if (frameRateBase == FRAME_RATE_BASE)
 						profilesList.add(new H263FormatParametersProfile(
 								pictSize, mpi));
 					else
@@ -207,7 +209,8 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	 * 
 	 * @param profilesList
 	 */
-	private void init(ArrayList<H263FormatParametersProfile> profilesList) {
+	private void init(ArrayList<H263FormatParametersProfile> profilesList)
+			throws SdpException {
 		this.profilesList = profilesList;
 
 		if (profilesList == null)
@@ -220,7 +223,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 				numbers[i] = profilesList.get(i).getMaxFrameRate();
 			int lcm = LCM(numbers);
 
-			if (30 % lcm == 0) {
+			if (FRAME_RATE_BASE % lcm == 0) {
 				boolean first = true;
 				for (H263FormatParametersProfile p : profilesList) {
 					if (first)
@@ -236,12 +239,12 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 					if (PictureSize.CUSTOM.equals(pictSize))
 						str.append(p.getWidth()).append(",")
 								.append(p.getHeight()).append(",");
-
-					if (30 % p.getMaxFrameRate() == 0)
-						str.append(30 / p.getMaxFrameRate()); // TODO if not
-																// belong
-																// [1, 32] throw
-																// excepcion
+					if (FRAME_RATE_BASE % p.getMaxFrameRate() == 0) {
+						int mpi = FRAME_RATE_BASE / p.getMaxFrameRate();
+						if (mpi < 1 || mpi > 32)
+							throw new SdpException(
+									"The resul mpi parameters must be an integer from 1 to 32");
+					}
 				}
 				this.formatParamsStr = str.toString();
 			} else {
@@ -267,7 +270,9 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 					if (lcm % p.getMaxFrameRate() == 0) {
 						int mpi = lcm / p.getMaxFrameRate();
-						// TODO if mpi not belong [1, 2048] throw excepcion
+						if (mpi < 1 || mpi > 2048)
+							throw new SdpException(
+									"The resul mpi parameters must be an integer from 1 to 2048");
 						str.append(mpi);
 						sizesSupported[pictSize.ordinal()] = mpi;
 					}
@@ -275,7 +280,9 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 				int cf = 1000; // 1000 or 1001
 				int cd = 1800000 / (cf * lcm);
-				// TODO if cd not belong [1, 127] throw excepcion
+				if (cd < 1 || cd > 127)
+					throw new SdpException(
+							"The resul cd parameter in CPCF must be an integer from 1 to 127");
 
 				StringBuffer initStr = new StringBuffer();
 				initStr.append("CPCF=").append(cd).append(",").append(cf);
