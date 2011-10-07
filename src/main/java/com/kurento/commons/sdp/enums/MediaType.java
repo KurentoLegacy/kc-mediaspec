@@ -1,14 +1,11 @@
 package com.kurento.commons.sdp.enums;
 
 public enum MediaType {
-	AUDIO(0, "audio"),
-	VIDEO(1, "video");
+	AUDIO("audio"), VIDEO("video");
 	
-	private int id;
 	private String name;
 
-	private MediaType(int id, String name) {
-		this.id = id;
+	private MediaType(String name) {
 		this.name = name;
 	}
 
@@ -24,10 +21,6 @@ public enum MediaType {
 	@Override
 	public String toString() {
 		return name;
-	}
-	
-	public int getId() {
-		return id;
 	}
 
 }
