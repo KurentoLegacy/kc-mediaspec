@@ -98,7 +98,17 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	public H263FormatParameters(H263CPCF cpcf,
 			ArrayList<ResolutionMPI> resolutionsList) throws SdpException {
 		super();
-		init(cpcf, resolutionsList);
+		this.cpcf = cpcf;
+		this.resolutionsList = resolutionsList;
+
+		StringBuffer str = new StringBuffer();
+		if (cpcf != null)
+			str.append(cpcf.toString()).append(";");
+		for (ResolutionMPI rmpi : resolutionsList)
+			str.append(rmpi.toString()).append(";");
+		str.deleteCharAt(str.length() - 1);
+		this.formatParamsStr = str.toString();
+		createProfiles(cpcf, resolutionsList);
 	}
 
 	public H263FormatParameters(
@@ -155,20 +165,6 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 			existProfile = false;
 		}
 		return true;
-	}
-
-	private void init(H263CPCF cpcf, ArrayList<ResolutionMPI> resolutionsList) {
-		this.cpcf = cpcf;
-		this.resolutionsList = resolutionsList;
-
-		StringBuffer str = new StringBuffer();
-		if (cpcf != null)
-			str.append(cpcf.toString()).append(";");
-		for (ResolutionMPI rmpi : resolutionsList)
-			str.append(rmpi.toString()).append(";");
-		str.deleteCharAt(str.length() - 1);
-		this.formatParamsStr = str.toString();
-		createProfiles(cpcf, resolutionsList);
 	}
 
 	private void createProfiles(H263CPCF cpcf,
