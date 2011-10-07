@@ -9,6 +9,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
+import com.kurento.commons.media.format.formatparameters.FormatParameters;
 import com.kurento.commons.media.format.formatparameters.impl.H263CPCF;
 import com.kurento.commons.media.format.formatparameters.impl.H263FormatParameters;
 import com.kurento.commons.media.format.formatparameters.impl.H263FormatParametersProfile;
@@ -28,6 +29,8 @@ public class FormatParametersTest extends TestCase {
 		createFromString();
 		System.out.println("\n\n\n");
 		createFromCPCFandResolutionsMPI();
+		System.out.println("\n\n\n");
+		intersection();
 
 	}
 
@@ -209,6 +212,45 @@ public class FormatParametersTest extends TestCase {
 		System.out.println("---------------------------------");
 		assertEquals(fmtpStr3, h263fp3.toString());
 		assertEquals(fmtpStr3, h263fpProfiles3.toString());
+
+	}
+
+	private void intersection() throws Exception {
+		System.out.println("intersection");
+
+		String fmtpStrA = "CIF=1;QCIF=1";
+		String fmtpStrB = "CUSTOM=640,480,3;CIF=2;QCIF=1";
+		String fmtpStrIntersect = "CIF=2;QCIF=1";
+		H263FormatParameters h263fpA = new H263FormatParameters(fmtpStrA);
+		H263FormatParameters h263fpB = new H263FormatParameters(fmtpStrB);
+		FormatParameters h263fpIntersect = h263fpA.intersect(h263fpB);
+		System.out.println("---------------------------------");
+		System.out.println("A: " + fmtpStrA);
+		System.out.println("B: " + fmtpStrB);
+		System.out.println("Expected intersect: " + fmtpStrIntersect);
+		System.out.println("Obtained intersect: " + h263fpIntersect.toString());
+		System.out.println("---------------------------------");
+		assertEquals(fmtpStrIntersect, h263fpIntersect.toString());
+
+		String fmtpStrA2 = "CUSTOM=640,480,3;CIF=2;QCIF=1";
+		String fmtpStrB2 = "CPCF=6,1000,12,20,25,0,0,30;CUSTOM=640,480,30;CIF=25;QCIF=20;SQCIF=12";
+		String fmtpStrIntersect2 = "CPCF=30,1000,0,4,5,0,0,6;CUSTOM=640,480,6;CIF=5;QCIF=4";
+		H263FormatParameters h263fpA2 = new H263FormatParameters(fmtpStrA2);
+		H263FormatParameters h263fpB2 = new H263FormatParameters(fmtpStrB2);
+		H263FormatParameters h263fpIntersectExpected2 = new H263FormatParameters(
+				fmtpStrIntersect2);
+		FormatParameters h263fpIntersect2 = h263fpA2.intersect(h263fpB2);
+		System.out.println("---------------------------------");
+		System.out.println("A: " + fmtpStrA2);
+		System.out.println("B: " + fmtpStrB2);
+		System.out.println("Expected intersect: " + fmtpStrIntersect2);
+		System.out
+				.println("Obtained intersect: " + h263fpIntersect2.toString());
+		System.out.println("compare: "
+				+ h263fpIntersect2.compareTo(h263fpIntersectExpected2));
+		System.out.println("---------------------------------");
+		assertEquals(fmtpStrIntersect2, h263fpIntersect2.toString());
+		assertEquals(0, h263fpIntersect2.compareTo(h263fpIntersectExpected2));
 
 	}
 

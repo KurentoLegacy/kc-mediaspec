@@ -54,9 +54,40 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	}
 
 	@Override
-	public FormatParameters intersect(FormatParameters other) {
-		// TODO Auto-generated method stub
-		return null;
+	public FormatParameters intersect(FormatParameters other)
+			throws SdpException {
+		ArrayList<H263FormatParametersProfile> intersectProfilesList = new ArrayList<H263FormatParametersProfile>();
+		for (H263FormatParametersProfile myProfile : profilesList) {
+			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) other)
+					.getProfilesList()) {
+				H263FormatParametersProfile intersectProfile = myProfile
+						.intersect(otherProfile);
+				if (intersectProfile != null)
+					intersectProfilesList.add(intersectProfile);
+			}
+		}
+
+		return new H263FormatParameters(intersectProfilesList);
+	}
+
+	@Override
+	public int compareTo(FormatParameters o) {
+		if (!(o instanceof H263FormatParameters))
+			return -1;
+
+		boolean existProfile = false;
+		for (H263FormatParametersProfile myProfile : profilesList) {
+			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) o)
+					.getProfilesList()) {
+				existProfile = myProfile.compareTo(otherProfile) == 0;
+				if (existProfile)
+					break;
+			}
+			if (!existProfile)
+				return -1;
+			existProfile = false;
+		}
+		return 0;
 	}
 
 	private void init(H263CPCF cpcf, ArrayList<ResolutionMPI> resolutionsList) {
