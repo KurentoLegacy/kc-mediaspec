@@ -244,6 +244,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 						if (mpi < 1 || mpi > 32)
 							throw new SdpException(
 									"The resul mpi parameters must be an integer from 1 to 32");
+						str.append(mpi);
 					}
 				}
 				this.formatParamsStr = str.toString();
