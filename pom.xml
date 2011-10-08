@@ -167,7 +167,6 @@
 				<configuration>
 					<locales>en</locales>
 					<encoding>UTF-8</encoding>
-					<siteDirectory>${basedir}/site</siteDirectory>
 				</configuration>
 				<dependencies>
 					<dependency>
