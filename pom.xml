@@ -9,7 +9,7 @@
 
 	<name>Kurento Commons MediaSpec</name>
 	<description>Library to manage SDPs.</description>
-	<url>http://repository.kurento.com/docs/kc-mediaspec</url>
+	<url>http://www.kurento.com/docs/kc-mediaspec/${project.version}</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
