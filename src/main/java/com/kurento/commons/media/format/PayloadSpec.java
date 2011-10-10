@@ -11,8 +11,8 @@ import javax.sdp.SdpException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.kurento.commons.media.format.formatparameters.FormatParametersFactory;
 import com.kurento.commons.media.format.formatparameters.FormatParameters;
+import com.kurento.commons.media.format.formatparameters.FormatParametersFactory;
 import com.kurento.commons.sdp.enums.MediaType;
 
 /**
@@ -428,8 +428,12 @@ public class PayloadSpec {
 		return encodingParams;
 	}
 
-	public FormatParameters getFormatParams() {
+	public FormatParameters getFormatParameters() {
 		return formatParameters;
+	}
+
+	public String getFormatParams() {
+		return formatParameters.toString();
 	}
 
 	public void setFormatParams(Properties params) throws SdpException {
