@@ -436,6 +436,11 @@ public class PayloadSpec {
 		return formatParameters.toString();
 	}
 
+	public void setFormatParams(FormatParameters formatParameters) {
+		if (formatParameters != null)
+			this.formatParameters = formatParameters;
+	}
+
 	public void setFormatParams(Properties params) throws SdpException {
 		if (params == null)
 			return;
