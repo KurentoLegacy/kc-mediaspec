@@ -1,7 +1,6 @@
 package com.kurento.commons.media.format.formatparameters.impl;
 
-public class H263FormatParametersProfile implements
-		Comparable<H263FormatParametersProfile> {
+public class H263FormatParametersProfile {
 
 	private int width;
 	private int height;
@@ -49,11 +48,15 @@ public class H263FormatParametersProfile implements
 	}
 
 	@Override
-	public int compareTo(H263FormatParametersProfile o) {
-		if (this.pictureSize.equals(o.getPictureSize())
-				&& this.width == o.getWidth() && this.height == o.getHeight()
-				&& this.maxFrameRate == o.getMaxFrameRate())
-			return 0;
-		return -1;
+	public boolean equals(Object o) {
+		H263FormatParametersProfile profile = null;
+		if (o instanceof H263FormatParametersProfile) {
+			profile = (H263FormatParametersProfile) o;
+		}
+		if (profile != null && this.pictureSize.equals(profile.getPictureSize())
+				&& this.width == profile.getWidth() && this.height == profile.getHeight()
+				&& this.maxFrameRate == profile.getMaxFrameRate())
+			return true;
+		return false;
 	}
 }

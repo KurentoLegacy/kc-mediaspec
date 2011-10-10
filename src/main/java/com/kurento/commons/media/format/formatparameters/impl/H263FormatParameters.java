@@ -240,7 +240,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		for (H263FormatParametersProfile myProfile : profilesList) {
 			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) o)
 					.getProfilesList()) {
-				existProfile = myProfile.compareTo(otherProfile) == 0;
+				existProfile = myProfile.equals(otherProfile);
 				if (existProfile)
 					break;
 			}
