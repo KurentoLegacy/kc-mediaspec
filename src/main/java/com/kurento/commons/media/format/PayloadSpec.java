@@ -428,9 +428,9 @@ public class PayloadSpec {
 		return encodingParams;
 	}
 
-	// public String getFormatParams() {
-	// return formatParams;
-	// }
+	public FormatParameters getFormatParams() {
+		return formatParameters;
+	}
 
 	public void setFormatParams(Properties params) throws SdpException {
 		if (params == null)
