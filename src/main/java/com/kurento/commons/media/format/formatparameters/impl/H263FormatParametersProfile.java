@@ -1,8 +1,9 @@
 package com.kurento.commons.media.format.formatparameters.impl;
 
+import com.kurento.commons.media.format.formatparameters.VideoProfile;
 import com.kurento.commons.types.Fraction;
 
-public class H263FormatParametersProfile {
+public class H263FormatParametersProfile implements VideoProfile {
 
 	private int width;
 	private int height;
