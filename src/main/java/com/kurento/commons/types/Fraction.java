@@ -49,6 +49,13 @@ public class Fraction implements Comparable<Fraction> {
 		return new Fraction(numerator * other.denominator, denominator * other.numerator);
 	}
 
+	/**
+	 * @return true if this is multiple of other, or false if not.
+	 */
+	public boolean isMultiple(Fraction other) {
+		return this.divide(other).getDenominator() == 1;
+	}
+
 	public Fraction abs() {
 		return new Fraction(Math.abs(numerator), Math.abs(denominator));
 	}
@@ -83,6 +90,10 @@ public class Fraction implements Comparable<Fraction> {
 		if (numerator != other.numerator)
 			return false;
 		return true;
+	}
+
+	public String toString() {
+		return this.numerator + "/" + this.denominator;
 	}
 
 	/**
