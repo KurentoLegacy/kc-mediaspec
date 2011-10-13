@@ -23,7 +23,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	private H263CPCF cpcf;
 	private ArrayList<ResolutionMPI> resolutionsList = new ArrayList<ResolutionMPI>();
 
-	private ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
+	private ArrayList<H263VideoProfile> profilesList = new ArrayList<H263VideoProfile>();
 	
 	private static final int DEFAULT_CD = 60;
 	private static final int DEFAULT_CF = 1001;
@@ -39,7 +39,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		super(formatParamsStr);
 		this.formatParamsStr = formatParamsStr;
 
-		ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
+		ArrayList<H263VideoProfile> profilesList = new ArrayList<H263VideoProfile>();
 		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, ";");
 
 		Fraction frameRateBase = FRAME_RATE_BASE;
@@ -77,7 +77,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 					int width = Integer.parseInt(tokenizer3.nextToken());
 					int height = Integer.parseInt(tokenizer3.nextToken());
 					int mpi = Integer.parseInt(tokenizer3.nextToken());
-					profilesList.add(new H263FormatParametersProfile(width, height, frameRateBase
+					profilesList.add(new H263VideoProfile(width, height, frameRateBase
 							.divide(mpi)));
 					resolutionMPI = new ResolutionMPI(pictSize, mpi);
 					resolutionMPI.setWidth(width);
@@ -86,9 +86,9 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 					int mpi = Integer.parseInt(tokenizer2.nextToken());
 					resolutionMPI = new ResolutionMPI(pictSize, mpi);
 					if (frameRateBase == FRAME_RATE_BASE)
-						profilesList.add(new H263FormatParametersProfile(pictSize, mpi));
+						profilesList.add(new H263VideoProfile(pictSize, mpi));
 					else
-						profilesList.add(new H263FormatParametersProfile(pictSize.getWidth(),
+						profilesList.add(new H263VideoProfile(pictSize.getWidth(),
 								pictSize.getHeight(), frameRateBase.divide(mpi)));
 				}
 				this.resolutionsList.add(resolutionMPI);
@@ -118,7 +118,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	 * 
 	 * @param profilesList
 	 */
-	public H263FormatParameters(ArrayList<H263FormatParametersProfile> profilesList)
+	public H263FormatParameters(ArrayList<H263VideoProfile> profilesList)
 			throws SdpException {
 		this.profilesList = profilesList;
 
@@ -128,7 +128,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 			StringBuffer str = new StringBuffer();
 
 			boolean first = true;
-			for (H263FormatParametersProfile p : profilesList) {
+			for (H263VideoProfile p : profilesList) {
 				if (first)
 					first = false;
 				else
@@ -157,9 +157,9 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	@Override
 	public FormatParameters intersect(FormatParameters other)
 			throws SdpException {
-		ArrayList<H263FormatParametersProfile> intersectProfilesList = new ArrayList<H263FormatParametersProfile>();
-		for (H263FormatParametersProfile myProfile : profilesList) {
-			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) other)
+		ArrayList<H263VideoProfile> intersectProfilesList = new ArrayList<H263VideoProfile>();
+		for (H263VideoProfile myProfile : profilesList) {
+			for (H263VideoProfile otherProfile : ((H263FormatParameters) other)
 					.getProfilesList()) {
 				if (myProfile.equals(otherProfile))
 					intersectProfilesList.add(myProfile);
@@ -177,7 +177,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		return resolutionsList;
 	}
 
-	public ArrayList<H263FormatParametersProfile> getProfilesList() {
+	public ArrayList<H263VideoProfile> getProfilesList() {
 		return profilesList;
 	}
 
@@ -187,8 +187,8 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 			return false;
 
 		boolean existProfile = false;
-		for (H263FormatParametersProfile myProfile : profilesList) {
-			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) o)
+		for (H263VideoProfile myProfile : profilesList) {
+			for (H263VideoProfile otherProfile : ((H263FormatParameters) o)
 					.getProfilesList()) {
 				existProfile = myProfile.equals(otherProfile);
 				if (existProfile)
@@ -209,14 +209,14 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 		for (ResolutionMPI rmpi : resolutionsList) {
 			if (PictureSize.CUSTOM.equals(rmpi.getPictureSize())) {
-				profilesList.add(new H263FormatParametersProfile(rmpi.getWidth(), rmpi.getHeight(),
+				profilesList.add(new H263VideoProfile(rmpi.getWidth(), rmpi.getHeight(),
 						frameRateBase.divide(rmpi.getMpi())));
 			} else {
 				if (frameRateBase.equals(FRAME_RATE_BASE))
-					profilesList.add(new H263FormatParametersProfile(rmpi
+					profilesList.add(new H263VideoProfile(rmpi
 							.getPictureSize(), rmpi.getMpi()));
 				else
-					profilesList.add(new H263FormatParametersProfile(rmpi.getWidth(), rmpi
+					profilesList.add(new H263VideoProfile(rmpi.getWidth(), rmpi
 							.getHeight(), frameRateBase.divide(rmpi.getMpi())));
 			}
 		}

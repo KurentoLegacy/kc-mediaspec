@@ -12,7 +12,7 @@ import org.apache.log4j.PatternLayout;
 import com.kurento.commons.media.format.formatparameters.FormatParameters;
 import com.kurento.commons.media.format.formatparameters.impl.H263CPCF;
 import com.kurento.commons.media.format.formatparameters.impl.H263FormatParameters;
-import com.kurento.commons.media.format.formatparameters.impl.H263FormatParametersProfile;
+import com.kurento.commons.media.format.formatparameters.impl.H263VideoProfile;
 import com.kurento.commons.media.format.formatparameters.impl.PictureSize;
 import com.kurento.commons.media.format.formatparameters.impl.ResolutionMPI;
 import com.kurento.commons.types.Fraction;
@@ -40,10 +40,10 @@ public class FormatParametersTest extends TestCase {
 
 		String fmtpStr = "CUSTOM=640,480,2;CIF=1;QCIF=1";
 
-		ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
-		profilesList.add(new H263FormatParametersProfile(640, 480, new Fraction(15000, 1001)));
-		profilesList.add(new H263FormatParametersProfile(352, 288, new Fraction(30000, 1001)));
-		profilesList.add(new H263FormatParametersProfile(176, 144, new Fraction(30000, 1001)));
+		ArrayList<H263VideoProfile> profilesList = new ArrayList<H263VideoProfile>();
+		profilesList.add(new H263VideoProfile(640, 480, new Fraction(15000, 1001)));
+		profilesList.add(new H263VideoProfile(352, 288, new Fraction(30000, 1001)));
+		profilesList.add(new H263VideoProfile(176, 144, new Fraction(30000, 1001)));
 
 		H263FormatParameters h263fp = new H263FormatParameters(profilesList);
 
@@ -57,10 +57,10 @@ public class FormatParametersTest extends TestCase {
 
 		String fmtpStr2 = "CUSTOM=640,480,6;CIF=3;QCIF=2";
 
-		ArrayList<H263FormatParametersProfile> profilesList2 = new ArrayList<H263FormatParametersProfile>();
-		profilesList2.add(new H263FormatParametersProfile(640, 480, new Fraction(5000, 1001)));
-		profilesList2.add(new H263FormatParametersProfile(352, 288, new Fraction(10000, 1001)));
-		profilesList2.add(new H263FormatParametersProfile(176, 144, new Fraction(15000, 1001)));
+		ArrayList<H263VideoProfile> profilesList2 = new ArrayList<H263VideoProfile>();
+		profilesList2.add(new H263VideoProfile(640, 480, new Fraction(5000, 1001)));
+		profilesList2.add(new H263VideoProfile(352, 288, new Fraction(10000, 1001)));
+		profilesList2.add(new H263VideoProfile(176, 144, new Fraction(15000, 1001)));
 
 		H263FormatParameters h263fp2 = new H263FormatParameters(profilesList2);
 
