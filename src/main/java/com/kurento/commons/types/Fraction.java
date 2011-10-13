@@ -6,11 +6,9 @@ public class Fraction implements Comparable<Fraction> {
 	private int denominator;
 
 	public Fraction(int numerator, int denominator) {
-		int gcd = gcd(numerator, denominator);
-
 		if (denominator == 0)
-			throw new IllegalArgumentException("Fraction denominator ca not be 0");
-
+			throw new IllegalArgumentException("Fraction denominator can not be 0");
+		int gcd = gcd(numerator, denominator);
 		this.numerator = numerator / gcd;
 		this.denominator = denominator / gcd;
 	}
