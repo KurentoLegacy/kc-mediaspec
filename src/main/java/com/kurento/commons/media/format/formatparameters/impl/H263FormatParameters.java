@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.kurento.commons.media.format.formatparameters.FormatParameters;
+import com.kurento.commons.types.Fraction;
 
 /**
  * rfc 4629 section 8
@@ -24,7 +25,9 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 	private ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
 	
-	private static final int FRAME_RATE_BASE = 30;
+	private static final int DEFAULT_CD = 60;
+	private static final int DEFAULT_CF = 1001;
+	private static final Fraction FRAME_RATE_BASE = new Fraction(1800000, DEFAULT_CD * DEFAULT_CF);
 
 	/**
 	 * Creates a H263FormatParameters from a string. Format of the string must
@@ -39,7 +42,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		ArrayList<H263FormatParametersProfile> profilesList = new ArrayList<H263FormatParametersProfile>();
 		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, ";");
 
-		int frameRateBase = FRAME_RATE_BASE;
+		Fraction frameRateBase = FRAME_RATE_BASE;
 		while (tokenizer.hasMoreTokens()) {
 			StringTokenizer tokenizer2 = new StringTokenizer(tokenizer.nextToken(), "=");
 
@@ -62,7 +65,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 					mpis[i] = mpi;
 				}
 				this.cpcf = new H263CPCF(cd, cf, mpis);
-				frameRateBase = 1800000 / (cd * cf);
+				frameRateBase = new Fraction(1800000, (cd * cf));
 			} else {
 				PictureSize pictSize = PictureSize.getPictureSizeFromString(first);
 				if (pictSize == null)
@@ -75,7 +78,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 					int height = Integer.parseInt(tokenizer3.nextToken());
 					int mpi = Integer.parseInt(tokenizer3.nextToken());
 					profilesList.add(new H263FormatParametersProfile(width, height, frameRateBase
-							/ mpi));
+							.divide(mpi)));
 					resolutionMPI = new ResolutionMPI(pictSize, mpi);
 					resolutionMPI.setWidth(width);
 					resolutionMPI.setHeight(height);
@@ -86,7 +89,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 						profilesList.add(new H263FormatParametersProfile(pictSize, mpi));
 					else
 						profilesList.add(new H263FormatParametersProfile(pictSize.getWidth(),
-								pictSize.getHeight(), frameRateBase / mpi));
+								pictSize.getHeight(), frameRateBase.divide(mpi)));
 				}
 				this.resolutionsList.add(resolutionMPI);
 			}
@@ -115,8 +118,7 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	 * 
 	 * @param profilesList
 	 */
-	public H263FormatParameters(
-			ArrayList<H263FormatParametersProfile> profilesList)
+	public H263FormatParameters(ArrayList<H263FormatParametersProfile> profilesList)
 			throws SdpException {
 		this.profilesList = profilesList;
 
@@ -125,80 +127,30 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		else {
 			StringBuffer str = new StringBuffer();
 
-			int[] numbers = new int[profilesList.size()];
-			for (int i = 0; i < profilesList.size(); i++)
-				numbers[i] = profilesList.get(i).getMaxFrameRate();
-			int lcm = LCM(numbers);
+			boolean first = true;
+			for (H263FormatParametersProfile p : profilesList) {
+				if (first)
+					first = false;
+				else
+					str.append(";");
 
-			if (FRAME_RATE_BASE % lcm == 0) {
-				boolean first = true;
-				for (H263FormatParametersProfile p : profilesList) {
-					if (first)
-						first = false;
-					else
-						str.append(";");
+				PictureSize pictSize = PictureSize.getPictureSizeFromSize(p.getWidth(),
+						p.getHeight());
+				str.append(pictSize.toString());
+				str.append("=");
 
-					PictureSize pictSize = PictureSize.getPictureSizeFromSize(
-							p.getWidth(), p.getHeight());
-					str.append(pictSize.toString());
-					str.append("=");
-
-					if (PictureSize.CUSTOM.equals(pictSize))
-						str.append(p.getWidth()).append(",")
-								.append(p.getHeight()).append(",");
-					if (FRAME_RATE_BASE % p.getMaxFrameRate() == 0) {
-						int mpi = FRAME_RATE_BASE / p.getMaxFrameRate();
-						if (mpi < 1 || mpi > 32)
-							throw new SdpException(
-									"The resul mpi parameters must be an integer from 1 to 32");
-						str.append(mpi);
-					}
-				}
-				this.formatParamsStr = str.toString();
-			} else {
-				int[] sizesSupported = new int[6];
-				for (int i = 0; i < 6; i++)
-					sizesSupported[i] = 0;
-
-				boolean first = true;
-				for (H263FormatParametersProfile p : profilesList) {
-					if (first)
-						first = false;
-					else
-						str.append(";");
-
-					PictureSize pictSize = PictureSize.getPictureSizeFromSize(
-							p.getWidth(), p.getHeight());
-					str.append(pictSize.toString());
-					str.append("=");
-
-					if (PictureSize.CUSTOM.equals(pictSize))
-						str.append(p.getWidth()).append(",")
-								.append(p.getHeight()).append(",");
-
-					if (lcm % p.getMaxFrameRate() == 0) {
-						int mpi = lcm / p.getMaxFrameRate();
-						if (mpi < 1 || mpi > 2048)
-							throw new SdpException(
-									"The resul mpi parameters must be an integer from 1 to 2048");
-						str.append(mpi);
-						sizesSupported[pictSize.ordinal()] = mpi;
-					}
-				}
-
-				int cf = 1000; // 1000 or 1001
-				int cd = 1800000 / (cf * lcm);
-				if (cd < 1 || cd > 127)
+				if (PictureSize.CUSTOM.equals(pictSize))
+					str.append(p.getWidth()).append(",").append(p.getHeight()).append(",");
+				if (FRAME_RATE_BASE.divide(p.getMaxFrameRate()).getDenominator() != 1)
 					throw new SdpException(
-							"The resul cd parameter in CPCF must be an integer from 1 to 127");
-
-				StringBuffer initStr = new StringBuffer();
-				initStr.append("CPCF=").append(cd).append(",").append(cf);
-				for (int i = 0; i < 6; i++)
-					initStr.append(",").append(sizesSupported[i]);
-				initStr.append(";");
-				this.formatParamsStr = initStr.toString() + str.toString();
+							"Only framerates that can adjust to base framerate can be used");
+				int mpi = FRAME_RATE_BASE.divide(p.getMaxFrameRate()).getDouble().intValue();
+				if (mpi < 1 || mpi > 32)
+					throw new SdpException(
+							"The resul mpi parameters must be an integer from 1 to 32");
+				str.append(mpi);
 			}
+			this.formatParamsStr = str.toString();
 		}
 	}
 
@@ -209,10 +161,8 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		for (H263FormatParametersProfile myProfile : profilesList) {
 			for (H263FormatParametersProfile otherProfile : ((H263FormatParameters) other)
 					.getProfilesList()) {
-				H263FormatParametersProfile intersectProfile = myProfile
-						.intersect(otherProfile);
-				if (intersectProfile != null)
-					intersectProfilesList.add(intersectProfile);
+				if (myProfile.equals(otherProfile))
+					intersectProfilesList.add(myProfile);
 			}
 		}
 
@@ -253,60 +203,23 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 	private void createProfiles(H263CPCF cpcf,
 			ArrayList<ResolutionMPI> resolutionsList) {
-		int frameRateBase = FRAME_RATE_BASE;
+		Fraction frameRateBase = FRAME_RATE_BASE;
 		if (cpcf != null)
-			frameRateBase = 1800000 / (cpcf.getCd() * cpcf.getCf());
+			frameRateBase = new Fraction(1800000, (cpcf.getCd() * cpcf.getCf()));
 
 		for (ResolutionMPI rmpi : resolutionsList) {
 			if (PictureSize.CUSTOM.equals(rmpi.getPictureSize())) {
-				profilesList.add(new H263FormatParametersProfile(rmpi
-						.getWidth(), rmpi.getHeight(), frameRateBase
-						/ rmpi.getMpi()));
+				profilesList.add(new H263FormatParametersProfile(rmpi.getWidth(), rmpi.getHeight(),
+						frameRateBase.divide(rmpi.getMpi())));
 			} else {
-				if (frameRateBase == FRAME_RATE_BASE)
+				if (frameRateBase.equals(FRAME_RATE_BASE))
 					profilesList.add(new H263FormatParametersProfile(rmpi
 							.getPictureSize(), rmpi.getMpi()));
 				else
-					profilesList.add(new H263FormatParametersProfile(rmpi
-							.getWidth(), rmpi.getHeight(), frameRateBase
-							/ rmpi.getMpi()));
+					profilesList.add(new H263FormatParametersProfile(rmpi.getWidth(), rmpi
+							.getHeight(), frameRateBase.divide(rmpi.getMpi())));
 			}
 		}
-	}
-
-	/**
-	 * LCM of numbers
-	 */
-	private int LCM(int[] numbers) {
-		int lcm = 1;
-		for (int i = 0; i < numbers.length; i++) {
-			lcm = LCM(lcm, numbers[i]);
-		}
-		return lcm;
-	}
-
-	/**
-	 * Return lowest common multiple.
-	 */
-	private int LCM(int a, int b) {
-		return a * b / EuclidGCD(a, b);
-	}
-
-	/**
-	 * Return greatest common divisor using Euclid's Algorithm.
-	 */
-	private int EuclidGCD(int a, int b) {
-		int iaux;
-		a = Math.abs(a);
-		b = Math.abs(b);
-		int i1 = Math.max(a, b);
-		int i2 = Math.min(a, b);
-		do {
-			iaux = i2;
-			i2 = i1 % i2;
-			i1 = iaux;
-		} while (i2 != 0);
-		return i1;
 	}
 
 }

@@ -1,10 +1,12 @@
 package com.kurento.commons.media.format.formatparameters.impl;
 
+import com.kurento.commons.types.Fraction;
+
 public class H263FormatParametersProfile {
 
 	private int width;
 	private int height;
-	private int maxFrameRate;
+	private Fraction maxFrameRate;
 	private PictureSize pictureSize;
 
 	public int getWidth() {
@@ -15,7 +17,7 @@ public class H263FormatParametersProfile {
 		return height;
 	}
 
-	public int getMaxFrameRate() {
+	public Fraction getMaxFrameRate() {
 		return maxFrameRate;
 	}
 
@@ -23,7 +25,7 @@ public class H263FormatParametersProfile {
 		return pictureSize;
 	}
 
-	public H263FormatParametersProfile(int width, int height, int frameRate) {
+	public H263FormatParametersProfile(int width, int height, Fraction frameRate) {
 		this.width = width;
 		this.height = height;
 		this.maxFrameRate = frameRate;
@@ -33,18 +35,8 @@ public class H263FormatParametersProfile {
 	public H263FormatParametersProfile(PictureSize pictureSize, int mpi) {
 		this.width = pictureSize.getWidth();
 		this.height = pictureSize.getHeight();
-		this.maxFrameRate = 30 / mpi;
+		this.maxFrameRate = new Fraction(30 * 1000, mpi * 1001);
 		this.pictureSize = pictureSize;
-	}
-
-	public H263FormatParametersProfile intersect(
-			H263FormatParametersProfile other) {
-		if (this.pictureSize.equals(other.getPictureSize())
-				&& this.width == other.getWidth()
-				&& this.height == other.getHeight())
-			return new H263FormatParametersProfile(this.width, this.height,
-					Math.min(this.maxFrameRate, other.getMaxFrameRate()));
-		return null;
 	}
 
 	@Override
@@ -55,7 +47,7 @@ public class H263FormatParametersProfile {
 		}
 		if (profile != null && this.pictureSize.equals(profile.getPictureSize())
 				&& this.width == profile.getWidth() && this.height == profile.getHeight()
-				&& this.maxFrameRate == profile.getMaxFrameRate())
+				&& this.maxFrameRate.equals(profile.getMaxFrameRate()))
 			return true;
 		return false;
 	}
