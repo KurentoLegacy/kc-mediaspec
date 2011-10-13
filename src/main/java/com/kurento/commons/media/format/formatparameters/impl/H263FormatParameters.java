@@ -141,9 +141,10 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 
 				if (PictureSize.CUSTOM.equals(pictSize))
 					str.append(p.getWidth()).append(",").append(p.getHeight()).append(",");
-				if (FRAME_RATE_BASE.divide(p.getMaxFrameRate()).getDenominator() != 1)
+				if (!FRAME_RATE_BASE.isMultiple(p.getMaxFrameRate()))
 					throw new SdpException(
-							"Only framerates that can adjust to base framerate can be used");
+							"Only framerates that can adjust to base framerate can be used.\n" +
+							"Framerate must be submultiple of " + FRAME_RATE_BASE);
 				int mpi = FRAME_RATE_BASE.divide(p.getMaxFrameRate()).getDouble().intValue();
 				if (mpi < 1 || mpi > 32)
 					throw new SdpException(
