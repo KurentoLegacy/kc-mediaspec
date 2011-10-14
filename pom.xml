@@ -208,9 +208,9 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:http://kurento.googlecode.com</connection>
-		<developerConnection>scm:git:ssh://repository.kurento.com/git/kc-mediaspec</developerConnection>
-		<url>https://repository.kurento.com/git/kurento-android-sdk/?p=kc-mediaspec</url>
+<!--		<connection>scm:http://kurento.googlecode.com</connection>-->
+		<developerConnection>scm:git:ssh://git@repository.kurento.com/kc/kc-mediaspec.git</developerConnection>
+		<url>https://repository.kurento.com/git/kurento-commons/?p=kc-mediaspec.git</url>
 	</scm>
 
 	<licenses>
