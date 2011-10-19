@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.kurento.commons</groupId>
@@ -6,9 +7,9 @@
 	<version>1.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Kurento Common MediaSpec</name>
+	<name>Kurento Commons MediaSpec</name>
 	<description>Library to manage SDPs.</description>
-	<url>http://repository.kurento.com/docs/kc-mediaspec</url>
+	<url>http://www.kurento.com/docs/kc-mediaspec/${project.version}</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -164,8 +165,20 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.0</version>
+				<configuration>
+					<locales>en</locales>
+					<encoding>UTF-8</encoding>
+				</configuration>
 			</plugin>
 		</plugins>
+		
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.0</version>
+			</extension>
+		</extensions>
 	</build>
 
 	<reporting>
@@ -200,4 +213,14 @@
 		<developerConnection>scm:git:ssh://git@repository.kurento.com/kc/kc-mediaspec.git</developerConnection>
 		<url>https://repository.kurento.com/git/kurento-commons/?p=kc-mediaspec.git</url>
 	</scm>
+
+	<licenses>
+		<license>
+			<name>Kurento Android SDK License</name>
+			<url>http://www.kurento.com/license/kurento-android-sdk-license.html</url>
+			<distribution>repo</distribution>
+			<comments>Commercial license for Kurento Android SDK</comments>
+		</license>
+	</licenses>
+
 </project>
