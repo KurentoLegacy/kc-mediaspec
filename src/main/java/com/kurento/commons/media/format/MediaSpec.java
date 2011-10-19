@@ -317,14 +317,23 @@ public class MediaSpec {
 
 		List<PayloadSpec> intersecList = new ArrayList<PayloadSpec>();
 		int payloadNum = 0;
-		for (PayloadSpec payload : media.getPayloadList()) {
+		for (PayloadSpec origPayload : media.getPayloadList()) {
+			PayloadSpec payload = (PayloadSpec) origPayload.clone();
 			int index = payloadList.indexOf(payload);
 			if (index >= 0) {
 				if (changePayload) {
 					payloadNum = payloadList.get(index).getPayload();
 					payload.setPayload(payloadNum);
 				}
-				intersecList.add((PayloadSpec) payload.clone());
+				try {
+					if (payload.getFormatParameters() != null)
+						payload.setFormatParams(payload.getFormatParameters()
+								.intersect(
+										payloadList.get(index)
+												.getFormatParameters()));
+				} catch (SdpException e) {
+				}
+				intersecList.add(payload);
 			}
 		}
 
