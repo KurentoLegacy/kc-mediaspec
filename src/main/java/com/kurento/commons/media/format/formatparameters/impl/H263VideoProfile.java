@@ -1,5 +1,6 @@
 package com.kurento.commons.media.format.formatparameters.impl;
 
+import com.kurento.commons.media.format.formatparameters.VideoProfile;
 import com.kurento.commons.types.Fraction;
 
 public class H263VideoProfile extends VideoProfileBase {
@@ -22,5 +23,16 @@ public class H263VideoProfile extends VideoProfileBase {
 		this.height = pictureSize.getHeight();
 		this.frameRate = new Fraction(30 * 1000, mpi * 1001);
 		this.pictureSize = pictureSize;
+	}
+
+	@Override
+	public VideoProfile intersect(VideoProfile other) {
+		if (width != other.getWidth())
+			return null;
+		if (height != other.getHeight())
+			return null;
+
+		Fraction frameRate = this.frameRate.min(other.getMaxFrameRate());
+		return new H263VideoProfile(width, height, frameRate);
 	}
 }

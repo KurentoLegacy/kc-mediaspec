@@ -28,4 +28,9 @@ public interface VideoProfile {
 	 * @return The maximum framerate of the profile
 	 */
 	public Fraction getMaxFrameRate();
+
+	/**
+	 * @return an intersection if it is possible and null if not.
+	 */
+	public VideoProfile intersect(VideoProfile other);
 }
