@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.kurento.commons.media.format.formatparameters.FormatParameters;
+import com.kurento.commons.media.format.formatparameters.VideoProfile;
 import com.kurento.commons.types.Fraction;
 
 /**
@@ -162,8 +163,9 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 		for (H263VideoProfile myProfile : profilesList) {
 			for (H263VideoProfile otherProfile : ((H263FormatParameters) other)
 					.getProfilesList()) {
-				if (myProfile.equals(otherProfile))
-					intersectProfilesList.add(myProfile);
+				H263VideoProfile vp = (H263VideoProfile)myProfile.intersect(otherProfile);
+				if (vp != null)
+					intersectProfilesList.add(vp);
 			}
 		}
 
