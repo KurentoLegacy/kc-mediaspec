@@ -159,6 +159,9 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	@Override
 	public FormatParameters intersect(FormatParameters other)
 			throws SdpException {
+		if (other == null)
+			return new H263FormatParameters("");
+
 		ArrayList<H263VideoProfile> intersectProfilesList = new ArrayList<H263VideoProfile>();
 		for (H263VideoProfile myProfile : profilesList) {
 			for (H263VideoProfile otherProfile : ((H263FormatParameters) other)
