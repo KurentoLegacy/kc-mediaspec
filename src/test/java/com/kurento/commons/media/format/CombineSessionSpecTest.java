@@ -56,6 +56,32 @@ public class CombineSessionSpecTest extends TestCase {
 			"a=fmtp:31 QCIF=1;CIF=1\r\n" +
 			"a=rtpmap:32 MPV/90000\r\n";
 
+	private static String sdp3 = "v=0\r\n" +
+			"o=- 123456 0 IN IP4 193.147.51.16\r\n" +
+			"s=TestSession\r\n" +
+			"c=IN IP4 193.147.51.16\r\n" +
+			"t=0 0\r\n" +
+			"m=video 32954 RTP/AVP 96\r\n" +
+			"a=rtpmap:96 H263-2000/90000\r\n" +
+			"a=fmtp:96 QCIF=1;CIF=1\r\n" +
+			"m=audio 47523 RTP/AVP 14\r\n" +
+			"a=recvonly\r\n" +
+			"m=audio 1234 RTP/AVP 8\r\n" +
+			"a=rtpmap:8 PCMA/8000/1\r\n";
+
+	private static String sdp4 = "v=0\r\n" +
+			"o=- 123456 0 IN IP4 193.147.51.16\r\n" +
+			"s=TestSession\r\n" +
+			"c=IN IP4 193.147.51.16\r\n" +
+			"t=0 0\r\n" +
+			"m=video 32954 RTP/AVP 96\r\n" +
+			"a=rtpmap:96 H263-2000/90000\r\n" +
+			"m=audio 47523 RTP/AVP 14\r\n" +
+			"a=recvonly\r\n" +
+			"m=audio 1234 RTP/AVP 8\r\n" +
+			"a=rtpmap:8 PCMA/8000/1\r\n";
+
+
 	public void testInit() throws Exception {
 		PatternLayout layout = new PatternLayout("[%c{1}.%M:%L]-%-5p - %m%n");
 		Logger logger = Logger.getRootLogger();
@@ -85,5 +111,33 @@ public class CombineSessionSpecTest extends TestCase {
 		} catch (SdpException e) {
 			e.printStackTrace();
 		}
+
+		try {
+			SessionSpec spec = new SessionSpec(sdp3);
+			SessionSpec spec2 = new SessionSpec(sdp4);
+
+			SessionSpec intersect[] = SpecTools.intersectSessionSpec(spec,
+					spec2);
+			SessionSpec intersect2[] = SpecTools.intersectSessionSpec(spec2,
+					spec);
+
+			System.out.println("---------------------------------");
+			System.out.println(spec.toString());
+			System.out.println("---------------------------------");
+			System.out.println(spec2.toString());
+			System.out.println("---------------------------------");
+			System.out.println(intersect[0].toString());
+			System.out.println("---------------------------------");
+			System.out.println(intersect[1].toString());
+			System.out.println("---------------------------------");
+			System.out.println(intersect2[0].toString());
+			System.out.println("---------------------------------");
+			System.out.println(intersect2[1].toString());
+			System.out.println("---------------------------------");
+		} catch (SdpException e) {
+			e.printStackTrace();
+		}
+
 	}
+
 }
