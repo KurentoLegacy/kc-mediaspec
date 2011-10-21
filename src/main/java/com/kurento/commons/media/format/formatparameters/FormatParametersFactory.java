@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import javax.sdp.SdpException;
 
-import com.kurento.commons.media.format.formatparameters.impl.FormatParametersBase;
 import com.kurento.commons.media.format.formatparameters.impl.GenericFormatParameters;
 import com.kurento.commons.media.format.formatparameters.impl.H263FormatParameters;
 
