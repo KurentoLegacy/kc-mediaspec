@@ -73,6 +73,36 @@ public class PayloadSpec {
 
 	}
 
+	public PayloadSpec(int payload, String encodingName, int clockRate, MediaType mediaType,
+			String formatParams) throws SdpException {
+		if (encodingName == null)
+			throw new SdpException("Creating a custom payload without an encoding name");
+		if (mediaType == null)
+			throw new SdpException("Creating a custom payload without a mediaType");
+
+		this.payload = payload;
+		this.encodingName = encodingName;
+		this.clockRate = clockRate;
+		this.mediaType = mediaType;
+		if (formatParams != null)
+			this.formatParameters = FormatParametersFactory.createFormatParameters(encodingName,
+					formatParams);
+
+	}
+
+	public PayloadSpec(int payload, String encodingName, int clockRate, MediaType mediaType)
+			throws SdpException {
+		if (encodingName == null)
+			throw new SdpException("Creating a custom payload without an encoding name");
+		if (mediaType == null)
+			throw new SdpException("Creating a custom payload without a mediaType");
+
+		this.payload = payload;
+		this.encodingName = encodingName;
+		this.clockRate = clockRate;
+		this.mediaType = mediaType;
+	}
+
 	public PayloadSpec(int payload) {
 		this.payload = payload;
 
