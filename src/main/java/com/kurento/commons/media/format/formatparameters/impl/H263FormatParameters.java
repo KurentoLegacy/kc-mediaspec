@@ -83,7 +83,12 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 					resolutionMPI.setWidth(width);
 					resolutionMPI.setHeight(height);
 				} else {
-					int mpi = Integer.parseInt(tokenizer2.nextToken());
+					int mpi;
+					try {
+						mpi = Integer.parseInt(tokenizer2.nextToken());
+					} catch (NumberFormatException e) {
+						throw new SdpException(e);
+					}
 					resolutionMPI = new ResolutionMPI(pictSize, mpi);
 					if (frameRateBase == FRAME_RATE_BASE)
 						profilesList.add(new H263VideoProfile(pictSize, mpi));
