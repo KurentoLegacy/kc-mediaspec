@@ -38,7 +38,6 @@ public class H263FormatParameters extends VideoFormatParametersBase {
 	 */
 	public H263FormatParameters(String formatParamsStr) throws SdpException {
 		super(formatParamsStr);
-		this.formatParamsStr = formatParamsStr;
 
 		ArrayList<H263VideoProfile> profilesList = new ArrayList<H263VideoProfile>();
 		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, ";");
