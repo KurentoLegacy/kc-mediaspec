@@ -26,12 +26,14 @@ public class FormatParametersFactory {
 	}
 
 	public static FormatParameters createFormatParameters(String encodingName,
-			String formatParamsStr) throws SdpException {
+			String formatParamsStr) {
 		if (encodingName == null || encodingName.equals(""))
 			return null;
-		if (CodecStrings.H263.getCollectionCodecStrings().contains(
-				encodingName.toUpperCase()))
-			return new H263FormatParameters(formatParamsStr);
+		try {
+			if (CodecStrings.H263.getCollectionCodecStrings().contains(encodingName.toUpperCase()))
+				return new H263FormatParameters(formatParamsStr);
+		} catch (SdpException e) {
+		}
 		return new GenericFormatParameters(formatParamsStr);
 	}
 }
