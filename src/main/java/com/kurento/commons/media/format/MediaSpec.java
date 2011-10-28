@@ -227,8 +227,9 @@ public class MediaSpec {
 			}
 			for (PayloadSpec payload : payloadList) {
 				if (payload.getMediaType() == mediaType) {
-					this.payloadList.add(payload);
-					payload.setBandWidth(this.bandWidth);
+					PayloadSpec clone = (PayloadSpec) payload.clone();
+					this.payloadList.add(clone);
+					clone.setBandWidth(this.bandWidth);
 				}
 			}
 		}
