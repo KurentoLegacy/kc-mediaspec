@@ -13,8 +13,11 @@ import com.kurento.commons.media.format.formatparameters.FormatParameters;
  */
 public class MPEG4FormatParameters extends VideoFormatParametersBase {
 
-	private GenericVideoProfile videoProfile;
 	private int profileLevel;
+
+	private GenericVideoProfile videoProfile;
+	// private ArrayList<GenericVideoProfile> videoProfilesList = new
+	// ArrayList<GenericVideoProfile>();
 
 	private VisualObjectSequence visualObjectSequence;
 
@@ -35,7 +38,27 @@ public class MPEG4FormatParameters extends VideoFormatParametersBase {
 		String configStr = tokenizer.nextToken().split("=")[1];
 
 		visualObjectSequence = new VisualObjectSequence(configStr);
-		videoProfile = visualObjectSequence.generateGenericVideoProfile();
+		videoProfile = visualObjectSequence.getVideoProfile();
+	}
+
+	/**
+	 * Creates a MPEG4FormatParameters from a a videoProfile
+	 * 
+	 * @param videoProfile
+	 */
+	public MPEG4FormatParameters(GenericVideoProfile videoProfile) throws SdpException {
+		this.videoProfile = videoProfile;
+
+		if (videoProfile == null)
+			this.formatParamsStr = "";
+		else {
+			visualObjectSequence = new VisualObjectSequence(videoProfile);
+
+			profileLevel = visualObjectSequence.getProfileLevel();
+
+			this.formatParamsStr = "profile-level-id=" + profileLevel;
+			this.formatParamsStr += "; config=" + visualObjectSequence.getConfigString();
+		}
 	}
 
 	public GenericVideoProfile getVideoProfile() {
