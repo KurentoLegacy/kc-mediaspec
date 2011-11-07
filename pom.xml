@@ -220,6 +220,16 @@
 			<distribution>repo</distribution>
 			<comments>Commercial license for Kurento Android SDK</comments>
 		</license>
+		<license>
+			<name>Kurento Media Server License</name>
+			<url>http://www.kurento.com/license/kurento-media-server-license.html</url>
+			<distribution>repo</distribution>
+			<comments>Commercial license for Kurento Media Server</comments>
+		</license>
+		<license>
+			<name>GNU General Public License (GPL) Version 3</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
+		</license>
 	</licenses>
 
 </project>
