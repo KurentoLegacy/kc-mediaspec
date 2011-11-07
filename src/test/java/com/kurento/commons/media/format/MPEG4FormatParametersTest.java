@@ -7,8 +7,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
-import com.kurento.commons.media.format.formatparameters.impl.H263FormatParameters;
+import com.kurento.commons.media.format.formatparameters.impl.GenericVideoProfile;
 import com.kurento.commons.media.format.formatparameters.impl.MPEG4FormatParameters;
+import com.kurento.commons.types.Fraction;
 
 public class MPEG4FormatParametersTest extends TestCase {
 
@@ -19,6 +20,8 @@ public class MPEG4FormatParametersTest extends TestCase {
 		logger.setLevel(Level.TRACE);
 
 		createFromString();
+		System.out.println("\n\n\n");
+		createFromVideoProfile();
 	}
 	
 	public void createFromString() throws Exception {
@@ -69,4 +72,27 @@ public class MPEG4FormatParametersTest extends TestCase {
 		System.out.println("height: " +  mpeg4fpFromStr5.getVideoProfile().getHeight() );
 		System.out.println("frame rate: " +  mpeg4fpFromStr5.getVideoProfile().getMaxFrameRate() );
 	}
+
+
+	public void createFromVideoProfile() throws Exception {
+		System.out.println("createFromVideoProfile");
+
+		GenericVideoProfile videoProfile = new GenericVideoProfile(352, 288, new Fraction(15000, 1001));
+		MPEG4FormatParameters mpeg4fpFromVP = new MPEG4FormatParameters(videoProfile);
+		String mpeg4fpStr = mpeg4fpFromVP.toString();
+		System.out.println(mpeg4fpStr);
+		System.out.println("profile-level: " + mpeg4fpFromVP.getProfileLevel());
+		System.out.println("width: " + mpeg4fpFromVP.getVideoProfile().getWidth());
+		System.out.println("height: " + mpeg4fpFromVP.getVideoProfile().getHeight());
+		System.out.println("frame rate: " + mpeg4fpFromVP.getVideoProfile().getMaxFrameRate());
+
+		System.out.println();
+		MPEG4FormatParameters mpeg4fpFromStr = new MPEG4FormatParameters(mpeg4fpStr);
+		System.out.println(mpeg4fpFromStr);
+		System.out.println("profile-level: " + mpeg4fpFromStr.getProfileLevel() );
+		System.out.println("width: " +  mpeg4fpFromStr.getVideoProfile().getWidth() );
+		System.out.println("height: " +  mpeg4fpFromStr.getVideoProfile().getHeight() );
+		System.out.println("frame rate: " +  mpeg4fpFromStr.getVideoProfile().getMaxFrameRate() );
+	}
+
 }
