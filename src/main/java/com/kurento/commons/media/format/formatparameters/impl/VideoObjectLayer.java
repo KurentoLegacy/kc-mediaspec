@@ -18,9 +18,12 @@ public class VideoObjectLayer {
 			+ "20"; // TO 2F
 
 	private static int EXTENDED_PAR = 15;
+	private static int SQUARE = 1;
 
 	private static int RECTANGULAR = 0;
 	private static int BINARY_ONLY = 2;
+
+	private MPEG4ConfigEnc configEnc;
 
 	private int width;
 	private int height;
@@ -46,7 +49,8 @@ public class VideoObjectLayer {
 
 		// INCOMPLETE
 		if (!VIDEO_OBJECT_LAYER_START_CODE.equalsIgnoreCase(config.takeSubstring(8)))
-			throw new SdpException("VIDEO_OBJECT_LAYER_START_CODE incorrect."); // TODO: complete
+			throw new SdpException("VIDEO_OBJECT_LAYER_START_CODE incorrect."); // TODO:
+																				// complete
 
 		config.skipBits(1); // random_accessible_vol
 		config.skipBits(8); // video_object_type_indication
@@ -111,7 +115,81 @@ public class VideoObjectLayer {
 		this.width = video_object_layer_width;
 		this.height = video_object_layer_height;
 		// TODO: complete den
-		this.frameRate = new Fraction(vop_time_increment_resolution, 1000);
+		int den = 1000;
+		if (vop_time_increment_resolution < 1000)
+			den = 1;
+		this.frameRate = new Fraction(vop_time_increment_resolution, den);
+	}
+
+	/**
+	 * ENCODE
+	 * 
+	 * @param videoProfile
+	 * @param configEnc
+	 */
+	protected VideoObjectLayer(GenericVideoProfile videoProfile, MPEG4ConfigEnc configEnc) {
+		configEnc.putSubstring(VIDEO_OBJECT_LAYER_START_CODE);
+
+		configEnc.putBits(1, 0); // random_accessible_vol
+		configEnc.putBits(8, 1); // video_object_type_indication
+
+		configEnc.putBits(1, 1); // is_object_layer_identifier
+		configEnc.putBits(4, 1); // video_object_layer_verid
+		configEnc.putBits(3, 1); // video_object_layer_priority
+
+		configEnc.putBits(4, SQUARE); // aspect_ratio_info
+
+		configEnc.putBits(1, 1); // vol_control_parameters
+		configEnc.putBits(2, 1); // chroma_format
+		configEnc.putBits(1, 1); // low_delay
+		configEnc.putBits(1, 0); // vbv_parameters
+
+		int video_object_layer_shape = RECTANGULAR;
+		configEnc.putBits(2, video_object_layer_shape); // video_object_layer_shape
+
+		configEnc.putBits(1, 1); // marker_bit
+		int vop_time_increment_resolution = videoProfile.getMaxFrameRate().getNumerator();
+		configEnc.putBits(16, vop_time_increment_resolution); // vop_time_increment_resolution
+		configEnc.putBits(1, 1); // marker_bit
+
+		configEnc.putBits(1, 0); // fixed_vop_rate
+
+		if (video_object_layer_shape != BINARY_ONLY) {
+			if (video_object_layer_shape == RECTANGULAR) {
+				configEnc.putBits(1, 1); // marker_bit
+				int video_object_layer_width = videoProfile.getWidth();
+				configEnc.putBits(13, video_object_layer_width); // video_object_layer_width
+				configEnc.putBits(1, 1); // marker_bit
+				int video_object_layer_height = videoProfile.getHeight();
+				configEnc.putBits(13, video_object_layer_height);
+				configEnc.putBits(1, 1); // marker_bit
+			}
+			configEnc.putBits(1, 0); // interlaced
+			configEnc.putBits(1, 1); // obmc_disable
+			// if (video_object_layer_verid == ‘0001’) OK
+			configEnc.putBits(1, 0); // sprite_enable)
+			// ...
+			configEnc.putBits(1, 0); // not_8_bit
+			configEnc.putBits(1, 0); // quant_type
+			// ...
+			configEnc.putBits(1, 1); // complexity_estimation_disable
+			// ...
+			configEnc.putBits(1, 1); // resync_marker_disable
+			configEnc.putBits(1, 0); // data_partitioned
+			// ...
+			configEnc.putBits(1, 0); // scalability
+		}
+
+		configEnc.nextStartCode();
+
+		configEnc.putUserData("kurento");
+		// ...
+
+		this.configEnc = configEnc;
+	}
+
+	public MPEG4ConfigEnc getConfigEnc() {
+		return configEnc;
 	}
 
 	public int getWidth() {

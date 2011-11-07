@@ -78,16 +78,32 @@ public class VisualObject {
 		visual_object_type = config.takeBits(4);
 
 		if (visual_object_type == videoID)
-			videoSignalType(config);
+			videoSignalTypeDec(config);
 
 		config.skipBitsToNextStartCode();
 
 		if (visual_object_type == videoID) {
 			if (!VIDEO_OBJECT_START_CODE.equalsIgnoreCase(config.takeSubstring(8)))
-				throw new SdpException("TODO. VIDEO_OBJECT_START_CODE incorrect."); // TODO
+				throw new SdpException("VIDEO_OBJECT_START_CODE incorrect."); // TODO: complete
 			videoObjectLayer = new VideoObjectLayer(config);
 		}
 
+	}
+
+	protected VisualObject(GenericVideoProfile videoProfile, MPEG4ConfigEnc configEnc) {
+		configEnc.putSubstring(VISUAL_OBJECT_START_CODE);
+
+		configEnc.putBits(1, 1); // is_visual_object_identifier
+		configEnc.putBits(4, 1); // visual_object_verid
+		configEnc.putBits(3, 1); // visual_object_priority
+
+		configEnc.putBits(4, videoID); // visual_object_type
+		videoSignalTypeEnc(configEnc);
+
+		configEnc.nextStartCode();
+
+		configEnc.putSubstring(VIDEO_OBJECT_START_CODE);
+		this.videoObjectLayer = new VideoObjectLayer(videoProfile, configEnc);
 	}
 
 	/**
@@ -108,11 +124,15 @@ public class VisualObject {
 	 * 
 	 * @param config
 	 */
-	private void videoSignalType(MPEG4ConfigDec config) {
+	private void videoSignalTypeDec(MPEG4ConfigDec config) {
 		config.skipBits(1); // video_signal_type
 	}
 
-	public VideoObjectLayer getVideoObjectLayer() {
+	private void videoSignalTypeEnc(MPEG4ConfigEnc configEnc) {
+		configEnc.putBits(1, 0); // video_signal_type
+	}
+
+	protected VideoObjectLayer getVideoObjectLayer() {
 		return videoObjectLayer;
 	}
 
