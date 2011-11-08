@@ -43,6 +43,7 @@ public class VideoObjectLayer {
 		int video_object_layer_shape;
 		int vop_time_increment_resolution = 0;
 		int fixed_vop_rate;
+		int fixed_vop_time_increment = 1;
 
 		int video_object_layer_width = 0;
 		int video_object_layer_height = 0;
@@ -96,8 +97,10 @@ public class VideoObjectLayer {
 		config.skipBits(1); // marker_bit
 
 		fixed_vop_rate = config.takeBits(1);
-		if (fixed_vop_rate == 1)
-			config.skipBits(1); // fixed_vop_time_increment ¿1-16 bits?
+		if (fixed_vop_rate == 1) {
+			int time_increment_bits = minNumBitsToRepresent(vop_time_increment_resolution);
+			fixed_vop_time_increment = config.takeBits(time_increment_bits);
+		}
 
 		if (video_object_layer_shape != BINARY_ONLY) {
 			if (video_object_layer_shape == RECTANGULAR) {
@@ -114,11 +117,7 @@ public class VideoObjectLayer {
 
 		this.width = video_object_layer_width;
 		this.height = video_object_layer_height;
-		// TODO: complete den
-		int den = 1000;
-		if (vop_time_increment_resolution < 1000)
-			den = 1;
-		this.frameRate = new Fraction(vop_time_increment_resolution, den);
+		this.frameRate = new Fraction(vop_time_increment_resolution, fixed_vop_time_increment);
 	}
 
 	/**
@@ -152,7 +151,10 @@ public class VideoObjectLayer {
 		configEnc.putBits(16, vop_time_increment_resolution); // vop_time_increment_resolution
 		configEnc.putBits(1, 1); // marker_bit
 
-		configEnc.putBits(1, 0); // fixed_vop_rate
+		configEnc.putBits(1, 1); // fixed_vop_rate
+		int time_increment_bits = minNumBitsToRepresent(vop_time_increment_resolution);
+		int fixed_vop_time_increment = videoProfile.getMaxFrameRate().getDenominator();
+		configEnc.putBits(time_increment_bits, fixed_vop_time_increment); // fixed_vop_time_increment
 
 		if (video_object_layer_shape != BINARY_ONLY) {
 			if (video_object_layer_shape == RECTANGULAR) {
@@ -186,6 +188,14 @@ public class VideoObjectLayer {
 		// ...
 
 		this.configEnc = configEnc;
+	}
+
+	private int minNumBitsToRepresent(int n) {
+		n = Math.abs(n);
+		int numBits = 1;
+		while ((n /= 2) > 1)
+			numBits++;
+		return numBits;
 	}
 
 	public MPEG4ConfigEnc getConfigEnc() {
