@@ -7,11 +7,14 @@ import javax.sdp.SdpException;
 
 import com.kurento.commons.media.format.formatparameters.impl.GenericFormatParameters;
 import com.kurento.commons.media.format.formatparameters.impl.H263FormatParameters;
+import com.kurento.commons.media.format.formatparameters.impl.MPEG4FormatParameters;
 
 public class FormatParametersFactory {
 
 	private enum CodecStrings {
-		H263(new String[] { "H263", "H263-1998", "H263-2000" });
+		H263(new String[] { "H263", "H263-1998", "H263-2000" }),
+		MP4V(new String[] { "MP4V-ES" });
+
 		private Collection<String> collectionCodecStrings;
 
 		private CodecStrings(String[] codecStrings) {
@@ -32,6 +35,8 @@ public class FormatParametersFactory {
 		try {
 			if (CodecStrings.H263.getCollectionCodecStrings().contains(encodingName.toUpperCase()))
 				return new H263FormatParameters(formatParamsStr);
+			else if (CodecStrings.MP4V.getCollectionCodecStrings().contains(encodingName.toUpperCase()))
+				return new MPEG4FormatParameters(formatParamsStr);
 		} catch (SdpException e) {
 		}
 		return new GenericFormatParameters(formatParamsStr);
