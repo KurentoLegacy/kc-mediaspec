@@ -328,10 +328,11 @@ public class MediaSpec {
 				}
 				try {
 					if (payload.getFormatParameters() != null)
-						payload.setFormatParams(payload.getFormatParameters()
-								.intersect(
-										payloadList.get(index)
-												.getFormatParameters()));
+						payload.setFormatParams(payload.getFormatParameters().intersect(
+								payloadList.get(index).getFormatParameters()));
+					else if (payloadList.get(index).getFormatParameters() != null)
+						payload.setFormatParams(payloadList.get(index).getFormatParameters()
+								.intersect(payload.getFormatParameters()));
 				} catch (SdpException e) {
 				}
 				intersecList.add(payload);
