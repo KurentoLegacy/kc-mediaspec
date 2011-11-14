@@ -13,6 +13,13 @@ public class GenericVideoProfile extends VideoProfileBase {
 
 	@Override
 	public VideoProfile intersect(VideoProfile other) {
+		if (other == null)
+			return this;
+
+		if (this.width == other.getWidth() && this.height == other.getHeight()) {
+			return this.frameRate.compareTo(other.getMaxFrameRate()) > 0 ? other : this;
+		}
+
 		return null;
 	}
 }

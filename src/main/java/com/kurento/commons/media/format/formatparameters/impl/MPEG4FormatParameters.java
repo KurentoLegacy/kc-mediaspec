@@ -75,8 +75,18 @@ public class MPEG4FormatParameters extends VideoFormatParametersBase {
 
 	@Override
 	public FormatParameters intersect(FormatParameters other) throws SdpException {
-		// TODO Auto-generated method stub
-		return null;
+		if (other == null)
+			return this;
+
+		if (!(other instanceof MPEG4FormatParameters))
+			return null;
+
+		if (this.videoProfile == null)
+			return other;
+
+		return new MPEG4FormatParameters(
+				(GenericVideoProfile) (this.videoProfile
+						.intersect(((MPEG4FormatParameters) other).videoProfile)));
 	}
 
 	@Override

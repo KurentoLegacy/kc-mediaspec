@@ -22,6 +22,8 @@ public class MPEG4FormatParametersTest extends TestCase {
 		createFromString();
 		System.out.println("\n\n\n");
 		createFromVideoProfile();
+		System.out.println("\n\n\n");
+		mergeVideoProfiles();
 	}
 	
 	public void createFromString() throws Exception {
@@ -95,4 +97,26 @@ public class MPEG4FormatParametersTest extends TestCase {
 		System.out.println("frame rate: " +  mpeg4fpFromStr.getVideoProfile().getMaxFrameRate() );
 	}
 
+	public void mergeVideoProfiles() throws Exception {
+		String fmtpStr1 = "profile-level-id=1; config=000001B001000001B58913000001000000012000C48D89D4C63E98582120A31F000001B26B7572656E746F";
+		MPEG4FormatParameters mpeg4fpFromStr1 = new MPEG4FormatParameters(fmtpStr1);
+
+		String fmtpStr2 = "profile-level-id=3";
+		MPEG4FormatParameters mpeg4fpFromStr2 = new MPEG4FormatParameters(fmtpStr2);
+
+		MPEG4FormatParameters mpeg4fmtpMerge = (MPEG4FormatParameters) mpeg4fpFromStr1
+				.intersect(mpeg4fpFromStr2);
+		System.out.println(mpeg4fmtpMerge);
+		System.out.println("profile-level: " + mpeg4fmtpMerge.getProfileLevel());
+		System.out.println("width: " + mpeg4fmtpMerge.getVideoProfile().getWidth());
+		System.out.println("height: " + mpeg4fmtpMerge.getVideoProfile().getHeight());
+		System.out.println("frame rate: " + mpeg4fmtpMerge.getVideoProfile().getMaxFrameRate());
+
+		mpeg4fmtpMerge = (MPEG4FormatParameters) mpeg4fpFromStr2.intersect(mpeg4fpFromStr1);
+		System.out.println(mpeg4fmtpMerge);
+		System.out.println("profile-level: " + mpeg4fmtpMerge.getProfileLevel());
+		System.out.println("width: " + mpeg4fmtpMerge.getVideoProfile().getWidth());
+		System.out.println("height: " + mpeg4fmtpMerge.getVideoProfile().getHeight());
+		System.out.println("frame rate: " + mpeg4fmtpMerge.getVideoProfile().getMaxFrameRate());
+	}
 }
