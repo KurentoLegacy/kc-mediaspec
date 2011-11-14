@@ -33,8 +33,12 @@ public class MPEG4FormatParameters extends VideoFormatParametersBase {
 		super(formatParamsStr);
 
 		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, ";");
+		if (!tokenizer.hasMoreTokens())
+			return;
 		profileLevel = Integer.parseInt(tokenizer.nextToken().split("=")[1]);
 
+		if (!tokenizer.hasMoreTokens())
+			return;
 		String configStr = tokenizer.nextToken().split("=")[1];
 
 		visualObjectSequence = new VisualObjectSequence(configStr);
