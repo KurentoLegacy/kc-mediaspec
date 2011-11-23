@@ -24,6 +24,18 @@ public abstract class VideoProfileBase implements VideoProfile {
 		return frameRate;
 	}
 
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setFrameRate(Fraction frameRate) {
+		this.frameRate = frameRate;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
