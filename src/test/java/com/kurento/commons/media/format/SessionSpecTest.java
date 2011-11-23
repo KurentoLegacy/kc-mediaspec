@@ -114,6 +114,15 @@ public class SessionSpecTest extends TestCase {
 			"a=FMTP:115 QCIF=1 CIF=1\n\r" +
 			"a=sendrecv\n\r";
 
+	private static String sdp8 = "v=0\n\r" +
+			"o=- 783800654 0 IN IP4 193.147.51.27\n\r" +
+			"s=http://www.portsip.com\n\r" +
+			"c=IN IP4 193.147.51.27\n\r" +
+			"t=0 0\n\r" +
+			"m=null 0 RTP/AVP 96\n\r" +
+			"a=rtpmap:96 RTMP/90000\n\r" +
+			"a=FMTP:96 param1=value1,param2=value2,param3=value3\n\r";
+
 	public void testInit() throws Exception {
 		PatternLayout layout = new PatternLayout("[%c{1}.%M:%L]-%-5p - %m%n");
 		Logger logger = Logger.getRootLogger();
@@ -188,6 +197,17 @@ public class SessionSpecTest extends TestCase {
 
 		try {
 			SessionSpec spec = new SessionSpec(sdp7);
+
+			System.out.println("---------------------------------");
+			System.out.println(spec.toString());
+			System.out.println("---------------------------------");
+		} catch (SdpException e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+		try {
+			SessionSpec spec = new SessionSpec(sdp8);
 
 			System.out.println("---------------------------------");
 			System.out.println(spec.toString());
