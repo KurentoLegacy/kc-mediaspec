@@ -121,7 +121,7 @@ public class SessionSpecTest extends TestCase {
 			"t=0 0\n\r" +
 			"m=null 0 RTP/AVP 96\n\r" +
 			"a=rtpmap:96 RTMP/90000\n\r" +
-			"a=FMTP:96 param1=value1,param2=value2,param3=value3\n\r";
+			"a=FMTP:96 url=rtmp://myserver.com/application,publish=publishStream,play=playStream,width=320,heigh=240\n\r";
 
 	public void testInit() throws Exception {
 		PatternLayout layout = new PatternLayout("[%c{1}.%M:%L]-%-5p - %m%n");
