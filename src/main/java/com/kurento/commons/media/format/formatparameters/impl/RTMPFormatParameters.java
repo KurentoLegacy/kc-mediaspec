@@ -109,8 +109,16 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 
 	@Override
 	public FormatParameters intersect(FormatParameters other) throws SdpException {
-		// TODO Auto-generated method stub
-		return null;
+		if (other == null)
+			return this;
+		if (!(other instanceof RTMPFormatParameters))
+			return null;
+		RTMPFormatParameters rtmpFormatParameters = new RTMPFormatParameters(this.formatParamsStr);
+		RTMPInfo rtmpInfo = rtmpFormatParameters.getRtmpInfo();
+		GenericVideoProfile genericVideoProfile = rtmpFormatParameters.getVideoProfile();
+		rtmpInfo.setOfferer(((RTMPFormatParameters) other).getRtmpInfo().getOfferer());
+		System.out.println(rtmpFormatParameters);
+		return new RTMPFormatParameters(rtmpInfo, genericVideoProfile);
 	}
 
 	@Override
