@@ -62,7 +62,7 @@ public class IntersectionTest extends TestCase {
 			"t=0 0\n\r" +
 			"m=null 0 RTP/AVP 96\n\r" +
 			"a=rtpmap:96 RTMP/90000\n\r" +
-			"a=FMTP:96 url=rtmp://myserver.com/application;offerer=publishStream;answerer=playStream;w=320;h=240;fps=15/1\n\r";
+			"a=FMTP:96 url=rtmp://myserver.com/application;offerer=publishStream;answerer=;w=320;h=240;fps=15/1\n\r";
 
 	private static String sdp4 = "v=0\n\r" +
 			"o=- 783800654 0 IN IP4 193.147.51.27\n\r" +
@@ -71,7 +71,7 @@ public class IntersectionTest extends TestCase {
 			"t=0 0\n\r" +
 			"m=null 0 RTP/AVP 96\n\r" +
 			"a=rtpmap:96 RTMP/90000\n\r" +
-			"a=FMTP:96 url=rtmp://myserver.com/application2;offerer=publishStream2;answerer=;w=320;h=240;fps=15/1\n\r";
+			"a=FMTP:96 url=;offerer=publishStream2;answerer=;w=320;h=240;fps=15/1\n\r";
 	
 	private static String sdpIntersectLocal = "v=0\r\n" +
 			"o=- 123456 654321 IN IP4 193.147.51.44\r\n" +

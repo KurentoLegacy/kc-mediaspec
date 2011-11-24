@@ -41,9 +41,6 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 				map.put(key, value);
 		}
 
-		if (map.get("url") == null)
-			throw new SdpException("fmtp has not url param.");
-
 		this.rtmpInfo = new RTMPInfo();
 		this.rtmpInfo.setUrl(map.get("url"));
 		this.rtmpInfo.setOfferer(map.get("offerer"));
@@ -72,8 +69,8 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 			throws SdpException {
 		if (rtmpInfo == null)
 			throw new SdpException("rtmpInfo parameter is null.");
-		if (rtmpInfo.getUrl() == null || "".equals(rtmpInfo.getUrl()))
-			throw new SdpException("URL info in rtmpInfo parameter is nul or \"\".");
+		if (rtmpInfo.getUrl() == null)
+			rtmpInfo.setUrl("");
 
 		StringBuffer strBuf = new StringBuffer("url=");
 		strBuf.append(rtmpInfo.getUrl());
@@ -120,13 +117,13 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 	public FormatParameters intersect(FormatParameters other) throws SdpException {
 		if (other == null)
 			return this;
+		System.out.println("Class of other: " + other.getClass());
 		if (!(other instanceof RTMPFormatParameters))
 			return null;
 		RTMPFormatParameters rtmpFormatParameters = new RTMPFormatParameters(this.formatParamsStr);
 		RTMPInfo rtmpInfo = rtmpFormatParameters.getRtmpInfo();
 		GenericVideoProfile genericVideoProfile = rtmpFormatParameters.getVideoProfile();
-		rtmpInfo.setOfferer(((RTMPFormatParameters) other).getRtmpInfo().getOfferer());
-		System.out.println(rtmpFormatParameters);
+		rtmpInfo.setAnswerer(((RTMPFormatParameters) other).getRtmpInfo().getOfferer());
 		return new RTMPFormatParameters(rtmpInfo, genericVideoProfile);
 	}
 
