@@ -523,8 +523,7 @@ public class PayloadSpec {
 		PayloadSpec cmpObj = (PayloadSpec) obj;
 		if (this.payload < 96 && this.payload == cmpObj.payload)
 			return true;
-
-		return mediaType.equals(cmpObj.mediaType)
+		return (mediaType == cmpObj.mediaType)
 				&& encodingName.equalsIgnoreCase(cmpObj.encodingName)
 				&& clockRate.equals(cmpObj.getClockRate());
 	}
