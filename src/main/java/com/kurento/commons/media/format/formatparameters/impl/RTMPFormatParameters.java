@@ -29,7 +29,16 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, ";");
 		while (tokenizer.hasMoreTokens()) {
 			StringTokenizer tokenizer2 = new StringTokenizer(tokenizer.nextToken(), "=");
-			map.put(tokenizer2.nextToken(), tokenizer2.nextToken());
+			String key = null;
+			String value = null;
+			if (tokenizer2.hasMoreTokens()) {
+				key = tokenizer2.nextToken();
+			}
+			if (tokenizer2.hasMoreTokens()) {
+				value = tokenizer2.nextToken();
+			}
+			if (key != null)
+				map.put(key, value);
 		}
 
 		if (map.get("url") == null)
