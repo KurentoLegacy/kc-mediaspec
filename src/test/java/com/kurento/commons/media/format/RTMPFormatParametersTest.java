@@ -31,14 +31,14 @@ public class RTMPFormatParametersTest extends TestCase {
 	public void createFromString() throws Exception {
 		System.out.println("createFromString");
 
-		String fmtpStr = "url=rtmp://myserver.com/application;publish=publishStream;play=playStream;w=320;h=240;fps=15/1";
+		String fmtpStr = "url=rtmp://myserver.com/application;offerer=publishStream;answerer=playStream;w=320;h=240;fps=15/1";
 		RTMPFormatParameters rtmpfpFromStr = new RTMPFormatParameters(fmtpStr);
 		System.out.println(rtmpfpFromStr);
 		assertEquals(fmtpStr, rtmpfpFromStr.toString());
 
 		assertEquals("rtmp://myserver.com/application", rtmpfpFromStr.getRtmpInfo().getUrl());
-		assertEquals("publishStream", rtmpfpFromStr.getRtmpInfo().getPublish());
-		assertEquals("playStream", rtmpfpFromStr.getRtmpInfo().getPlay());
+		assertEquals("publishStream", rtmpfpFromStr.getRtmpInfo().getOfferer());
+		assertEquals("playStream", rtmpfpFromStr.getRtmpInfo().getAnswerer());
 
 		assertEquals(320, rtmpfpFromStr.getVideoProfile().getWidth());
 		assertEquals(240, rtmpfpFromStr.getVideoProfile().getHeight());
@@ -50,7 +50,7 @@ public class RTMPFormatParametersTest extends TestCase {
 	public void createFromRTMPInfoVideoProfile() throws Exception {
 		System.out.println("createFromVideoProfile");
 
-		String fmtpStr = "url=rtmp://myserver.com/application;publish=publishStream;play=playStream;w=320;h=240;fps=15/1";
+		String fmtpStr = "url=rtmp://myserver.com/application;offerer=publishStream;answerer=playStream;w=320;h=240;fps=15/1";
 		RTMPInfo rtmpInfo = new RTMPInfo("rtmp://myserver.com/application", "publishStream",
 				"playStream");
 		GenericVideoProfile videoProfile = new GenericVideoProfile(320, 240, new Fraction(15, 1));
@@ -61,8 +61,8 @@ public class RTMPFormatParametersTest extends TestCase {
 		assertEquals(fmtpStr, fmtpStrGen);
 
 		assertEquals("rtmp://myserver.com/application", rtmpfpFromVP.getRtmpInfo().getUrl());
-		assertEquals("publishStream", rtmpfpFromVP.getRtmpInfo().getPublish());
-		assertEquals("playStream", rtmpfpFromVP.getRtmpInfo().getPlay());
+		assertEquals("publishStream", rtmpfpFromVP.getRtmpInfo().getOfferer());
+		assertEquals("playStream", rtmpfpFromVP.getRtmpInfo().getAnswerer());
 
 		assertEquals(320, rtmpfpFromVP.getVideoProfile().getWidth());
 		assertEquals(240, rtmpfpFromVP.getVideoProfile().getHeight());
@@ -81,28 +81,5 @@ public class RTMPFormatParametersTest extends TestCase {
 		// mpeg4fpFromStr.getVideoProfile().getHeight() );
 		// System.out.println("frame rate: " +
 		// mpeg4fpFromStr.getVideoProfile().getMaxFrameRate() );
-	}
-
-	public void mergeVideoProfiles() throws Exception {
-		String fmtpStr1 = "profile-level-id=1; config=000001B001000001B58913000001000000012000C48D89D4C63E98582120A31F000001B26B7572656E746F";
-		MPEG4FormatParameters mpeg4fpFromStr1 = new MPEG4FormatParameters(fmtpStr1);
-
-		String fmtpStr2 = "profile-level-id=3";
-		MPEG4FormatParameters mpeg4fpFromStr2 = new MPEG4FormatParameters(fmtpStr2);
-
-		MPEG4FormatParameters mpeg4fmtpMerge = (MPEG4FormatParameters) mpeg4fpFromStr1
-				.intersect(mpeg4fpFromStr2);
-		System.out.println(mpeg4fmtpMerge);
-		System.out.println("profile-level: " + mpeg4fmtpMerge.getProfileLevel());
-		System.out.println("width: " + mpeg4fmtpMerge.getVideoProfile().getWidth());
-		System.out.println("height: " + mpeg4fmtpMerge.getVideoProfile().getHeight());
-		System.out.println("frame rate: " + mpeg4fmtpMerge.getVideoProfile().getMaxFrameRate());
-
-		mpeg4fmtpMerge = (MPEG4FormatParameters) mpeg4fpFromStr2.intersect(mpeg4fpFromStr1);
-		System.out.println(mpeg4fmtpMerge);
-		System.out.println("profile-level: " + mpeg4fmtpMerge.getProfileLevel());
-		System.out.println("width: " + mpeg4fmtpMerge.getVideoProfile().getWidth());
-		System.out.println("height: " + mpeg4fmtpMerge.getVideoProfile().getHeight());
-		System.out.println("frame rate: " + mpeg4fmtpMerge.getVideoProfile().getMaxFrameRate());
 	}
 }

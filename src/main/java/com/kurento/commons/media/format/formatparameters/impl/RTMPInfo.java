@@ -3,19 +3,19 @@ package com.kurento.commons.media.format.formatparameters.impl;
 public class RTMPInfo {
 
 	private String url;
-	private String publish;
-	private String play;
+	private String offerer;
+	private String answerer;
 
 	public RTMPInfo() {
 		this.url = "";
-		this.publish = "";
-		this.play = "";
+		this.offerer = "";
+		this.answerer = "";
 	}
 
-	public RTMPInfo(String url, String publish, String play) {
+	public RTMPInfo(String url, String offerer, String answerer) {
 		this.url = url;
-		this.publish = publish;
-		this.play = play;
+		this.offerer = offerer;
+		this.answerer = answerer;
 	}
 
 	public String getUrl() {
@@ -26,20 +26,20 @@ public class RTMPInfo {
 		this.url = url;
 	}
 
-	public String getPublish() {
-		return publish;
+	public String getOfferer() {
+		return offerer;
 	}
 
-	public void setPublish(String publish) {
-		this.publish = publish;
+	public void setOfferer(String offerer) {
+		this.offerer = offerer;
 	}
 
-	public String getPlay() {
-		return play;
+	public String getAnswerer() {
+		return answerer;
 	}
 
-	public void setPlay(String play) {
-		this.play = play;
+	public void setAnswerer(String answerer) {
+		this.answerer = answerer;
 	}
 
 }

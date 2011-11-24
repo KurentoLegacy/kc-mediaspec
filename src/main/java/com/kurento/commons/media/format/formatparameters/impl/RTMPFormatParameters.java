@@ -37,8 +37,8 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 
 		this.rtmpInfo = new RTMPInfo();
 		this.rtmpInfo.setUrl(map.get("url"));
-		this.rtmpInfo.setPublish(map.get("publish"));
-		this.rtmpInfo.setPlay(map.get("play"));
+		this.rtmpInfo.setOfferer(map.get("offerer"));
+		this.rtmpInfo.setAnswerer(map.get("answerer"));
 
 		this.videoProfile = new GenericVideoProfile();
 		int w = Integer.parseInt(map.get("w"));
@@ -69,13 +69,13 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 		StringBuffer strBuf = new StringBuffer("url=");
 		strBuf.append(rtmpInfo.getUrl());
 
-		if (rtmpInfo.getPublish() != null) {
-			strBuf.append(";publish=");
-			strBuf.append(rtmpInfo.getPublish());
+		if (rtmpInfo.getOfferer() != null) {
+			strBuf.append(";offerer=");
+			strBuf.append(rtmpInfo.getOfferer());
 		}
-		if (rtmpInfo.getPlay() != null) {
-			strBuf.append(";play=");
-			strBuf.append(rtmpInfo.getPlay());
+		if (rtmpInfo.getAnswerer() != null) {
+			strBuf.append(";answerer=");
+			strBuf.append(rtmpInfo.getAnswerer());
 		}
 
 		if (videoProfile != null) {
