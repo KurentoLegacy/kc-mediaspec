@@ -31,7 +31,7 @@ public class RTMPFormatParametersTest extends TestCase {
 	public void createFromString() throws Exception {
 		System.out.println("createFromString");
 
-		String fmtpStr = "rtmp-info:url=rtmp://myserver.com/application;publish=publishStream;play=playStream video-profile:s=320,240;fps=15/1";
+		String fmtpStr = "url=rtmp://myserver.com/application;publish=publishStream;play=playStream;w=320;h=240;fps=15/1";
 		RTMPFormatParameters rtmpfpFromStr = new RTMPFormatParameters(fmtpStr);
 		System.out.println(rtmpfpFromStr);
 		assertEquals(fmtpStr, rtmpfpFromStr.toString());
@@ -50,7 +50,7 @@ public class RTMPFormatParametersTest extends TestCase {
 	public void createFromRTMPInfoVideoProfile() throws Exception {
 		System.out.println("createFromVideoProfile");
 
-		String fmtpStr = "rtmp-info:url=rtmp://myserver.com/application;publish=publishStream;play=playStream video-profile:s=320,240;fps=15/1";
+		String fmtpStr = "url=rtmp://myserver.com/application;publish=publishStream;play=playStream;w=320;h=240;fps=15/1";
 		RTMPInfo rtmpInfo = new RTMPInfo("rtmp://myserver.com/application", "publishStream",
 				"playStream");
 		GenericVideoProfile videoProfile = new GenericVideoProfile(320, 240, new Fraction(15, 1));

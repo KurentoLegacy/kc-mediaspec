@@ -1,5 +1,6 @@
 package com.kurento.commons.media.format.formatparameters.impl;
 
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import javax.sdp.SdpException;
@@ -15,8 +16,8 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 	/**
 	 * Creates a RTMPFormatParameters from a string. Format of the string must
 	 * be as for example:
-	 * rtmp-info:url=rtmp://server.com/application[;publish=publishStream
-	 * ][;play=playStream] [video-profile:[s=320,240][;fps=15/1]]
+	 * url=rtmp://myserver.com/application;publish=publishStream
+	 * ;play=playStream;w=320;h=240;fps=15/1
 	 * 
 	 * @param formatParamsStr
 	 * @throws SdpException
@@ -24,55 +25,31 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 	public RTMPFormatParameters(String formatParamsStr) throws SdpException {
 		super(formatParamsStr);
 
-		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, " ");
+		HashMap<String, String> map = new HashMap<String, String>();
+		StringTokenizer tokenizer = new StringTokenizer(formatParamsStr, ";");
+		while (tokenizer.hasMoreTokens()) {
+			StringTokenizer tokenizer2 = new StringTokenizer(tokenizer.nextToken(), "=");
+			map.put(tokenizer2.nextToken(), tokenizer2.nextToken());
+		}
 
-		// rtmp-info
-		String first = tokenizer.nextToken();
-		first = first.split("rtmp-info:")[1];
-		StringTokenizer tokenizer2 = new StringTokenizer(first, ";");
-		StringTokenizer tokenizer3 = new StringTokenizer(tokenizer2.nextToken(), "=");
-		// url
-		if (!"url".equals(tokenizer3.nextToken()))
+		if (map.get("url") == null)
 			throw new SdpException("fmtp has not url param.");
 
 		this.rtmpInfo = new RTMPInfo();
-		this.rtmpInfo.setUrl(tokenizer3.nextToken());
+		this.rtmpInfo.setUrl(map.get("url"));
+		this.rtmpInfo.setPublish(map.get("publish"));
+		this.rtmpInfo.setPlay(map.get("play"));
 
-		while (tokenizer2.hasMoreTokens()) {
-			tokenizer3 = new StringTokenizer(tokenizer2.nextToken(), "=");
-			first = tokenizer3.nextToken();
-			if (first.equalsIgnoreCase("publish")) {
-				this.rtmpInfo.setPublish(tokenizer3.nextToken());
-			} else if (first.equalsIgnoreCase("play")) {
-				this.rtmpInfo.setPlay(tokenizer3.nextToken());
-			}
+		this.videoProfile = new GenericVideoProfile();
+		int w = Integer.parseInt(map.get("w"));
+		this.videoProfile.setWidth(w);
+		int h = Integer.parseInt(map.get("h"));
+		this.videoProfile.setHeight(h);
 
-		}
-
-		// video-profile
-		if (tokenizer.hasMoreTokens()) {
-			first = tokenizer.nextToken();
-			first = first.split("video-profile:")[1];
-			tokenizer2 = new StringTokenizer(first, ";");
-			this.videoProfile = new GenericVideoProfile();
-			while (tokenizer2.hasMoreTokens()) {
-				tokenizer3 = new StringTokenizer(tokenizer2.nextToken(), "=");
-				first = tokenizer3.nextToken();
-				if (first.equalsIgnoreCase("s")) {
-					StringTokenizer tokenizer4 = new StringTokenizer(tokenizer3.nextToken(), ",");
-					int w = Integer.parseInt(tokenizer4.nextToken());
-					int h = Integer.parseInt(tokenizer4.nextToken());
-					this.videoProfile.setWidth(w);
-					this.videoProfile.setHeight(h);
-				} else if (first.equalsIgnoreCase("fps")) {
-					StringTokenizer tokenizer4 = new StringTokenizer(tokenizer3.nextToken(), "/");
-					int num = Integer.parseInt(tokenizer4.nextToken());
-					int den = Integer.parseInt(tokenizer4.nextToken());
-					this.videoProfile.setFrameRate(new Fraction(num, den));
-				}
-			}
-		}
-
+		tokenizer = new StringTokenizer(map.get("fps"), "/");
+		int num = Integer.parseInt(tokenizer.nextToken());
+		int den = Integer.parseInt(tokenizer.nextToken());
+		this.videoProfile.setFrameRate(new Fraction(num, den));
 	}
 
 	/**
@@ -89,7 +66,7 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 		if (rtmpInfo.getUrl() == null || "".equals(rtmpInfo.getUrl()))
 			throw new SdpException("URL info in rtmpInfo parameter is nul or \"\".");
 
-		StringBuffer strBuf = new StringBuffer("rtmp-info:url=");
+		StringBuffer strBuf = new StringBuffer("url=");
 		strBuf.append(rtmpInfo.getUrl());
 
 		if (rtmpInfo.getPublish() != null) {
@@ -102,11 +79,10 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 		}
 
 		if (videoProfile != null) {
-			strBuf.append(" video-profile:");
 			if (videoProfile.getWidth() > 0 && videoProfile.getHeight() > 0) {
-				strBuf.append("s=");
+				strBuf.append(";w=");
 				strBuf.append(videoProfile.getWidth());
-				strBuf.append(",");
+				strBuf.append(";h=");
 				strBuf.append(videoProfile.getHeight());
 				strBuf.append(";");
 			}
@@ -116,7 +92,7 @@ public class RTMPFormatParameters extends VideoFormatParametersBase {
 				strBuf.append(";");
 			}
 		}
-		strBuf.deleteCharAt(strBuf.length()-1);
+		strBuf.deleteCharAt(strBuf.length() - 1);
 
 		this.rtmpInfo = rtmpInfo;
 		this.videoProfile = videoProfile;
