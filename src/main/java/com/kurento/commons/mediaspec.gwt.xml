@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='mediaspec'>
+  <inherits name='com.google.gwt.user.User'/>
+  <source path='sdp'/>
+  <source path='types'/>
+</module>

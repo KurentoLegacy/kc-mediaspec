@@ -252,7 +252,7 @@ public class MediaSpec {
 	 * @return
 	 */
 	public int getPort(){
-		if (payloadList.isEmpty()) {
+		if (payloadList == null || payloadList.isEmpty()) {
 			return 0;
 		}
 		return payloadList.get(0).getPort();

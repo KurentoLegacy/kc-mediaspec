@@ -63,7 +63,7 @@ public class PayloadSpec {
 
 	// RTP parameters
 	private Integer payload;
-	private Integer port;
+	private Integer port = 0;
 	private int bandWidth = -1;
 
 	// Code parameters
