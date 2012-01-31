@@ -480,7 +480,10 @@ public class PayloadSpec {
 	}
 
 	public String getFormatParams() {
-		return formatParameters.toString();
+		if (formatParameters != null)
+			return formatParameters.toString();
+		else
+			return null;
 	}
 
 	public void setFormatParams(FormatParameters formatParameters) {
