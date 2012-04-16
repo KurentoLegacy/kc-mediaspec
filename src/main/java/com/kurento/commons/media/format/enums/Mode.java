@@ -15,41 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.mediaspec;
+package com.kurento.commons.media.format.enums;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+public enum Mode {
+	SENDRECV("sendrecv"),
+	SENDONLY("sendonly"),
+	RECVONLY("recvonly"),
+	INACTIVE("inactive");
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
+	private String desc;
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
+	private Mode(String desc) {
+		this.desc = desc;
+	}
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+	public String toString() {
+		return desc;
+	}
+
+	public static Mode getInstance(String value) {
+		if (value.equalsIgnoreCase(SENDRECV.toString())) {
+			return SENDRECV;
+		} else if (value.equalsIgnoreCase(SENDONLY.toString())) {
+			return SENDONLY;
+		} else if (value.equalsIgnoreCase(RECVONLY.toString())) {
+			return RECVONLY;
+		} else if (value.equalsIgnoreCase(INACTIVE.toString())) {
+			return INACTIVE;
+		}
+		return null;
+	}
 }

@@ -15,18 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.sdp.enums;
+package com.kurento.commons.media.format.enums;
 
 public enum MediaType {
 	AUDIO("audio"), VIDEO("video");
-	
+
 	private String name;
 
 	private MediaType(String name) {
 		this.name = name;
 	}
 
-	public static MediaType  getInstance (String mediaType) {
+	public static MediaType getInstance(String mediaType) {
 		if (AUDIO.toString().equalsIgnoreCase(mediaType)) {
 			return AUDIO;
 		} else if (VIDEO.toString().equalsIgnoreCase(mediaType)) {
@@ -34,7 +34,7 @@ public enum MediaType {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
