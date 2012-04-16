@@ -18,9 +18,9 @@
 package com.kurento.commons.media.format.enums;
 
 public enum Mode {
-	SENDRECV("sendrecv"),
-	SENDONLY("sendonly"),
-	RECVONLY("recvonly"),
+	SEND("send"),
+	RECV("recv"),
+	SEND_RECV("send_recv"),
 	INACTIVE("inactive");
 
 	private String desc;
@@ -34,12 +34,12 @@ public enum Mode {
 	}
 
 	public static Mode getInstance(String value) {
-		if (value.equalsIgnoreCase(SENDRECV.toString())) {
-			return SENDRECV;
-		} else if (value.equalsIgnoreCase(SENDONLY.toString())) {
-			return SENDONLY;
-		} else if (value.equalsIgnoreCase(RECVONLY.toString())) {
-			return RECVONLY;
+		if (value.equalsIgnoreCase(SEND_RECV.toString())) {
+			return SEND_RECV;
+		} else if (value.equalsIgnoreCase(SEND.toString())) {
+			return SEND;
+		} else if (value.equalsIgnoreCase(RECV.toString())) {
+			return RECV;
 		} else if (value.equalsIgnoreCase(INACTIVE.toString())) {
 			return INACTIVE;
 		}
