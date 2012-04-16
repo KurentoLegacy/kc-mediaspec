@@ -21,4 +21,16 @@ public class Transport implements Serializable {
 	public synchronized TransportRtp getRtp() {
 		return rtp;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Transport [");
+		if (rtp != null) {
+			builder.append("rtp=");
+			builder.append(rtp);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

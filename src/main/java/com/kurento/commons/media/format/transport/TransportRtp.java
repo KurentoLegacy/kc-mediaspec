@@ -38,4 +38,19 @@ public class TransportRtp implements Serializable {
 	public synchronized void setPort(int port) {
 		this.port = port;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TransportRtp [");
+		if (address != null) {
+			builder.append("address=");
+			builder.append(address);
+			builder.append(", ");
+		}
+		builder.append("port=");
+		builder.append(port);
+		builder.append("]");
+		return builder.toString();
+	}
 }

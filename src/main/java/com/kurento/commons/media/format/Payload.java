@@ -21,4 +21,16 @@ public class Payload implements Serializable {
 		return rtp;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Payload [");
+		if (rtp != null) {
+			builder.append("rtp=");
+			builder.append(rtp);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

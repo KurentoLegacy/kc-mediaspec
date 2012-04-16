@@ -107,4 +107,27 @@ public class SessionSpec implements Serializable {
 
 		return version;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SessionSpec [");
+		if (mediaSpecs != null) {
+			builder.append("mediaSpecs=");
+			builder.append(mediaSpecs);
+			builder.append(", ");
+		}
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (version != null) {
+			builder.append("version=");
+			builder.append(version);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

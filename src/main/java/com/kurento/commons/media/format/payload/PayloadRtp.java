@@ -120,4 +120,45 @@ public class PayloadRtp implements Serializable {
 		params.put(key, value);
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("PayloadRtp [id=");
+		builder.append(id);
+		builder.append(", ");
+		if (codecName != null) {
+			builder.append("codecName=");
+			builder.append(codecName);
+			builder.append(", ");
+		}
+		builder.append("clockRate=");
+		builder.append(clockRate);
+		builder.append(", ");
+		if (channels != null) {
+			builder.append("channels=");
+			builder.append(channels);
+			builder.append(", ");
+		}
+		if (width != null) {
+			builder.append("width=");
+			builder.append(width);
+			builder.append(", ");
+		}
+		if (height != null) {
+			builder.append("height=");
+			builder.append(height);
+			builder.append(", ");
+		}
+		if (bitrate != null) {
+			builder.append("bitrate=");
+			builder.append(bitrate);
+			builder.append(", ");
+		}
+		if (params != null) {
+			builder.append("params=");
+			builder.append(params);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

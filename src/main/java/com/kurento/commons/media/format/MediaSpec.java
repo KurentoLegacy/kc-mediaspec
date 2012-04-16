@@ -126,4 +126,27 @@ public class MediaSpec implements Serializable {
 	public synchronized Set<MediaType> getTypes() {
 		return Collections.unmodifiableSet(types);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MediaSpec [");
+		if (payloads != null) {
+			builder.append("payloads=");
+			builder.append(payloads);
+			builder.append(", ");
+		}
+		if (types != null) {
+			builder.append("types=");
+			builder.append(types);
+			builder.append(", ");
+		}
+		if (transport != null) {
+			builder.append("transport=");
+			builder.append(transport);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
