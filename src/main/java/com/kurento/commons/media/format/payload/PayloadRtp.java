@@ -31,11 +31,9 @@ public class PayloadRtp implements Serializable {
 	}
 
 	public PayloadRtp(int id, String codecName, int clockRate) {
-		if (codecName == null)
-			throw new NullPointerException("codecName can not be null");
+		setCodecName(codecName);
 
 		this.id = id;
-		this.codecName = new String(codecName);
 		this.clockRate = clockRate;
 	}
 
@@ -51,7 +49,7 @@ public class PayloadRtp implements Serializable {
 		if (codecName == null)
 			throw new NullPointerException("codecName can not be null");
 
-		this.codecName = new String(codecName);
+		this.codecName = codecName;
 	}
 
 	public synchronized String setCodecName() {

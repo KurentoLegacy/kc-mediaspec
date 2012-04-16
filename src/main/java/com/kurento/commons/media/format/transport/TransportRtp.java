@@ -17,12 +17,12 @@ public class TransportRtp implements Serializable {
 	}
 
 	public TransportRtp(String address, int port) {
-		this.address = address;
+		setAddress(address);
 		this.port = port;
 	}
 
 	public synchronized String getAddress() {
-		return new String(address);
+		return address;
 	}
 
 	public synchronized int getPort() {
@@ -31,8 +31,8 @@ public class TransportRtp implements Serializable {
 
 	public synchronized void setAddress(String address) {
 		if (address == null)
-			throw new NullPointerException("Address can not be null");
-		this.address = new String(address);
+			throw new NullPointerException("address can not be null");
+		this.address = address;
 	}
 
 	public synchronized void setPort(int port) {
