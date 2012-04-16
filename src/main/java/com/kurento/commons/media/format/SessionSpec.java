@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
+
 /**
  * <p>
  * A SessionSpec represents generic media descriptions that is suitable for
@@ -38,6 +40,8 @@ public class SessionSpec implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Vector<MediaSpec> mediaSpecs = new Vector<MediaSpec>();
+	private String id = "";
+	private String version;
 
 	/**
 	 * Constructs an empty instance of SessionSpec.
@@ -49,8 +53,9 @@ public class SessionSpec implements Serializable {
 	 * Creates a SessionSpec with the given medias
 	 * 
 	 */
-	public SessionSpec(List<MediaSpec> medias) {
+	public SessionSpec(List<MediaSpec> medias, String id) {
 		addMediaSpecs(medias);
+		setId(id);
 	}
 
 	public void addMediaSpec(MediaSpec spec) {
@@ -59,8 +64,10 @@ public class SessionSpec implements Serializable {
 	}
 
 	public void addMediaSpecs(Collection<MediaSpec> medias) {
-		if (medias != null)
-			mediaSpecs.addAll(medias);
+		if (medias == null)
+			throw new NullPointerException("Medias can not be null");
+
+		mediaSpecs.addAll(medias);
 	}
 
 	public void deleteMediaSpec(MediaSpec spec) {
@@ -77,5 +84,27 @@ public class SessionSpec implements Serializable {
 
 	public List<MediaSpec> getMediaSpecs() {
 		return Collections.unmodifiableList(mediaSpecs);
+	}
+
+	public synchronized void setId(String id) {
+		if (id == null)
+			throw new NullPointerException("Id can not be null");
+
+		this.id = id;
+	}
+
+	public synchronized String getId() {
+		return id;
+	}
+
+	public synchronized void setVersion(String version) {
+		this.version = version;
+	}
+
+	public synchronized String getVersion() throws ArgumentNotSetException {
+		if (version == null)
+			throw new ArgumentNotSetException();
+
+		return version;
 	}
 }
