@@ -2,6 +2,7 @@ package com.kurento.commons.media.format;
 
 import java.io.Serializable;
 
+import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 import com.kurento.commons.media.format.transport.TransportRtp;
 
 public class Transport implements Serializable {
@@ -15,15 +16,20 @@ public class Transport implements Serializable {
 	}
 
 	public Transport(Transport transport) {
-		if (transport.getRtp() != null)
+		try {
 			this.rtp = new TransportRtp(transport.getRtp());
+		} catch (ArgumentNotSetException e) {
+
+		}
 	}
 
 	public synchronized void setRtp(TransportRtp rtp) {
 		this.rtp = rtp;
 	}
 
-	public synchronized TransportRtp getRtp() {
+	public synchronized TransportRtp getRtp() throws ArgumentNotSetException {
+		if (rtp == null)
+			throw new ArgumentNotSetException("Rtp is not set");
 		return rtp;
 	}
 

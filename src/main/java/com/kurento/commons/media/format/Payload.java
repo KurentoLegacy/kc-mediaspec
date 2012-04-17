@@ -2,6 +2,7 @@ package com.kurento.commons.media.format;
 
 import java.io.Serializable;
 
+import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 import com.kurento.commons.media.format.payload.PayloadRtp;
 
 public class Payload implements Serializable {
@@ -17,7 +18,9 @@ public class Payload implements Serializable {
 		this.rtp = rtp;
 	}
 
-	public synchronized PayloadRtp getRtp() {
+	public synchronized PayloadRtp getRtp() throws ArgumentNotSetException {
+		if (rtp == null)
+			throw new ArgumentNotSetException("Rtp is not set");
 		return rtp;
 	}
 
