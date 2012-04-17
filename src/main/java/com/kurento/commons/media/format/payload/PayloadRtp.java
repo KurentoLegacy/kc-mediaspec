@@ -174,8 +174,21 @@ public class PayloadRtp implements Serializable {
 		PayloadRtp rtp = new PayloadRtp(offerer.id, offerer.codecName,
 				offerer.clockRate);
 
-		// TODO: Merge other values.
+		rtp.channels = selectMinor(answerer.channels, offerer.channels);
+		rtp.width = selectMinor(answerer.width, offerer.width);
+		rtp.height = selectMinor(answerer.height, offerer.height);
+		rtp.bitrate = selectMinor(answerer.bitrate, offerer.bitrate);
 
 		return rtp;
+	}
+
+	private static Integer selectMinor(Integer a, Integer b) {
+		if (a != null) {
+			if (b != null)
+				return a < b ? a : b;
+			else
+				return a;
+		}
+		return b;
 	}
 }
