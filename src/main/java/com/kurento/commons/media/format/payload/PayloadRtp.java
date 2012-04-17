@@ -52,7 +52,7 @@ public class PayloadRtp implements Serializable {
 		this.codecName = codecName;
 	}
 
-	public synchronized String setCodecName() {
+	public synchronized String getCodecName() {
 		return this.codecName;
 	}
 
