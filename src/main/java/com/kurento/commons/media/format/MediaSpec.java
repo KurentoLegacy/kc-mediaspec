@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import com.kurento.commons.media.format.enums.MediaType;
+import com.kurento.commons.media.format.enums.Mode;
 
 /**
  * <p>
@@ -45,24 +46,35 @@ public class MediaSpec implements Serializable {
 	private Set<MediaType> types = new HashSet<MediaType>();
 	private Transport transport;
 
+	private Mode mode;
+
 	/**
 	 * Create a empty instance of MediaSpec.
 	 */
 	public MediaSpec() {
 	}
 
-	public MediaSpec(Collection<MediaType> types) {
-		this.types.addAll(types);
+	public MediaSpec(Collection<Payload> payloads, Collection<MediaType> types,
+			Transport transport, Mode mode) {
+		setTypes(types);
+		addPayloads(payloads);
+		setTransport(transport);
+		setMode(mode);
 	}
 
-	public MediaSpec(Collection<Payload> payloads, Collection<MediaType> types,
-			Transport transport) {
-		this.types.addAll(types);
-		this.payloads.addAll(payloads);
-		this.transport = transport;
+	public synchronized void setMode(Mode mode) {
+		if (mode == null)
+			throw new NullPointerException("Mode can not be null");
+		this.mode = mode;
+	}
+
+	public synchronized Mode getMode() {
+		return mode;
 	}
 
 	public synchronized void setTransport(Transport transport) {
+		if (transport == null)
+			throw new NullPointerException("Transport can not be null");
 		this.transport = transport;
 	}
 
@@ -109,7 +121,7 @@ public class MediaSpec implements Serializable {
 
 	public synchronized void setTypes(Collection<MediaType> types) {
 		if (types == null)
-			throw new NullPointerException();
+			throw new NullPointerException("Types can not be null");
 		this.types = new HashSet<MediaType>();
 		this.types.addAll(types);
 	}
@@ -144,6 +156,11 @@ public class MediaSpec implements Serializable {
 		if (transport != null) {
 			builder.append("transport=");
 			builder.append(transport);
+			builder.append(", ");
+		}
+		if (mode != null) {
+			builder.append("mode=");
+			builder.append(mode);
 		}
 		builder.append("]");
 		return builder.toString();
