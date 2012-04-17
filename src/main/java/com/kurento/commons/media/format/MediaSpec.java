@@ -18,6 +18,7 @@
 package com.kurento.commons.media.format;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -164,6 +165,45 @@ public class MediaSpec implements Serializable {
 		}
 		builder.append("]");
 		return builder.toString();
+	}
+
+	public static MediaSpec[] intersect(MediaSpec answerer, MediaSpec offerer) {
+		ArrayList<Payload> answererPayloads = new ArrayList<Payload>();
+		ArrayList<Payload> offererPayloads = new ArrayList<Payload>();
+		Mode answererMode = answerer.getMode();
+		Mode offererMode = offerer.getMode();
+
+		if (!offerer.getTypes().containsAll(answerer.getTypes())) {
+			return null;
+		}
+
+		if (answererMode == Mode.INACTIVE || offererMode == Mode.INACTIVE
+				|| answererMode == Mode.RECVONLY
+				&& offererMode == Mode.RECVONLY
+				|| answererMode == Mode.SENDONLY
+				&& offererMode == Mode.SENDONLY) {
+			answererMode = Mode.INACTIVE;
+			offererMode = Mode.INACTIVE;
+		}
+
+		for (Payload ansPayload : answerer.getPayloads()) {
+			for (Payload offPayload : offerer.getPayloads()) {
+				Payload intersect = Payload.intersect(ansPayload, offPayload);
+				if (intersect != null) {
+					answererPayloads.add(intersect);
+					offererPayloads.add(intersect);
+					break;
+				}
+			}
+		}
+
+		MediaSpec newAnswerer = new MediaSpec(answererPayloads,
+				answerer.getTypes(), new Transport(answerer.getTransport()),
+				answererMode);
+		MediaSpec newOfferer = new MediaSpec(offererPayloads,
+				offerer.getTypes(), new Transport(offerer.getTransport()),
+				offererMode);
+		return new MediaSpec[] { newAnswerer, newOfferer };
 	}
 
 }

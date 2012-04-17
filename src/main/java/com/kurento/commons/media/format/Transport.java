@@ -14,6 +14,11 @@ public class Transport implements Serializable {
 
 	}
 
+	public Transport(Transport transport) {
+		if (transport.getRtp() != null)
+			this.rtp = new TransportRtp(transport.getRtp());
+	}
+
 	public synchronized void setRtp(TransportRtp rtp) {
 		this.rtp = rtp;
 	}

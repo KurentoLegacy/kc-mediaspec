@@ -18,11 +18,13 @@
 package com.kurento.commons.media.format;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import com.kurento.commons.media.format.enums.Mode;
 import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 
 /**
@@ -128,6 +130,67 @@ public class SessionSpec implements Serializable {
 		}
 		builder.append("]");
 		return builder.toString();
+	}
+
+	public static SessionSpec[] intersect(SessionSpec answerer,
+			SessionSpec offerer) {
+		List<MediaSpec> offererList = offerer.getMediaSpecs();
+		List<MediaSpec> answererList = answerer.getMediaSpecs();
+		List<MediaSpec> newAnswererSpecList = new Vector<MediaSpec>();
+		List<MediaSpec> newOffererSpecList = new Vector<MediaSpec>();
+		List<MediaSpec> usedMedias = new Vector<MediaSpec>();
+
+		MediaSpec answererMedia = null;
+		MediaSpec offererMedia = null;
+		for (MediaSpec ofMedia : offererList) {
+			MediaSpec[] medias = null;
+
+			for (MediaSpec ansMedia : answererList) {
+				if (!(ofMedia.getTypes().containsAll(ansMedia.getTypes()))
+						|| usedMedias.contains(ansMedia))
+					continue;
+
+				medias = MediaSpec.intersect(ansMedia, ofMedia);
+
+				if (medias != null) {
+					usedMedias.add(ansMedia);
+					break;
+				}
+			}
+
+			if (medias == null) {
+				answererMedia = new MediaSpec(new ArrayList<Payload>(),
+						ofMedia.getTypes(), new Transport(),
+						Mode.INACTIVE);
+				offererMedia = new MediaSpec(new ArrayList<Payload>(),
+						ofMedia.getTypes(), new Transport(
+								ofMedia.getTransport()), Mode.INACTIVE);
+			} else {
+				answererMedia = medias[0];
+				offererMedia = medias[1];
+			}
+
+			if (answererMedia != null)
+				newAnswererSpecList.add(answererMedia);
+			if (offererMedia != null)
+				newOffererSpecList.add(offererMedia);
+		}
+
+		SessionSpec newAnswererSpec = new SessionSpec(newAnswererSpecList,
+				answerer.getId());
+		try {
+			newAnswererSpec.setVersion(answerer.getVersion());
+		} catch (ArgumentNotSetException e) {
+		}
+
+		SessionSpec newOffererSpec = new SessionSpec(newOffererSpecList,
+				offerer.getId());
+		try {
+			newOffererSpec.setVersion(offerer.getVersion());
+		} catch (ArgumentNotSetException e) {
+		}
+
+		return new SessionSpec[] { newAnswererSpec, newOffererSpec };
 	}
 
 }

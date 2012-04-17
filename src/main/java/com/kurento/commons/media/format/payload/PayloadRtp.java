@@ -161,4 +161,21 @@ public class PayloadRtp implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	public static PayloadRtp intersect(PayloadRtp answerer, PayloadRtp offerer) {
+		if (answerer == null || offerer == null)
+			return null;
+
+		if (!answerer.codecName.equalsIgnoreCase(offerer.codecName)
+				|| answerer.clockRate != offerer.clockRate) {
+			return null;
+		}
+
+		PayloadRtp rtp = new PayloadRtp(offerer.id, offerer.codecName,
+				offerer.clockRate);
+
+		// TODO: Merge other values.
+
+		return rtp;
+	}
 }

@@ -21,6 +21,11 @@ public class TransportRtp implements Serializable {
 		this.port = port;
 	}
 
+	public TransportRtp(TransportRtp rtp) {
+		this.address = rtp.address;
+		this.port = rtp.port;
+	}
+
 	public synchronized String getAddress() {
 		return address;
 	}

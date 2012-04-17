@@ -33,4 +33,16 @@ public class Payload implements Serializable {
 		return builder.toString();
 	}
 
+	public static Payload intersect(Payload ansPayload, Payload offPayload) {
+		if (ansPayload == null || offPayload == null)
+			return null;
+		Payload intersect = new Payload();
+		intersect.rtp = PayloadRtp.intersect(ansPayload.rtp, offPayload.rtp);
+
+		if (intersect.rtp == null)
+			return null;
+
+		return intersect;
+	}
+
 }
