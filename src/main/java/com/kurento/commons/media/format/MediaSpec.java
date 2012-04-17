@@ -191,7 +191,7 @@ public class MediaSpec implements Serializable {
 				Payload intersect = Payload.intersect(ansPayload, offPayload);
 				if (intersect != null) {
 					answererPayloads.add(intersect);
-					offererPayloads.add(intersect);
+					offererPayloads.add(new Payload(intersect));
 					break;
 				}
 			}

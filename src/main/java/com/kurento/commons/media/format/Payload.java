@@ -14,6 +14,11 @@ public class Payload implements Serializable {
 	public Payload() {
 	}
 
+	public Payload(Payload payload) {
+		if (payload.rtp != null)
+			rtp = new PayloadRtp(payload.rtp);
+	}
+
 	public synchronized void setRtp(PayloadRtp rtp) {
 		this.rtp = rtp;
 	}

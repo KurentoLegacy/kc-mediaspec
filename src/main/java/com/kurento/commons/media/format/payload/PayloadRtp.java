@@ -37,6 +37,17 @@ public class PayloadRtp implements Serializable {
 		this.clockRate = clockRate;
 	}
 
+	public PayloadRtp(PayloadRtp rtp) {
+		this(rtp.id, rtp.codecName, rtp.clockRate);
+
+		channels = rtp.channels;
+		width = rtp.width;
+		height = rtp.height;
+		bitrate = rtp.bitrate;
+
+		params = new HashMap<String, String>(rtp.params);
+	}
+
 	public synchronized void setId(int id) {
 		this.id = id;
 	}
