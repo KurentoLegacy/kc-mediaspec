@@ -184,6 +184,17 @@ public class MediaSpec implements Serializable {
 				&& offererMode == Mode.SENDONLY) {
 			answererMode = Mode.INACTIVE;
 			offererMode = Mode.INACTIVE;
+		} else if (answererMode == Mode.SENDONLY
+				|| offererMode == Mode.RECVONLY) {
+			answererMode = Mode.SENDONLY;
+			offererMode = Mode.RECVONLY;
+		} else if (answererMode == Mode.RECVONLY
+				|| offererMode == Mode.SENDONLY) {
+			answererMode = Mode.RECVONLY;
+			offererMode = Mode.SENDONLY;
+		} else {
+			answererMode = Mode.SENDRECV;
+			offererMode = Mode.SENDRECV;
 		}
 
 		for (Payload ansPayload : answerer.getPayloads()) {
