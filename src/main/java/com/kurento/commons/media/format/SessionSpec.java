@@ -177,7 +177,7 @@ public class SessionSpec implements Serializable {
 		}
 
 		SessionSpec newAnswererSpec = new SessionSpec(newAnswererSpecList,
-				answerer.getId());
+				offerer.getId());
 		try {
 			newAnswererSpec.setVersion(answerer.getVersion());
 		} catch (ArgumentNotSetException e) {
