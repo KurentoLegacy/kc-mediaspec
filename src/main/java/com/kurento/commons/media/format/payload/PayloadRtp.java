@@ -190,6 +190,15 @@ public class PayloadRtp implements Serializable {
 		rtp.height = selectMinor(answerer.height, offerer.height);
 		rtp.bitrate = selectMinor(answerer.bitrate, offerer.bitrate);
 
+		for (String key : offerer.params.keySet()) {
+			rtp.params.put(key, offerer.params.get(key));
+		}
+
+		for (String key : answerer.params.keySet()) {
+			if (!rtp.params.containsKey(key))
+				rtp.params.put(key, answerer.params.get(key));
+		}
+
 		return rtp;
 	}
 
