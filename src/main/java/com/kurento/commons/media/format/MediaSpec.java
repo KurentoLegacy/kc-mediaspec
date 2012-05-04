@@ -1,6 +1,6 @@
 /*
- * Kurento Commons MediaSpec: Library to manage SDPs.
- * Copyright (C) 2011  Tikal Technologies
+ * kc-mediaspec: Media description common format for java
+ * Copyright (C) 2012 Tikal Technologies
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3
