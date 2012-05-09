@@ -208,11 +208,17 @@ public class MediaSpec implements Serializable {
 			}
 		}
 
+		Transport[] transports = Transport.intersect(answerer.getTransport(),
+				offerer.getTransport());
+
+		if (transports == null)
+			return null;
+
 		MediaSpec newAnswerer = new MediaSpec(answererPayloads,
-				answerer.getTypes(), new Transport(answerer.getTransport()),
+				answerer.getTypes(), transports[0],
 				answererMode);
 		MediaSpec newOfferer = new MediaSpec(offererPayloads,
-				offerer.getTypes(), new Transport(offerer.getTransport()),
+				offerer.getTypes(), transports[1],
 				offererMode);
 		return new MediaSpec[] { newAnswerer, newOfferer };
 	}
