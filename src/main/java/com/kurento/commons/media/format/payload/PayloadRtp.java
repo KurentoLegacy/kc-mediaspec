@@ -33,6 +33,7 @@ public class PayloadRtp implements Serializable {
 	private String codecName;
 	private int clockRate;
 
+	private Fraction framerate = null;
 	private Integer channels = null;
 	private Integer width = null;
 	private Integer height = null;
@@ -136,6 +137,17 @@ public class PayloadRtp implements Serializable {
 		return bitrate;
 	}
 
+	public synchronized void setFramerate(Fraction framerate) {
+		this.framerate = framerate;
+	}
+
+	public synchronized Fraction getFramerate() throws ArgumentNotSetException {
+		if (framerate == null)
+			throw new ArgumentNotSetException("framerate is not set");
+
+		return framerate;
+	}
+
 	public synchronized Set<String> getParametersKeys() {
 		return Collections.unmodifiableSet(params.keySet());
 	}
@@ -182,6 +194,11 @@ public class PayloadRtp implements Serializable {
 			builder.append(bitrate);
 			builder.append(", ");
 		}
+		if (framerate != null) {
+			builder.append("framerate=");
+			builder.append(framerate);
+			builder.append(", ");
+		}
 		if (params != null) {
 			builder.append("params=");
 			builder.append(params);
@@ -202,6 +219,8 @@ public class PayloadRtp implements Serializable {
 		PayloadRtp rtp = new PayloadRtp(offerer.id, offerer.codecName,
 				offerer.clockRate);
 
+		rtp.framerate = Fraction.intersect(answerer.framerate,
+				offerer.framerate);
 		rtp.channels = selectMinor(answerer.channels, offerer.channels);
 		rtp.width = selectMinor(answerer.width, offerer.width);
 		rtp.height = selectMinor(answerer.height, offerer.height);
