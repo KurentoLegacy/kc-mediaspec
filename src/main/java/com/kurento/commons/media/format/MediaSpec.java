@@ -207,6 +207,7 @@ public class MediaSpec implements Serializable {
 				}
 			}
 		}
+		// TODO: If no payloads are set, set to inactive?
 
 		Transport[] transports = Transport.intersect(answerer.getTransport(),
 				offerer.getTransport());
