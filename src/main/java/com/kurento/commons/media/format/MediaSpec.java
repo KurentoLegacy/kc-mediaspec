@@ -28,6 +28,7 @@ import java.util.Vector;
 
 import com.kurento.commons.media.format.enums.MediaType;
 import com.kurento.commons.media.format.enums.Mode;
+import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 
 /**
  * <p>
@@ -167,6 +168,25 @@ public class MediaSpec implements Serializable {
 		return builder.toString();
 	}
 
+	public static boolean checkTransportCompatible(MediaSpec answerer,
+			MediaSpec offerer) {
+		boolean ret = false;
+
+		try {
+			ret = answerer.getTransport().getRtmp() != null
+					&& offerer.getTransport().getRtmp() != null;
+		} catch (ArgumentNotSetException e) {
+		}
+
+		try {
+			ret = ret || answerer.getTransport().getRtp() != null
+					&& offerer.getTransport().getRtp() != null;
+		} catch (ArgumentNotSetException e) {
+		}
+
+		return ret;
+	}
+
 	public static MediaSpec[] intersect(MediaSpec answerer, MediaSpec offerer) {
 		ArrayList<Payload> answererPayloads = new ArrayList<Payload>();
 		ArrayList<Payload> offererPayloads = new ArrayList<Payload>();
@@ -195,6 +215,10 @@ public class MediaSpec implements Serializable {
 		} else {
 			answererMode = Mode.SENDRECV;
 			offererMode = Mode.SENDRECV;
+		}
+
+		if (!checkTransportCompatible(answerer, offerer)) {
+			return null;
 		}
 
 		for (Payload ansPayload : answerer.getPayloads()) {
