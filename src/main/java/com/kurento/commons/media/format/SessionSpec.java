@@ -163,8 +163,7 @@ public class SessionSpec implements Serializable {
 						ofMedia.getTypes(), new Transport(),
 						Mode.INACTIVE);
 				offererMedia = new MediaSpec(new ArrayList<Payload>(),
-						ofMedia.getTypes(), new Transport(
-								ofMedia.getTransport()), Mode.INACTIVE);
+						ofMedia.getTypes(), new Transport(), Mode.INACTIVE);
 			} else {
 				answererMedia = medias[0];
 				offererMedia = medias[1];
