@@ -24,14 +24,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.kurento.commons.media.format.enums.Mode;
 import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 
 /**
  * <p>
- * A SessionSpec represents generic media descriptions that is suitable for
- * negotiation media formats with multiple different transports and media
- * description formats
+ * This class provides a generic data model for Session Description
+ * specification. SessionSpec is designed to extend <a
+ * href="http://www.ietf.org/rfc/rfc2327.txt">SDP</a> with new transports and
+ * media types.
+ * 
+ * SessionSpec is able to calculate intersection between offer and capabilities,
+ * enabling channel negotiation between peers in a multimedia communication.
+ * 
  * </p>
  * 
  * @see{@link MediaSpec}
@@ -41,53 +49,110 @@ public class SessionSpec implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	protected static final Logger log = LoggerFactory.getLogger(SessionSpec.class);
+	
 	private Vector<MediaSpec> mediaSpecs = new Vector<MediaSpec>();
 	private String id = "";
 	private String version;
 
 	/**
-	 * Constructs an empty instance of SessionSpec.
+	 * Creates an empty SessionSpec instance.
 	 */
 	public SessionSpec() {
 	}
 
 	/**
-	 * Creates a SessionSpec with the given medias
+	 * Creates a SessionSpect instance initialized with the given list of media
+	 * channels
 	 * 
+	 * @param medias
+	 *            List of media channels
+	 * @param id
+	 *            Identification code used by application layer. It is of no use
+	 *            to SessionSpec
 	 */
 	public SessionSpec(List<MediaSpec> medias, String id) {
 		addMediaSpecs(medias);
 		setId(id);
 	}
 
+	/**
+	 * Adds a media channel descriptor to the session descriptor. No action
+	 * takes place if already belongs to this session descriptor. That means a
+	 * session descriptor will store each channel descriptor just once
+	 * 
+	 * 
+	 * @param spec
+	 *            Media channel descriptor added to this session descriptor
+	 */
 	public void addMediaSpec(MediaSpec spec) {
-		if (spec != null)
+		if (spec != null && !mediaSpecs.contains(spec))
 			mediaSpecs.add(spec);
 	}
 
+	/**
+	 * Adds a list of media channel descriptor to this session descriptor.
+	 * Channel descriptor already stored within the session descriptor are
+	 * ignored
+	 * 
+	 * @param medias
+	 */
 	public void addMediaSpecs(Collection<MediaSpec> medias) {
 		if (medias == null)
 			throw new NullPointerException("Medias can not be null");
-
-		mediaSpecs.addAll(medias);
+		for (MediaSpec m : medias) {
+			if (!mediaSpecs.contains(m))
+				mediaSpecs.add(m);
+		}
 	}
 
+	/**
+	 * Removes the given media channel descriptor from this session descriptor.
+	 * Unknown channel descriptors are silently ignored and no modification
+	 * takes place within the session descriptor
+	 * 
+	 * @param spec
+	 *            Media channel descriptor to be removed from this session
+	 *            descriptor
+	 */
 	public void deleteMediaSpec(MediaSpec spec) {
 		mediaSpecs.remove(spec);
 	}
 
+	/**
+	 * Removes from this session descriptor a list of media channel descriptors.
+	 * Those channel instances unknown to this session descriptor are silently
+	 * ignored
+	 * 
+	 * @param specs
+	 *            List of media channel descriptors to be removed from this
+	 *            session descriptor
+	 */
 	public void deleteMediaSpecs(Collection<MediaSpec> specs) {
 		mediaSpecs.removeAll(specs);
 	}
 
+	/**
+	 * Flushes all channel descriptors from this session descriptor
+	 */
 	public void deleteAllMediaSpecs() {
 		mediaSpecs.removeAllElements();
 	}
 
+	/**
+	 * Returns a list of media descriptors handled by this session descriptor
+	 * 
+	 * @return List of channel descriptors handled by this session descriptor
+	 */
 	public List<MediaSpec> getMediaSpecs() {
 		return Collections.unmodifiableList(mediaSpecs);
 	}
 
+	/**
+	 * Sets this session descriptor identification
+	 * 
+	 * @param id
+	 */
 	public synchronized void setId(String id) {
 		if (id == null)
 			throw new NullPointerException("Id can not be null");
@@ -95,14 +160,33 @@ public class SessionSpec implements Serializable {
 		this.id = id;
 	}
 
+	/**
+	 * Returns this session descriptor identification
+	 * 
+	 * @return
+	 */
 	public synchronized String getId() {
 		return id;
 	}
 
+	/**
+	 * Session descriptor enables a timeline mechanism intended for applications
+	 * to keep track of session descriptor changes
+	 * 
+	 * @param version
+	 *            Version code to be assigned to this session descriptor
+	 */
 	public synchronized void setVersion(String version) {
 		this.version = version;
 	}
 
+	/**
+	 * Returns current version code of this session descriptor
+	 * 
+	 * @return Current version code
+	 * @throws ArgumentNotSetException
+	 *             Thrown when version has not been set at least once
+	 */
 	public synchronized String getVersion() throws ArgumentNotSetException {
 		if (version == null)
 			throw new ArgumentNotSetException();
@@ -110,6 +194,9 @@ public class SessionSpec implements Serializable {
 		return version;
 	}
 
+	/**
+	 * Provides a string with a pretty print of this session descriptor
+	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -132,6 +219,15 @@ public class SessionSpec implements Serializable {
 		return builder.toString();
 	}
 
+	/**
+	 * Calculate intersection between to session descriptors: answered and offerer
+	 * 
+	 * ???????
+	 * 
+	 * @param answerer
+	 * @param offerer
+	 * @return
+	 */
 	public static SessionSpec[] intersect(SessionSpec answerer,
 			SessionSpec offerer) {
 		List<MediaSpec> offererList = offerer.getMediaSpecs();
@@ -160,8 +256,7 @@ public class SessionSpec implements Serializable {
 
 			if (medias == null) {
 				answererMedia = new MediaSpec(new ArrayList<Payload>(),
-						ofMedia.getTypes(), new Transport(),
-						Mode.INACTIVE);
+						ofMedia.getTypes(), new Transport(), Mode.INACTIVE);
 				offererMedia = new MediaSpec(new ArrayList<Payload>(),
 						ofMedia.getTypes(), new Transport(), Mode.INACTIVE);
 			} else {
@@ -180,6 +275,7 @@ public class SessionSpec implements Serializable {
 		try {
 			newAnswererSpec.setVersion(answerer.getVersion());
 		} catch (ArgumentNotSetException e) {
+			log.error("Unable to set ansewer version during session descriptor intersection",e);
 		}
 
 		SessionSpec newOffererSpec = new SessionSpec(newOffererSpecList,
@@ -187,6 +283,8 @@ public class SessionSpec implements Serializable {
 		try {
 			newOffererSpec.setVersion(offerer.getVersion());
 		} catch (ArgumentNotSetException e) {
+			log.error("Unable to set offerer version during session descriptor intersection",e);
+
 		}
 
 		return new SessionSpec[] { newAnswererSpec, newOffererSpec };
