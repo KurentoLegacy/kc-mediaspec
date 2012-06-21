@@ -9,9 +9,8 @@ Kurento Commons MediaSpec
 
 * Introduction
 
-	Kurento Commons MediaSpec is a library to manage SDPs. It provide functionality to parse a text SDP to obtain
-	a set of data structures, specially classes to represent it, and also we can obtain the text SDP from these structures.
-
-
-	
-	
+	Kurento MediaSpec is an extension to <SDP>, able to handle generalized session 
+	descriptors, that supports non RTP based multimedia channels. It provides features
+	intended to describe and negotiate media formats between parties of a communications.
+	MediaSpec is designed to be easily serialized: <Thrift>, <Json> and even <SDP> can
+	be used to transport MediaSpec descriptors between remote peers.	
