@@ -17,6 +17,8 @@
 
 package com.kurento.commons.media.format;
 
+//TODO: Consolidate all packages to com.kurento.commons.media.format
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,26 +33,39 @@ import com.kurento.commons.media.format.enums.Mode;
 import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 
 /**
- * <p>
- * This class provides a generic data model for Session Description
- * specification. SessionSpec is designed to extend <a
+ * SessionSpec is designed to extend <a
  * href="http://www.ietf.org/rfc/rfc2327.txt">SDP</a> with new transports and
- * media types.
+ * media types, providing a generic mechanism for Session Description
+ * specification. Figure below shows data model components and their
+ * interaction.
+ * <p>
  * 
- * SessionSpec is able to calculate intersection between offer and capabilities,
- * enabling channel negotiation between peers in a multimedia communication.
+ * <img src="doc-files/classdiagram.png"/>
  * 
- * </p>
+ * <p>
  * 
- * @see{@link MediaSpec}
+ * SessionSpec is intended to be directly used in multimedia negotiation. For
+ * that purpose an intersection feature is implemented to calculate common
+ * capabilities on both sides of a communication
+ * 
+ * <p>
+ * 
+ * Although transport is out of the scope for SessionSpec, data model design has
+ * avoided inheritance, in order to facilitate object serialization. Multiple
+ * protocols can be used as delivery mechanism, including JSON, THRIFT or even
+ * SDP. Kurento provides a set of <a href="??">Conversion utilities</a> for this
+ * purpose
+ * 
+ * @see MediaSpec
  * 
  */
 public class SessionSpec implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected static final Logger log = LoggerFactory.getLogger(SessionSpec.class);
-	
+	protected static final Logger log = LoggerFactory
+			.getLogger(SessionSpec.class);
+
 	private Vector<MediaSpec> mediaSpecs = new Vector<MediaSpec>();
 	private String id = "";
 	private String version;
@@ -58,6 +73,7 @@ public class SessionSpec implements Serializable {
 	/**
 	 * Creates an empty SessionSpec instance.
 	 */
+	// TODO: Change visibility to private?
 	public SessionSpec() {
 	}
 
@@ -86,7 +102,7 @@ public class SessionSpec implements Serializable {
 	 *            Media channel descriptor added to this session descriptor
 	 */
 	public void addMediaSpec(MediaSpec spec) {
-		if (spec != null && !mediaSpecs.contains(spec))
+		if (spec != null)
 			mediaSpecs.add(spec);
 	}
 
@@ -100,10 +116,7 @@ public class SessionSpec implements Serializable {
 	public void addMediaSpecs(Collection<MediaSpec> medias) {
 		if (medias == null)
 			throw new NullPointerException("Medias can not be null");
-		for (MediaSpec m : medias) {
-			if (!mediaSpecs.contains(m))
-				mediaSpecs.add(m);
-		}
+		mediaSpecs.addAll(medias);
 	}
 
 	/**
@@ -163,7 +176,7 @@ public class SessionSpec implements Serializable {
 	/**
 	 * Returns this session descriptor identification
 	 * 
-	 * @return
+	 * @return Session descriptor identification
 	 */
 	public synchronized String getId() {
 		return id;
@@ -220,13 +233,55 @@ public class SessionSpec implements Serializable {
 	}
 
 	/**
-	 * Calculate intersection between to session descriptors: answered and offerer
+	 * Method <code>intersect</code> is the basis to the SessionSpec negotiation
+	 * process. It takes two parameters: <code>answerer</code> and
+	 * <code>offerer</code> and returns a SessionSpec array with intersected
+	 * answerer (index 0) and offerer (index 1). Answerer always represents the
+	 * local descriptor while offerer is the remote one. Notice this method must
+	 * be executed by caller and called party, so it is important not to
+	 * associate offerer with caller and answerer with called, as they relate to
+	 * remote and local respectively and the same descriptor swaps roles
+	 * (remote/local) depending on the peer.
 	 * 
-	 * ???????
+	 * In addition intersection this method also enforces following set of
+	 * negotiation rules:
+	 * <ul>
+	 * <li>Answerer must contain a response for each offerer channel.
+	 * <li>Answerer must not include channels or formats not present at offerer.
+	 * </ul>
+	 * 
+	 * Multimedia negotiation procedures might vary, but it will contain at
+	 * least following steps:
+	 * 
+	 * <ul>
+	 * <li>Caller party generates an offer descriptor announcing its multimedia
+	 * capabilities.
+	 * <li>Upon reception, called party assigns received offer to
+	 * <code>offerer</code> and its own capabilities descriptor to
+	 * <code>answerer</code>. Returned answerer is sent back to caller and
+	 * becomes the local session descriptor of called party. Returned offered
+	 * becomes the remote descriptor of called party
+	 * <li>Caller received answer descriptor from called and performs its own
+	 * intersection assigning the offer descriptor (sent to called party) to
+	 * <code>answered</code> and received answer from called to
+	 * <code>offerer</code>. Returned answered becomes the caller local
+	 * descriptor while returned offerer is the caller remote descriptor
+	 * </ul>
+	 * After negotiation local and remote descriptors on each party must be
+	 * Interchangeable. i.e. caller's local descriptor is identical to called's
+	 * remote descriptor and vice versa
 	 * 
 	 * @param answerer
+	 *            Session descriptor from remote party to be intersected. Remote
+	 *            can be caller or called party depending where the operation is
+	 *            executed
 	 * @param offerer
-	 * @return
+	 *            Session descriptor from local party to be intersected. Local
+	 *            can be caller or called party depending where the operation is
+	 *            executed
+	 * 
+	 * @return SessionSpec array containing intersected answerer (index 0) and
+	 *         offerer (index 1) descriptors, respectively
 	 */
 	public static SessionSpec[] intersect(SessionSpec answerer,
 			SessionSpec offerer) {
@@ -275,7 +330,9 @@ public class SessionSpec implements Serializable {
 		try {
 			newAnswererSpec.setVersion(answerer.getVersion());
 		} catch (ArgumentNotSetException e) {
-			log.error("Unable to set ansewer version during session descriptor intersection",e);
+			log.error(
+					"Unable to set ansewer version during session descriptor intersection",
+					e);
 		}
 
 		SessionSpec newOffererSpec = new SessionSpec(newOffererSpecList,
@@ -283,7 +340,9 @@ public class SessionSpec implements Serializable {
 		try {
 			newOffererSpec.setVersion(offerer.getVersion());
 		} catch (ArgumentNotSetException e) {
-			log.error("Unable to set offerer version during session descriptor intersection",e);
+			log.error(
+					"Unable to set offerer version during session descriptor intersection",
+					e);
 
 		}
 

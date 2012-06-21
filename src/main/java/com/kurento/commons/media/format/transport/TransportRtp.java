@@ -19,6 +19,16 @@ package com.kurento.commons.media.format.transport;
 
 import java.io.Serializable;
 
+/**
+ * This class provides a description mechanism for RTP transport. It basically
+ * contains the transport address, consisting of IP address and UDP port.
+ * Transport instance represent the reception address for local descriptors and
+ * transmission address for remote descriptors.<br>
+ * Remember each peer in a communication must handle to descriptor: local,
+ * specifying reception information and remote, with transmission configuration.
+ * The same descriptor swaps its role on each side of the communication.
+ * 
+ */
 public class TransportRtp implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,34 +39,72 @@ public class TransportRtp implements Serializable {
 	/**
 	 * This constructor should not be used, just for serialization
 	 */
+	// TODO: Change visibility to private??
 	public TransportRtp() {
 		address = "localhost";
 	}
 
+	/**
+	 * Creates a new RTP transport descriptor initialized with the given
+	 * transport address information
+	 * 
+	 * @param address
+	 *            IP address
+	 * @param port
+	 *            UDP port
+	 */
 	public TransportRtp(String address, int port) {
 		setAddress(address);
 		this.port = port;
 	}
 
+	/**
+	 * Creates a duplicate RTP transport instance of the one given as parameter
+	 * 
+	 * @param rtp
+	 *            RTP transport to be cloned
+	 */
 	public TransportRtp(TransportRtp rtp) {
 		this.address = rtp.address;
 		this.port = rtp.port;
 	}
 
+	/**
+	 * Returns the IP address of this RTP transport
+	 * 
+	 * @return IP address
+	 */
 	public synchronized String getAddress() {
 		return address;
 	}
 
+	/**
+	 * Returns the UDP port of this RTP transport
+	 * 
+	 * @return UDP port
+	 */
 	public synchronized int getPort() {
 		return port;
 	}
 
+	/**
+	 * Sets a new IP address
+	 * 
+	 * @param address
+	 *            IP address
+	 */
 	public synchronized void setAddress(String address) {
 		if (address == null)
 			throw new NullPointerException("address can not be null");
 		this.address = address;
 	}
 
+	/**
+	 * Sets a new UDP port
+	 * 
+	 * @param port
+	 *            UDP port
+	 */
 	public synchronized void setPort(int port) {
 		this.port = port;
 	}

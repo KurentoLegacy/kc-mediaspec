@@ -22,24 +22,58 @@ import java.io.Serializable;
 import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 import com.kurento.commons.media.format.payload.PayloadRtp;
 
+/**
+ * 
+ * This class provides a container to specific payload types. In a standard java
+ * coding schema this class would have been declared abstract and specific
+ * payload classes would ha inherit from it, but composition is used instead in
+ * order to facilitate serialization.
+ * 
+ * @see MediaSpec
+ * @see PayloadRtp
+ * 
+ */
 public class Payload implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private PayloadRtp rtp = null;
 
+	/**
+	 * Creates an empty payload container instance
+	 */
+	// TODO: Change visibility to private?
 	public Payload() {
 	}
 
+	/**
+	 * Creates a payload container as a clone of the given parameter
+	 * 
+	 * @param payload
+	 *            Payload to be cloned
+	 */
 	public Payload(Payload payload) {
 		if (payload.rtp != null)
 			rtp = new PayloadRtp(payload.rtp);
 	}
 
+	/**
+	 * Sets a new RTP payload descriptor. Previous one will be overriden
+	 * 
+	 * @param rtp
+	 *            Payload descriptor to be stored within this container
+	 */
 	public synchronized void setRtp(PayloadRtp rtp) {
 		this.rtp = rtp;
 	}
 
+	/**
+	 * Returns stored RTP payload descriptor
+	 * 
+	 * @return Stored payload descriptor
+	 * @throws ArgumentNotSetException
+	 *             If rtp payload descriptor is null
+	 */
 	public synchronized PayloadRtp getRtp() throws ArgumentNotSetException {
 		if (rtp == null)
 			throw new ArgumentNotSetException("Rtp is not set");
@@ -58,6 +92,15 @@ public class Payload implements Serializable {
 		return builder.toString();
 	}
 
+	/**
+	 * Calculates intersection between local and remote payload. This function
+	 * is not intended to be used by application
+	 * 
+	 * @param ansPayload
+	 * @param offPayload
+	 * @return Payload[answerer,offerer]
+	 */
+	// TODO: Change visibility to protected
 	public static Payload intersect(Payload ansPayload, Payload offPayload) {
 		if (ansPayload == null || offPayload == null)
 			return null;
