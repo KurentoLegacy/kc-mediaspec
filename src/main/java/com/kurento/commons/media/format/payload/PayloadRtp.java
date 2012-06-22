@@ -30,12 +30,12 @@ import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
  * PayloadRtp represents a RTP payload descriptor. it contains the specification
  * of an RTP payload, including:
  * <ul>
- * <li>Payload number (id)
- * <li>Media codec name
- * <li>Media sample rate
- * <li>Stream bit rate
- * <li>Codec frame rate. This is applicable only to VIDEO type
- * <li>Video format: width x height
+ * <li>Payload number (id).
+ * <li>Media codec name.
+ * <li>Media sample rate.
+ * <li>Stream bit rate.
+ * <li>Codec frame rate. This is applicable only to VIDEO type.
+ * <li>Video format: width x height.
  * </ul>
  * 
  */
@@ -64,14 +64,14 @@ public class PayloadRtp implements Serializable {
 	}
 
 	/**
-	 * Creates an RTP payload instance initialize to the given parameters
+	 * Creates an RTP payload instance initialized with specified parameters.
 	 * 
 	 * @param id
-	 *            Payload number assigned to this descriptor
+	 *            Payload number assigned to this descriptor.
 	 * @param codecName
-	 *            Name of the codec
+	 *            Name of the codec.
 	 * @param clockRate
-	 *            Codec sample rate
+	 *            Codec sample rate.
 	 */
 	public PayloadRtp(int id, String codecName, int clockRate) {
 		setCodecName(codecName);
@@ -81,10 +81,10 @@ public class PayloadRtp implements Serializable {
 	}
 
 	/**
-	 * Creates an RTP payload cloned from the given one
+	 * Creates an RTP payload cloned from the given one.
 	 * 
 	 * @param rtp
-	 *            RTP payload to be cloned
+	 *             RTP payload to be cloned.
 	 */
 	public PayloadRtp(PayloadRtp rtp) {
 		this(rtp.id, rtp.codecName, rtp.clockRate);
@@ -98,30 +98,29 @@ public class PayloadRtp implements Serializable {
 	}
 
 	/**
-	 * Set payload number
+	 * Set payload number.
 	 * 
 	 * @param id
-	 *            Payload number
+	 *            Payload number.
 	 */
 	public synchronized void setId(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * Get payload number
+	 * Get payload number.
 	 * 
-	 * @return Payload number
+	 * @return Payload number.
 	 */
 	public synchronized int getId() {
 		return id;
 	}
 
 	/**
-	 * Sets codec name overriding previous value. <code>null</code> value is not
-	 * permited
+	 * Sets codec name. <code>Null</code> value is not permitted.
 	 * 
 	 * @param codecName
-	 *            Name of the codec to be assigned
+	 *             Name of the codec to be assigned.
 	 */
 	public synchronized void setCodecName(String codecName) {
 		if (codecName == null)
@@ -131,19 +130,19 @@ public class PayloadRtp implements Serializable {
 	}
 
 	/**
-	 * Return codec name or <code>null</code> if not previously assigned
+	 * Return codec name or <code>null</code> if not previously assigned.
 	 * 
-	 * @return codec name
+	 * @return Codec name.
 	 */
 	public synchronized String getCodecName() {
 		return this.codecName;
 	}
 
 	/**
-	 * Sets stream sample rate. Only applicable to video codecs
+	 * Sets stream sample rate. Only applicable to video codecs.
 	 * 
 	 * @param clockRate
-	 *            sample rate
+	 *            Sample rate.
 	 */
 	public synchronized void setClockRate(int clockRate) {
 		this.clockRate = clockRate;
@@ -152,29 +151,29 @@ public class PayloadRtp implements Serializable {
 	/**
 	 * Get stream sample rate.
 	 * 
-	 * @return Sample rate
+	 * @return Sample rate.
 	 */
 	public synchronized int getClockRate() {
 		return this.clockRate;
 	}
 
 	/**
-	 * Sets the number of media channels associated to this payload. All
-	 * channels will be multiplexed within the same payload
+	 * Sets the number of streams associated to this payload. All them will be
+	 * multiplexed within the same payload.
 	 * 
 	 * @param channels
-	 *            Number of channels multiplexed within this payload
+	 *             Number of streams multiplexed within this payload.
 	 */
 	public synchronized void setChannels(int channels) {
 		this.channels = channels;
 	}
 
 	/**
-	 * Return the number of channels multiplexed within this payload
+	 * Return the number of streams multiplexed within this payload.
 	 * 
-	 * @return Number of channels
+	 * @return Number of streams.
 	 * @throws ArgumentNotSetException
-	 *             If this attribute was not set before
+	 *             If this attribute was not set before.
 	 */
 
 	public synchronized int getChannels() throws ArgumentNotSetException {
@@ -185,21 +184,21 @@ public class PayloadRtp implements Serializable {
 	}
 
 	/**
-	 * Sets width magnitude of a video stream
+	 * Sets width magnitude of a video stream.
 	 * 
 	 * @param width
-	 *            Video width magnitude
+	 *             Video width magnitude.
 	 */
 	public synchronized void setWidth(int width) {
 		this.width = width;
 	}
 
 	/**
-	 * Return configured video width magnitude
+	 * Return configured video width magnitude.
 	 * 
-	 * @return video width
+	 * @return video width.
 	 * @throws ArgumentNotSetException
-	 *             If this attribute was not set before
+	 *             If this attribute was not set before.
 	 */
 	public synchronized int getWidth() throws ArgumentNotSetException {
 		if (width == null)
@@ -209,10 +208,10 @@ public class PayloadRtp implements Serializable {
 	}
 
 	/**
-	 * Sets height magnitude of a video stream
+	 * Sets height magnitude of a video stream.
 	 * 
 	 * @param height
-	 *            Video height magnitude
+	 *             Video height magnitude
 	 */
 
 	public synchronized void setHeight(int height) {
@@ -235,10 +234,23 @@ public class PayloadRtp implements Serializable {
 		return height;
 	}
 
+	/**
+	 * Sets maximum allowed bitrate for this payload.
+	 * 
+	 * @param bitrate
+	 *             Maximum bit rate.
+	 */
 	public synchronized void setBitrate(int bitrate) {
 		this.bitrate = bitrate;
 	}
 
+	/**
+	 * Return maximum allowed bit rate configured for this payload.
+	 * 
+	 * @return Maximum bit rate.
+	 * @throws ArgumentNotSetException
+	 *             If this attribute hasn't been initialized.
+	 */
 	public synchronized int getBitrate() throws ArgumentNotSetException {
 		if (bitrate == null)
 			throw new ArgumentNotSetException("Bitrate is not set");
@@ -246,10 +258,23 @@ public class PayloadRtp implements Serializable {
 		return bitrate;
 	}
 
+	/**
+	 * Sets this payload target frame rate.
+	 * 
+	 * @param framerate
+	 *             Target frame rate.
+	 */
 	public synchronized void setFramerate(Fraction framerate) {
 		this.framerate = framerate;
 	}
 
+	/**
+	 * Return payload target frame rate.
+	 * 
+	 * @return Configured target frame rate.
+	 * @throws ArgumentNotSetException
+	 *             If this attribute hasn't been initialized .
+	 */
 	public synchronized Fraction getFramerate() throws ArgumentNotSetException {
 		if (framerate == null)
 			throw new ArgumentNotSetException("framerate is not set");
@@ -257,14 +282,43 @@ public class PayloadRtp implements Serializable {
 		return framerate;
 	}
 
+	/**
+	 * Parameters represent the list of <code>ftmp</code> configurations
+	 * associated to the payload. This method returns the key set of all
+	 * configuration mappings stored in this payload.
+	 * 
+	 * @return Set of parameters.
+	 */
 	public synchronized Set<String> getParametersKeys() {
 		return Collections.unmodifiableSet(params.keySet());
 	}
 
+	/**
+	 * Parameters represent the list of <code>ftmp</code> configurations
+	 * associated to the payload. This method retrieves the value mapped to
+	 * specified key or <code>null</code> if this payload does not hold any
+	 * association for the key.
+	 * 
+	 * @param key
+	 *            Key whose associated value is to be returned.
+	 * @return Value associated to specified key or <code>null</code> if no
+	 *         mapping is found.
+	 */
 	public synchronized String getParemeterValue(String key) {
 		return params.get(key);
 	}
 
+	/**
+	 * 
+	 * Parameters represent the list of <code>ftmp</code> configurations
+	 * associated to the payload. This method associates to this paylod a new
+	 * key=value pair. Previous associations of the same key are replaced.
+	 * 
+	 * @param key
+	 *             Configuration field name.
+	 * @param value
+	 *             Configuration field value.
+	 */
 	public synchronized void setParameterValue(String key, String value) {
 		params.put(key, value);
 	}
@@ -316,6 +370,7 @@ public class PayloadRtp implements Serializable {
 		return builder.toString();
 	}
 
+	// TODO: change method visibility to protected or private
 	public static PayloadRtp intersect(PayloadRtp answerer, PayloadRtp offerer) {
 		if (answerer == null || offerer == null)
 			return null;

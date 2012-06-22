@@ -25,7 +25,7 @@ import com.kurento.commons.media.format.payload.PayloadRtp;
 /**
  * 
  * This class provides a container to specific payload types. In a standard java
- * coding schema this class would have been declared abstract and specific
+ * coding schema this class would have been declared abstract, and specific
  * payload classes would ha inherit from it, but composition is used instead in
  * order to facilitate serialization.
  * 
@@ -40,17 +40,18 @@ public class Payload implements Serializable {
 	private PayloadRtp rtp = null;
 
 	/**
-	 * Creates an empty payload container instance
+	 * Creates an empty payload container instance.
 	 */
 	// TODO: Change visibility to private?
 	public Payload() {
 	}
 
 	/**
-	 * Creates a payload container as a clone of the given parameter
+	 * Create a payload container initialized with a duplicate of specified
+	 * parameter.
 	 * 
 	 * @param payload
-	 *            Payload to be cloned
+	 *             Payload to be cloned.
 	 */
 	public Payload(Payload payload) {
 		if (payload.rtp != null)
@@ -58,21 +59,22 @@ public class Payload implements Serializable {
 	}
 
 	/**
-	 * Sets a new RTP payload descriptor. Previous one will be overriden
+	 * Set a new RTP payload descriptor. Old descriptor is replaced with new
+	 * one if previously assigned.
 	 * 
 	 * @param rtp
-	 *            Payload descriptor to be stored within this container
+	 *             Payload descriptor to be stored within this container.
 	 */
 	public synchronized void setRtp(PayloadRtp rtp) {
 		this.rtp = rtp;
 	}
 
 	/**
-	 * Returns stored RTP payload descriptor
+	 * Return RTP payload descriptor contained within this payload.
 	 * 
-	 * @return Stored payload descriptor
+	 * @return Stored payload descriptor.
 	 * @throws ArgumentNotSetException
-	 *             If rtp payload descriptor is null
+	 *             If argument hasn't been initialized.
 	 */
 	public synchronized PayloadRtp getRtp() throws ArgumentNotSetException {
 		if (rtp == null)
@@ -92,14 +94,6 @@ public class Payload implements Serializable {
 		return builder.toString();
 	}
 
-	/**
-	 * Calculates intersection between local and remote payload. This function
-	 * is not intended to be used by application
-	 * 
-	 * @param ansPayload
-	 * @param offPayload
-	 * @return Payload[answerer,offerer]
-	 */
 	// TODO: Change visibility to protected
 	public static Payload intersect(Payload ansPayload, Payload offPayload) {
 		if (ansPayload == null || offPayload == null)

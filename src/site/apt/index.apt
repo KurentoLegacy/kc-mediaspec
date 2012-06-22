@@ -7,10 +7,10 @@
 
 Kurento Commons MediaSpec
 
-* Introduction
-
-	Kurento MediaSpec is an extension to <SDP>, able to handle generalized session 
-	descriptors, that supports non RTP based multimedia channels. It provides features
-	intended to describe and negotiate media formats between parties of a communications.
-	MediaSpec is designed to be easily serialized: <Thrift>, <Json> and even <SDP> can
-	be used to transport MediaSpec descriptors between remote peers.	
+	MediaSpec is the session specification mechanism used by Kurento.
+	It is conceived as an extension to <SDP>, able to handle generalized session 
+	descriptors with non-RTP multimedia channels. MediaSpec provides features
+	intended to describe and negotiate media formats between parties of a 
+	communication and it is designed to be easily serialized: <Thrift>,
+	<Json> and even <SDP> (limited to RTP based channels) can be used to
+	transport MediaSpec descriptors	between remote peers.	
