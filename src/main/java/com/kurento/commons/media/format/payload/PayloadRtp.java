@@ -67,11 +67,19 @@ public class PayloadRtp implements Serializable {
 	 * Creates an RTP payload instance initialized with specified parameters.
 	 * 
 	 * @param id
+<<<<<<< HEAD
 	 *            Payload number assigned to this descriptor.
 	 * @param codecName
 	 *            Name of the codec.
 	 * @param clockRate
 	 *            Codec sample rate.
+=======
+	 *            - Payload number assigned to this descriptor.
+	 * @param codecName
+	 *            - Name of the codec.
+	 * @param clockRate
+	 *            - Codec sample rate.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public PayloadRtp(int id, String codecName, int clockRate) {
 		setCodecName(codecName);
@@ -84,7 +92,11 @@ public class PayloadRtp implements Serializable {
 	 * Creates an RTP payload cloned from the given one.
 	 * 
 	 * @param rtp
+<<<<<<< HEAD
 	 *             RTP payload to be cloned.
+=======
+	 *            - RTP payload to be cloned.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public PayloadRtp(PayloadRtp rtp) {
 		this(rtp.id, rtp.codecName, rtp.clockRate);
@@ -101,7 +113,11 @@ public class PayloadRtp implements Serializable {
 	 * Set payload number.
 	 * 
 	 * @param id
+<<<<<<< HEAD
 	 *            Payload number.
+=======
+	 *            - Payload number.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setId(int id) {
 		this.id = id;
@@ -120,7 +136,11 @@ public class PayloadRtp implements Serializable {
 	 * Sets codec name. <code>Null</code> value is not permitted.
 	 * 
 	 * @param codecName
+<<<<<<< HEAD
 	 *             Name of the codec to be assigned.
+=======
+	 *            - Name of the codec to be assigned.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setCodecName(String codecName) {
 		if (codecName == null)
@@ -142,7 +162,11 @@ public class PayloadRtp implements Serializable {
 	 * Sets stream sample rate. Only applicable to video codecs.
 	 * 
 	 * @param clockRate
+<<<<<<< HEAD
 	 *            Sample rate.
+=======
+	 *            - Sample rate.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setClockRate(int clockRate) {
 		this.clockRate = clockRate;
@@ -162,7 +186,11 @@ public class PayloadRtp implements Serializable {
 	 * multiplexed within the same payload.
 	 * 
 	 * @param channels
+<<<<<<< HEAD
 	 *             Number of streams multiplexed within this payload.
+=======
+	 *            - Number of streams multiplexed within this payload.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setChannels(int channels) {
 		this.channels = channels;
@@ -187,7 +215,11 @@ public class PayloadRtp implements Serializable {
 	 * Sets width magnitude of a video stream.
 	 * 
 	 * @param width
+<<<<<<< HEAD
 	 *             Video width magnitude.
+=======
+	 *            - Video width magnitude.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setWidth(int width) {
 		this.width = width;
@@ -211,7 +243,11 @@ public class PayloadRtp implements Serializable {
 	 * Sets height magnitude of a video stream.
 	 * 
 	 * @param height
+<<<<<<< HEAD
 	 *             Video height magnitude
+=======
+	 *            - Video height magnitude
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 
 	public synchronized void setHeight(int height) {
@@ -238,7 +274,11 @@ public class PayloadRtp implements Serializable {
 	 * Sets maximum allowed bitrate for this payload.
 	 * 
 	 * @param bitrate
+<<<<<<< HEAD
 	 *             Maximum bit rate.
+=======
+	 *            - Maximum bit rate.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setBitrate(int bitrate) {
 		this.bitrate = bitrate;
@@ -262,7 +302,11 @@ public class PayloadRtp implements Serializable {
 	 * Sets this payload target frame rate.
 	 * 
 	 * @param framerate
+<<<<<<< HEAD
 	 *             Target frame rate.
+=======
+	 *            - Target frame rate.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setFramerate(Fraction framerate) {
 		this.framerate = framerate;
@@ -300,7 +344,11 @@ public class PayloadRtp implements Serializable {
 	 * association for the key.
 	 * 
 	 * @param key
+<<<<<<< HEAD
 	 *            Key whose associated value is to be returned.
+=======
+	 *            - Key whose associated value is to be returned.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 * @return Value associated to specified key or <code>null</code> if no
 	 *         mapping is found.
 	 */
@@ -315,9 +363,15 @@ public class PayloadRtp implements Serializable {
 	 * key=value pair. Previous associations of the same key are replaced.
 	 * 
 	 * @param key
+<<<<<<< HEAD
 	 *             Configuration field name.
 	 * @param value
 	 *             Configuration field value.
+=======
+	 *            - Configuration field name.
+	 * @param value
+	 *            - Configuration field value.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setParameterValue(String key, String value) {
 		params.put(key, value);

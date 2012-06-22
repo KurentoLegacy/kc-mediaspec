@@ -250,7 +250,11 @@ public class MediaSpec implements Serializable {
 	 * <code>null</code>.
 	 * 
 	 * @param types
+<<<<<<< HEAD
 	 *              List of MediaType to be removed from this channel
+=======
+	 *            - List of MediaType to be removed from this channel
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 *            descriptor.
 	 */
 	public void deleteTypes(Collection<MediaType> types) {

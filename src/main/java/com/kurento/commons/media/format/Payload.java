@@ -51,7 +51,11 @@ public class Payload implements Serializable {
 	 * parameter.
 	 * 
 	 * @param payload
+<<<<<<< HEAD
 	 *             Payload to be cloned.
+=======
+	 *            - Payload to be cloned.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public Payload(Payload payload) {
 		if (payload.rtp != null)
@@ -63,7 +67,11 @@ public class Payload implements Serializable {
 	 * one if previously assigned.
 	 * 
 	 * @param rtp
+<<<<<<< HEAD
 	 *             Payload descriptor to be stored within this container.
+=======
+	 *            - Payload descriptor to be stored within this container.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setRtp(PayloadRtp rtp) {
 		this.rtp = rtp;

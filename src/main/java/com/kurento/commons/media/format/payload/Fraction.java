@@ -24,9 +24,9 @@ public class Fraction implements Serializable {
 	 * Creates a new rational number represented by num/denom.
 	 * 
 	 * @param num
-	 *            Numerator of the rational number
+	 *            - Numerator of the rational number
 	 * @param denom
-	 *            Denominator of the rational number
+	 *            - Denominator of the rational number
 	 * @throws IllegalArgumentException
 	 *             Denominator can not be 0
 	 */
@@ -43,7 +43,11 @@ public class Fraction implements Serializable {
 	 * Create a duplicate fraction of specified parameter.
 	 * 
 	 * @param other
+<<<<<<< HEAD
 	 *            Fraction number to be cloned.
+=======
+	 *            - Fraction number to be cloned.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public Fraction(Fraction other) {
 		num = other.num;
@@ -63,7 +67,11 @@ public class Fraction implements Serializable {
 	 * Set fraction numerator.
 	 * 
 	 * @param num
+<<<<<<< HEAD
 	 *            Fraction numerator.
+=======
+	 *            - Fraction numerator.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public void setNum(int num) {
 		this.num = num;
@@ -82,7 +90,11 @@ public class Fraction implements Serializable {
 	 * Set fraction denominator.
 	 * 
 	 * @param denom
+<<<<<<< HEAD
 	 *            Fraction denominator.
+=======
+	 *            - Fraction denominator.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 * @throws IllegalArgumentException
 	 *             Denominator can not be null
 	 */

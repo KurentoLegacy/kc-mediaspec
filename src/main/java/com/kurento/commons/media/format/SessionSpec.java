@@ -82,9 +82,15 @@ public class SessionSpec implements Serializable {
 	 * media channels.
 	 * 
 	 * @param medias
+<<<<<<< HEAD
 	 *             List of media channels.
 	 * @param id
 	 *             Identification code used by application layer. It is of no
+=======
+	 *            - List of media channels.
+	 * @param id
+	 *            - Identification code used by application layer. It is of no
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 *            use to SessionSpec.
 	 */
 	public SessionSpec(List<MediaSpec> medias, String id) {
@@ -99,7 +105,11 @@ public class SessionSpec implements Serializable {
 	 * 
 	 * 
 	 * @param spec
+<<<<<<< HEAD
 	 *             Media channel descriptor added to this session descriptor.
+=======
+	 *            - Media channel descriptor added to this session descriptor.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public void addMediaSpec(MediaSpec spec) {
 		if (spec != null)
@@ -112,7 +122,11 @@ public class SessionSpec implements Serializable {
 	 * ignored.
 	 * 
 	 * @param medias
+<<<<<<< HEAD
 	 *             List of media channel descriptors to be added to this
+=======
+	 *            - List of media channel descriptors to be added to this
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 *            session descriptor.
 	 */
 	public void addMediaSpecs(Collection<MediaSpec> medias) {
@@ -167,7 +181,11 @@ public class SessionSpec implements Serializable {
 	 * Set this session descriptor identification.
 	 * 
 	 * @param id
+<<<<<<< HEAD
 	 *             Identification
+=======
+	 *            - Identification
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setId(String id) {
 		if (id == null)
@@ -190,7 +208,11 @@ public class SessionSpec implements Serializable {
 	 * applications to keep track of changes.
 	 * 
 	 * @param version
+<<<<<<< HEAD
 	 *             Version code to be assigned to this session descriptor.
+=======
+	 *            - Version code to be assigned to this session descriptor.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public synchronized void setVersion(String version) {
 		this.version = version;
@@ -277,12 +299,20 @@ public class SessionSpec implements Serializable {
 	 * remote descriptor and vice versa.
 	 * 
 	 * @param answerer
+<<<<<<< HEAD
 	 *             Session descriptor from local party to be intersected. Local
+=======
+	 *            - Session descriptor from local party to be intersected. Local
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 *            can be caller or called, depending where the operation is
 	 *            executed.
 	 * @param offerer
 	 * 
+<<<<<<< HEAD
 	 *             Session descriptor from remote party to be intersected.
+=======
+	 *            - Session descriptor from remote party to be intersected.
+>>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 *            Remote can be caller or called, depending where the operation
 	 *            is executed.
 	 * 
