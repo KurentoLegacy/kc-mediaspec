@@ -53,11 +53,7 @@ public class Transport implements Serializable {
 	 * Create a new transport container as a clone of the given one.
 	 * 
 	 * @param transport
-<<<<<<< HEAD
-	 *             Transport to be cloned.
-=======
-	 *            - Transport to be cloned.
->>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
+	 *            Transport to be cloned.
 	 */
 	public Transport(Transport transport) {
 		try {
@@ -77,11 +73,7 @@ public class Transport implements Serializable {
 	 * descriptor will be replaced with new one.
 	 * 
 	 * @param rtp
-<<<<<<< HEAD
-	 *             RTP transport to be assigned to this container.
-=======
-	 *            - RTP transport to be assigned to this container.
->>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
+	 *            RTP transport to be assigned to this container.
 	 */
 	public synchronized void setRtp(TransportRtp rtp) {
 		this.rtp = rtp;
@@ -92,11 +84,7 @@ public class Transport implements Serializable {
 	 * transport descriptor will be replaced with new one.
 	 * 
 	 * @param rtmp
-<<<<<<< HEAD
-	 *             RTMP transport to be assigned to this container.
-=======
-	 *            - RTMP transport to be assigned to this container.
->>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
+	 *            RTMP transport to be assigned to this container.
 	 */
 	public synchronized void setRtmp(TransportRtmp rtmp) {
 		this.rtmp = rtmp;

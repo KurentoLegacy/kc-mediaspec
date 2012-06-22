@@ -34,11 +34,7 @@ public class TransportRtmp implements Serializable {
 	 * parameter.
 	 * 
 	 * @param rtmp
-<<<<<<< HEAD
 	 *            RTMP transport to be cloned.
-=======
-	 *           - RTMP transport to be cloned.
->>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public TransportRtmp(TransportRtmp rtmp) {
 		url = rtmp.url;
@@ -63,11 +59,7 @@ public class TransportRtmp implements Serializable {
 	 * Sets the RTMP server URL.
 	 * 
 	 * @param url
-<<<<<<< HEAD
 	 *            RTMP server URL to be set.
-=======
-	 *           - RTMP server URL to be set.
->>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public void setUrl(String url) {
 		this.url = url;
@@ -91,11 +83,7 @@ public class TransportRtmp implements Serializable {
 	 * Set the stream id for media reception in local descriptors.
 	 * 
 	 * @param play
-<<<<<<< HEAD
 	 *             ID of reception stream.
-=======
-	 *            - ID of reception stream.
->>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public void setPlay(String play) {
 		this.play = play;
@@ -119,11 +107,7 @@ public class TransportRtmp implements Serializable {
 	 * Set the stream id for media transmission in remote descriptors.
 	 * 
 	 * @param publish
-<<<<<<< HEAD
 	 *             Transmission stream id.
-=======
-	 *            - Transmission stream id.
->>>>>>> f13a704c8df53b5547f5d107bae5bfb4d03c96e5
 	 */
 	public void setPublish(String publish) {
 		this.publish = publish;
