@@ -8,13 +8,10 @@ import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
  * 
  * This class provides a description mechanism for RTMP transport channels. From
  * Kurento point of view RTMP is just transport mechanism analogous to RTP,
- * where the transport address takes the form of an RTMP URL. URL of RTMP
- * transport descriptors included in local SessionSpec will be regarded as
- * reception transport address, i.e. the URL used to receive media (play) from
- * the transport network (RTMP server). URL of RTMP transport descriptor
- * included in remote SessionSpec will be regarded as transmission transport
- * address, i.e. the URL used to emit media (publish) to the transport network
- * (RTMP server)
+ * where the transport address takes the form of an RTMP URL. Play attribute
+ * indicates local descriptors the reception URL and Publish attribute provides
+ * the transmission URL in remote descriptors. Notice that local and remote
+ * descriptor role depends on the peer.
  * 
  */
 public class TransportRtmp implements Serializable {
@@ -33,10 +30,11 @@ public class TransportRtmp implements Serializable {
 	}
 
 	/**
-	 * Creates an RTMP transport cloned from the one given as parameter
+	 * Creates an RTMP transport initialized with a duplicate of the specified
+	 * parameter.
 	 * 
 	 * @param rtmp
-	 *            RTMP transport to be cloned
+	 *           - RTMP transport to be cloned.
 	 */
 	public TransportRtmp(TransportRtmp rtmp) {
 		url = rtmp.url;
@@ -45,11 +43,11 @@ public class TransportRtmp implements Serializable {
 	}
 
 	/**
-	 * Returns the RTMP server URL (transport address)
+	 * Returns the RTMP server URL (transport address).
 	 * 
-	 * @return RTMP server URL
+	 * @return RTMP server URL.
 	 * @throws ArgumentNotSetException
-	 *             If argument has not been set previously
+	 *             If argument hasn't been initialized.
 	 */
 	public String getUrl() throws ArgumentNotSetException {
 		if (url == null)
@@ -58,21 +56,22 @@ public class TransportRtmp implements Serializable {
 	}
 
 	/**
-	 * Sets the RTMP server URL
+	 * Sets the RTMP server URL.
 	 * 
 	 * @param url
-	 *            RTMP server URL to be set
+	 *           - RTMP server URL to be set.
 	 */
 	public void setUrl(String url) {
 		this.url = url;
 	}
 
 	/**
-	 * Returns reception stream ID for local descriptors. Its value does not make send for remote descriptors. 
+	 * Returns reception stream ID for local descriptors. Its value does not
+	 * make send for remote descriptors.
 	 * 
-	 * @return RTMP stream id
+	 * @return RTMP stream id.
 	 * @throws ArgumentNotSetException
-	 *             If this parameter has not been set previously
+	 *             If argument hasn't been initialized.
 	 */
 	public String getPlay() throws ArgumentNotSetException {
 		if (play == null)
@@ -81,21 +80,22 @@ public class TransportRtmp implements Serializable {
 	}
 
 	/**
-	 * Sets the stream id for media reception in local descriptors
+	 * Set the stream id for media reception in local descriptors.
 	 * 
 	 * @param play
-	 *            ID of reception stream
+	 *            - ID of reception stream.
 	 */
 	public void setPlay(String play) {
 		this.play = play;
 	}
 
 	/**
-	 * Returns the stream id for media transmission in remote descriptors. Its value is of no use for local descriptors
+	 * Return the stream id for media transmission in remote descriptors. Its
+	 * value is of no use for local descriptors.
 	 * 
-	 * @return Stream id for media transmission
+	 * @return Stream id for media transmission.
 	 * @throws ArgumentNotSetException
-	 *             If this argument has not been set previously
+	 *             If argument hasn't been initialized.
 	 */
 	public String getPublish() throws ArgumentNotSetException {
 		if (publish == null)
@@ -104,10 +104,10 @@ public class TransportRtmp implements Serializable {
 	}
 
 	/**
-	 * Sets the stream id for media transmission in remote descriptors.
+	 * Set the stream id for media transmission in remote descriptors.
 	 * 
 	 * @param publish
-	 *            transmission stream id
+	 *            - Transmission stream id.
 	 */
 	public void setPublish(String publish) {
 		this.publish = publish;
@@ -135,7 +135,7 @@ public class TransportRtmp implements Serializable {
 		return builder.toString();
 	}
 
-	//TODO: Change method visibility to private / protected
+	// TODO: Change method visibility to private / protected
 	public static TransportRtmp[] instersect(TransportRtmp answerer,
 			TransportRtmp offerer) {
 		TransportRtmp neg_answ = new TransportRtmp(answerer);

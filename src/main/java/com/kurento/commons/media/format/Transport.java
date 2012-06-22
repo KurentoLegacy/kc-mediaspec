@@ -44,16 +44,16 @@ public class Transport implements Serializable {
 	/**
 	 * Creates an empty transport container
 	 */
-	//TODO: Change visibility to private?
+	// TODO: Change visibility to private?
 	public Transport() {
 
 	}
 
 	/**
-	 * Creates a new transport container as a clone of the given one
+	 * Create a new transport container as a clone of the given one.
 	 * 
 	 * @param transport
-	 *            Transport to be cloned
+	 *            - Transport to be cloned.
 	 */
 	public Transport(Transport transport) {
 		try {
@@ -69,31 +69,33 @@ public class Transport implements Serializable {
 	}
 
 	/**
-	 * Sets an RTP transport instance. Previous one is overriden.
+	 * Set an RTP transport instance. If previously assigned, old RTP transport
+	 * descriptor will be replaced with new one.
 	 * 
 	 * @param rtp
-	 *            RTP transport to be assigned to this container.
+	 *            - RTP transport to be assigned to this container.
 	 */
 	public synchronized void setRtp(TransportRtp rtp) {
 		this.rtp = rtp;
 	}
 
 	/**
-	 * Sets an RTMP transport instance. Previous one is overriden.
+	 * Set an RTMP transport instance. If previously assigned, old RTMP
+	 * transport descriptor will be replaced with new one.
 	 * 
 	 * @param rtmp
-	 *            RTMP transport to be assigned to this container.
+	 *            - RTMP transport to be assigned to this container.
 	 */
 	public synchronized void setRtmp(TransportRtmp rtmp) {
 		this.rtmp = rtmp;
 	}
 
 	/**
-	 * Returns RTP transport stored by this container
+	 * Return RTP transport stored by this container.
 	 * 
-	 * @return RTP transport stored by this container
+	 * @return RTP transport stored by this container.
 	 * @throws ArgumentNotSetException
-	 *             if RTP transport is null
+	 *             If argument hasn't been initialized.
 	 */
 	public synchronized TransportRtp getRtp() throws ArgumentNotSetException {
 		if (rtp == null)
@@ -102,11 +104,11 @@ public class Transport implements Serializable {
 	}
 
 	/**
-	 * Returns RTMP transport store by this container
+	 * Return RTMP transport store by this container.
 	 * 
-	 * @return RTMP transport stored by this container
+	 * @return RTMP transport stored by this container.
 	 * @throws ArgumentNotSetException
-	 *             if RTMP transport is null
+	 *             If argument hasn't been initialized.
 	 */
 	public synchronized TransportRtmp getRtmp() throws ArgumentNotSetException {
 		if (rtmp == null)
@@ -131,14 +133,6 @@ public class Transport implements Serializable {
 		return builder.toString();
 	}
 
-	/**
-	 * Calculates intersection between local and remote transport. This function
-	 * is not intended to be used by application
-	 * 
-	 * @param answerer answer
-	 * @param  offerer offer
-	 * @return Transport [answerer, offerer]
-	 */
 	// TODO: Change visibility to protected
 	public static Transport[] intersect(Transport answerer, Transport offerer) {
 		Transport neg_answ = new Transport(answerer);

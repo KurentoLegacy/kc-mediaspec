@@ -33,8 +33,8 @@ import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 /**
  * <p>
  * MediaSpec represents a channel media descriptor. it contains one payload
- * descriptor for each supported format and a the transport descriptor that will
- * support media delivery
+ * descriptor for each supported format and one unique transport descriptor to
+ * specify the media delivery layer.
  * </p>
  * 
  * @see SessionSpec
@@ -60,23 +60,24 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Creates one MediaSpec instance initialized with provided parameters
+	 * Create one MediaSpec instance initialized with provided parameters.
 	 * 
 	 * @param payloads
-	 *            List of format descriptors this media channel will support.
-	 *            They all should have the same media type
+	 *            - List of format descriptors this media channel will support.
+	 *            They all should have the same media type.
 	 * @param types
-	 *            List of media types supported by this media channel. Currently
-	 *            only AUDIO and VIDEO are valid media types. Media channel
-	 *            descriptor can announce more than one different media type.
-	 *            This is intended for multiplex payloads like RTMP that
-	 *            provides at the same time audio and video
+	 *            - List of media types supported by this media channel.
+	 *            Currently only AUDIO and VIDEO are valid media types. Media
+	 *            channel descriptor can announce more than one different media
+	 *            type. This is intended for multiplex payloads like RTMP that
+	 *            provides at the same time audio and video.
 	 * @param transport
-	 *            Descriptor for the transport layer supporting media delivery
+	 *            - Descriptor for the transport layer supporting media
+	 *            delivery.
 	 * @param mode
-	 *            This channel delivery mode. It can be: SendOnly, ReceiveOnly.
-	 *            SendReceived or inactive. If multiple medias are supported
-	 *            within this channel they all have the same mode
+	 *            - This channel delivery mode. It can be: SENDONLY, RECVONLY.
+	 *            SENDRECV or INACTIVE. If multiple medias are supported within
+	 *            this channel they all have the same mode.
 	 */
 	public MediaSpec(Collection<Payload> payloads, Collection<MediaType> types,
 			Transport transport, Mode mode) {
@@ -90,7 +91,7 @@ public class MediaSpec implements Serializable {
 	 * Set channel mode.
 	 * 
 	 * @param mode
-	 *            Delivery mode to be set to this channel
+	 *            - Delivery mode to be set to this channel
 	 */
 	public synchronized void setMode(Mode mode) {
 		if (mode == null)
@@ -99,7 +100,7 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Retuns this channel transmission mode
+	 * Return this channel transmission mode
 	 * 
 	 * @return Channel transmission mode or null if not previously assigned
 	 */
@@ -108,12 +109,12 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Sets the transport descriptor. Previous transport descriptor will be
-	 * override
+	 * Set the transport descriptor. Old value is replaced by new one if
+	 * already assigned.
 	 * 
 	 * @param transport
-	 *            transport descriptor to be associated to this channel
-	 *            descriptor
+	 *            - Transport descriptor to be associated to this channel
+	 *            descriptor.
 	 */
 	public synchronized void setTransport(Transport transport) {
 		if (transport == null)
@@ -122,20 +123,21 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Returns this channel's current transport descriptor or null if not
-	 * previously any assigned
+	 * Return this channel's current transport descriptor or null if not
+	 * previously any assigned.
 	 * 
-	 * @return Transport descriptor
+	 * @return Transport descriptor.
 	 */
 	public synchronized Transport getTransport() {
 		return transport;
 	}
 
 	/**
-	 * Incorporates a new payload descriptor. Duplicates and <code>null</code>
-	 * values are not permitted
+	 * Add a new payload descriptor. Duplicates and <code>null</code>
+	 * values are silently ignored.
 	 * 
 	 * @param payload
+	 *            - Payload to be added to this channel descriptor.
 	 */
 	public void addPayload(Payload payload) {
 		if (payload != null)
@@ -143,10 +145,11 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Incorporates a list of payload descriptors.Duplicates and
+	 * Add a list of payload descriptors.Duplicates and
 	 * <code>null</code> values are silently ignored
 	 * 
 	 * @param payloads
+	 *            - List of payloads to be added to this channel descriptor.
 	 */
 	public void addPayloads(Collection<Payload> payloads) {
 		if (payloads != null)
@@ -154,22 +157,23 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Deletes given payload descriptor from this channel. No action taken if
-	 * not found
+	 * Delete given payload descriptor from this channel. No action taken if
+	 * specified object is not found in the list of payloads.
 	 * 
 	 * @param payload
-	 *            Payload descriptor to be included in this media channel
+	 *            - Payload descriptor to be deleted from this media channel.
 	 */
 	public void deletePayload(Payload payload) {
 		payloads.remove(payload);
 	}
 
 	/**
-	 * Deletes a list of payload descriptors from this channel. Payloads not
-	 * found are silently ignored
+	 * Delete a list of payload descriptors from this channel. Payloads not
+	 * found in the list of payloads are silently ignored.
 	 * 
 	 * @param payloads
-	 *            Payload descriptor list to be included in this media channel
+	 *            - Payload descriptor list to be included in this media
+	 *            channel.
 	 */
 	public void deletePayloads(Collection<Payload> payloads) {
 		if (payloads != null)
@@ -177,26 +181,27 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Flushes payload list from this media descriptor
+	 * Flushes payload list from this media descriptor.
 	 */
 	public void deleteAllPayloads() {
 		payloads.removeAllElements();
 	}
 
 	/**
-	 * Returns a list with this channel's payload descritors
+	 * Return this channel's payload descriptors list.
 	 * 
-	 * @return List of payload descritors
+	 * @return List of payload descriptors.
 	 */
 	public List<Payload> getPayloads() {
 		return Collections.unmodifiableList(payloads);
 	}
 
 	/**
-	 * Adds a media type to this channel descriptor. Duplicates and
+	 * Add a media type to this channel descriptor. Duplicates and
 	 * <code>null</code> values are silently ignored.
 	 * 
 	 * @param type
+	 *            - Media type.
 	 */
 	public synchronized void addType(MediaType type) {
 		if (type != null)
@@ -204,10 +209,11 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Adds a list of media types to this channel descriptor. Duplicates and
-	 * <code>null</code> values are not permitted
+	 * Add a list of media types to this channel descriptor. Duplicates and
+	 * <code>null</code> values are silently ignored.
 	 * 
 	 * @param types
+	 *            - List of media types.
 	 */
 	public synchronized void addTypes(Collection<MediaType> types) {
 		if (types != null)
@@ -215,10 +221,10 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Replaces current media types list with a new one
+	 * Replace current media types list with a new one.
 	 * 
 	 * @param types
-	 *            list of tipes to replace current media type list
+	 *            - List of types to replace current media type list.
 	 */
 	public synchronized void setTypes(Collection<MediaType> types) {
 		if (types == null)
@@ -228,22 +234,24 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Deletes given media type. Not found and <code>null</code> values are
-	 * ignored
+	 * Delete specified media type. Silently ignored if not contained in this
+	 * channel's MediaType list or value is <code>null</code>.
 	 * 
 	 * @param type
-	 *            Media type to be removed from this channel descriptor
+	 *            - MediaType to be removed from this channel descriptor.
 	 */
 	public void deleteType(MediaType type) {
 		types.remove(type);
 	}
 
 	/**
-	 * Deletes given media type list from this channel descriptor. Not found and
-	 * <code>null</code> values are ignored
+	 * Delete specified media type list from this channel descriptor. Silently
+	 * ignored if not contained in this channel's MediaType list or value is
+	 * <code>null</code>.
 	 * 
 	 * @param types
-	 *            List of media types to be removed from this channel descriptor
+	 *            - List of MediaType to be removed from this channel
+	 *            descriptor.
 	 */
 	public void deleteTypes(Collection<MediaType> types) {
 		if (types != null)
@@ -251,9 +259,9 @@ public class MediaSpec implements Serializable {
 	}
 
 	/**
-	 * Returns the list of media types included within this channel descriptor
+	 * Return the list of media types included within this channel descriptor.
 	 * 
-	 * @return List of media types included in this channel descriptor
+	 * @return List of media types included in this channel descriptor.
 	 */
 	public synchronized Set<MediaType> getTypes() {
 		return Collections.unmodifiableSet(types);
@@ -306,17 +314,6 @@ public class MediaSpec implements Serializable {
 		return ret;
 	}
 
-	/**
-	 * Calculates common formats and transport between a local (answered) and
-	 * remote (offerer) channel descriptor. This method is not intended to be
-	 * used by application
-	 * 
-	 * 
-	 * 
-	 * @param answerer
-	 * @param offerer
-	 * @return SessionSpec array [answerer, offerer]
-	 */
 	// TODO: change method visibility to protected
 	public static MediaSpec[] intersect(MediaSpec answerer, MediaSpec offerer) {
 		ArrayList<Payload> answererPayloads = new ArrayList<Payload>();

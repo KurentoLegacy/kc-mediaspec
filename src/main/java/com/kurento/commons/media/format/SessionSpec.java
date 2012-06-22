@@ -17,7 +17,7 @@
 
 package com.kurento.commons.media.format;
 
-//TODO: Consolidate all packages to com.kurento.commons.media.format
+//TODO: Consolidate all packages to: com.kurento.commons.media.format
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,15 +46,15 @@ import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
  * 
  * SessionSpec is intended to be directly used in multimedia negotiation. For
  * that purpose an intersection feature is implemented to calculate common
- * capabilities on both sides of a communication
+ * capabilities on both sides of a communication.
  * 
  * <p>
  * 
- * Although transport is out of the scope for SessionSpec, data model design has
- * avoided inheritance, in order to facilitate object serialization. Multiple
- * protocols can be used as delivery mechanism, including JSON, THRIFT or even
- * SDP. Kurento provides a set of <a href="??">Conversion utilities</a> for this
- * purpose
+ * SessionSpec data model design has avoided inheritance in order to facilitate
+ * object serialization and transfer in a multi-platform environment. Many
+ * protocols can be used for delivery, including: THRIFT, JSON or even SDP (only
+ * with RTP channels). Kurento provides a set of <a href="??">Conversion
+ * utilities</a> for this purpose
  * 
  * @see MediaSpec
  * 
@@ -78,14 +78,14 @@ public class SessionSpec implements Serializable {
 	}
 
 	/**
-	 * Creates a SessionSpect instance initialized with the given list of media
-	 * channels
+	 * Create a SessionSpect instance initialized with the specified list of
+	 * media channels.
 	 * 
 	 * @param medias
-	 *            List of media channels
+	 *            - List of media channels.
 	 * @param id
-	 *            Identification code used by application layer. It is of no use
-	 *            to SessionSpec
+	 *            - Identification code used by application layer. It is of no
+	 *            use to SessionSpec.
 	 */
 	public SessionSpec(List<MediaSpec> medias, String id) {
 		addMediaSpecs(medias);
@@ -93,13 +93,13 @@ public class SessionSpec implements Serializable {
 	}
 
 	/**
-	 * Adds a media channel descriptor to the session descriptor. No action
-	 * takes place if already belongs to this session descriptor. That means a
-	 * session descriptor will store each channel descriptor just once
+	 * Add a media channel descriptor to the session descriptor. No action takes
+	 * place if already belongs to this session descriptor. That means a session
+	 * descriptor will store each channel descriptor just once.
 	 * 
 	 * 
 	 * @param spec
-	 *            Media channel descriptor added to this session descriptor
+	 *            - Media channel descriptor added to this session descriptor.
 	 */
 	public void addMediaSpec(MediaSpec spec) {
 		if (spec != null)
@@ -107,11 +107,13 @@ public class SessionSpec implements Serializable {
 	}
 
 	/**
-	 * Adds a list of media channel descriptor to this session descriptor.
+	 * Add a list of media channel descriptor to this session descriptor.
 	 * Channel descriptor already stored within the session descriptor are
-	 * ignored
+	 * ignored.
 	 * 
 	 * @param medias
+	 *            - List of media channel descriptors to be added to this
+	 *            session descriptor.
 	 */
 	public void addMediaSpecs(Collection<MediaSpec> medias) {
 		if (medias == null)
@@ -120,51 +122,52 @@ public class SessionSpec implements Serializable {
 	}
 
 	/**
-	 * Removes the given media channel descriptor from this session descriptor.
-	 * Unknown channel descriptors are silently ignored and no modification
-	 * takes place within the session descriptor
+	 * Remove specified media channel descriptor from this session descriptor.
+	 * Channel descriptor is silently ignored if not contained within this
+	 * instance, and no modification takes place within the session descriptor.
 	 * 
 	 * @param spec
 	 *            Media channel descriptor to be removed from this session
-	 *            descriptor
+	 *            descriptor.
 	 */
 	public void deleteMediaSpec(MediaSpec spec) {
 		mediaSpecs.remove(spec);
 	}
 
 	/**
-	 * Removes from this session descriptor a list of media channel descriptors.
-	 * Those channel instances unknown to this session descriptor are silently
-	 * ignored
+	 * Remove from this session descriptor a list of media channel descriptors.
+	 * Those channel instances not contained within this instances are silently
+	 * ignored.
 	 * 
 	 * @param specs
 	 *            List of media channel descriptors to be removed from this
-	 *            session descriptor
+	 *            session descriptor.
 	 */
 	public void deleteMediaSpecs(Collection<MediaSpec> specs) {
 		mediaSpecs.removeAll(specs);
 	}
 
 	/**
-	 * Flushes all channel descriptors from this session descriptor
+	 * Flush all channel descriptors from this session descriptor.
 	 */
 	public void deleteAllMediaSpecs() {
 		mediaSpecs.removeAllElements();
 	}
 
 	/**
-	 * Returns a list of media descriptors handled by this session descriptor
+	 * Return a list of media descriptors handled by this session descriptor.
 	 * 
-	 * @return List of channel descriptors handled by this session descriptor
+	 * @return List of channel descriptors handled by this session descriptor.
 	 */
 	public List<MediaSpec> getMediaSpecs() {
 		return Collections.unmodifiableList(mediaSpecs);
 	}
 
 	/**
-	 * Sets this session descriptor identification
+	 * Set this session descriptor identification.
 	 * 
 	 * @param id
+	 *            - Identification
 	 */
 	public synchronized void setId(String id) {
 		if (id == null)
@@ -174,7 +177,7 @@ public class SessionSpec implements Serializable {
 	}
 
 	/**
-	 * Returns this session descriptor identification
+	 * Return this session descriptor identification
 	 * 
 	 * @return Session descriptor identification
 	 */
@@ -183,22 +186,22 @@ public class SessionSpec implements Serializable {
 	}
 
 	/**
-	 * Session descriptor enables a timeline mechanism intended for applications
-	 * to keep track of session descriptor changes
+	 * Session descriptor enables a versioning mechanism intended for
+	 * applications to keep track of changes.
 	 * 
 	 * @param version
-	 *            Version code to be assigned to this session descriptor
+	 *            - Version code to be assigned to this session descriptor.
 	 */
 	public synchronized void setVersion(String version) {
 		this.version = version;
 	}
 
 	/**
-	 * Returns current version code of this session descriptor
+	 * Return current version code of this session descriptor.
 	 * 
 	 * @return Current version code
 	 * @throws ArgumentNotSetException
-	 *             Thrown when version has not been set at least once
+	 *             If argument hasn't been initialized.
 	 */
 	public synchronized String getVersion() throws ArgumentNotSetException {
 		if (version == null)
@@ -208,7 +211,7 @@ public class SessionSpec implements Serializable {
 	}
 
 	/**
-	 * Provides a string with a pretty print of this session descriptor
+	 * Provide a string with a pretty print of this session descriptor.
 	 */
 	@Override
 	public String toString() {
@@ -235,18 +238,20 @@ public class SessionSpec implements Serializable {
 	/**
 	 * Method <code>intersect</code> is the basis to the SessionSpec negotiation
 	 * process. It takes two parameters: <code>answerer</code> and
-	 * <code>offerer</code> and returns a SessionSpec array with intersected
-	 * answerer (index 0) and offerer (index 1). Answerer always represents the
-	 * local descriptor while offerer is the remote one. Notice this method must
-	 * be executed by caller and called party, so it is important not to
-	 * associate offerer with caller and answerer with called, as they relate to
-	 * remote and local respectively and the same descriptor swaps roles
-	 * (remote/local) depending on the peer.
+	 * <code>offerer</code> and returns a <code>SessionSpec</code> array with
+	 * the intersected answerer (index 0) and offerer (index 1). Answerer always
+	 * represents the local descriptor while offerer is the remote one. Notice
+	 * this method must be executed by caller and called party, so it is
+	 * important not to associate offerer with caller and answerer with called,
+	 * as they relate to remote and local respectively and the same descriptor
+	 * swaps roles (remote/local) depending on the peer.
 	 * 
-	 * In addition intersection this method also enforces following set of
-	 * negotiation rules:
+	 * In addition, this method also enforces following set of negotiation rules
+	 * inherited from SDP negotiation:
 	 * <ul>
-	 * <li>Answerer must contain a response for each offerer channel.
+	 * <li>Answerer must contain a response for each offerer channel. Media
+	 * channel is declared <code>INCATIVE</code> if peer does not support
+	 * specified media type.
 	 * <li>Answerer must not include channels or formats not present at offerer.
 	 * </ul>
 	 * 
@@ -256,29 +261,30 @@ public class SessionSpec implements Serializable {
 	 * <ul>
 	 * <li>Caller party generates an offer descriptor announcing its multimedia
 	 * capabilities.
-	 * <li>Upon reception, called party assigns received offer to
+	 * <li>Upon reception, called party assigns received offer to.
 	 * <code>offerer</code> and its own capabilities descriptor to
 	 * <code>answerer</code>. Returned answerer is sent back to caller and
 	 * becomes the local session descriptor of called party. Returned offered
-	 * becomes the remote descriptor of called party
-	 * <li>Caller received answer descriptor from called and performs its own
-	 * intersection assigning the offer descriptor (sent to called party) to
+	 * becomes the remote descriptor of called party.
+	 * <li>Caller receives answer from called and performs its own intersection,
+	 * assigning the offer descriptor (sent to called party) to
 	 * <code>answered</code> and received answer from called to
-	 * <code>offerer</code>. Returned answered becomes the caller local
+	 * <code>offerer</code>. Returned answerer becomes the caller local
 	 * descriptor while returned offerer is the caller remote descriptor
 	 * </ul>
 	 * After negotiation local and remote descriptors on each party must be
 	 * Interchangeable. i.e. caller's local descriptor is identical to called's
-	 * remote descriptor and vice versa
+	 * remote descriptor and vice versa.
 	 * 
 	 * @param answerer
-	 *            Session descriptor from remote party to be intersected. Remote
-	 *            can be caller or called party depending where the operation is
-	 *            executed
+	 *            - Session descriptor from local party to be intersected. Local
+	 *            can be caller or called, depending where the operation is
+	 *            executed.
 	 * @param offerer
-	 *            Session descriptor from local party to be intersected. Local
-	 *            can be caller or called party depending where the operation is
-	 *            executed
+	 * 
+	 *            - Session descriptor from remote party to be intersected.
+	 *            Remote can be caller or called, depending where the operation
+	 *            is executed.
 	 * 
 	 * @return SessionSpec array containing intersected answerer (index 0) and
 	 *         offerer (index 1) descriptors, respectively

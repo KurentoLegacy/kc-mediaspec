@@ -24,9 +24,9 @@ public class Fraction implements Serializable {
 	 * Creates a new rational number represented by num/denom.
 	 * 
 	 * @param num
-	 *            Numerator of the rational number
+	 *            - Numerator of the rational number
 	 * @param denom
-	 *            Denominator of the rational number
+	 *            - Denominator of the rational number
 	 * @throws IllegalArgumentException
 	 *             Denominator can not be 0
 	 */
@@ -40,10 +40,10 @@ public class Fraction implements Serializable {
 	}
 
 	/**
-	 * Creates a duplicate fraction of given parameter
+	 * Create a duplicate fraction of specified parameter.
 	 * 
 	 * @param other
-	 *            Fraction number to be cloned
+	 *            - Fraction number to be cloned.
 	 */
 	public Fraction(Fraction other) {
 		num = other.num;
@@ -51,38 +51,38 @@ public class Fraction implements Serializable {
 	}
 
 	/**
-	 * Return fraction numerator
+	 * Return fraction numerator.
 	 * 
-	 * @return Fraction numerator
+	 * @return Fraction numerator.
 	 */
 	public int getNum() {
 		return num;
 	}
 
 	/**
-	 * Sets fraction numerator
+	 * Set fraction numerator.
 	 * 
 	 * @param num
-	 *            Fraction numerator
+	 *            - Fraction numerator.
 	 */
 	public void setNum(int num) {
 		this.num = num;
 	}
 
 	/**
-	 * Return fraction denominator
+	 * Return fraction denominator.
 	 * 
-	 * @return Fraction denominator
+	 * @return Fraction denominator.
 	 */
 	public int getDenom() {
 		return denom;
 	}
 
 	/**
-	 * Sets fraction denominator
+	 * Set fraction denominator.
 	 * 
 	 * @param denom
-	 *            Fraction denominator
+	 *            - Fraction denominator.
 	 * @throws IllegalArgumentException
 	 *             Denominator can not be null
 	 */
@@ -98,9 +98,9 @@ public class Fraction implements Serializable {
 	}
 
 	/**
-	 * Trunks the rational number into a <code>Double</code>
+	 * Trunks the rational number into a <code>Double</code>.
 	 * 
-	 * @return Number truncation to <code>Double</code> value
+	 * @return Number truncation to <code>Double</code> value.
 	 */
 	public double getValue() {
 		return (double) num / (double) denom;

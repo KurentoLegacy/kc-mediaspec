@@ -49,9 +49,9 @@ public class TransportRtp implements Serializable {
 	 * transport address information
 	 * 
 	 * @param address
-	 *            IP address
+	 *            - IP address
 	 * @param port
-	 *            UDP port
+	 *            - UDP port
 	 */
 	public TransportRtp(String address, int port) {
 		setAddress(address);
@@ -62,7 +62,7 @@ public class TransportRtp implements Serializable {
 	 * Creates a duplicate RTP transport instance of the one given as parameter
 	 * 
 	 * @param rtp
-	 *            RTP transport to be cloned
+	 *            - RTP transport to be cloned
 	 */
 	public TransportRtp(TransportRtp rtp) {
 		this.address = rtp.address;
@@ -91,7 +91,7 @@ public class TransportRtp implements Serializable {
 	 * Sets a new IP address
 	 * 
 	 * @param address
-	 *            IP address
+	 *            - IP address
 	 */
 	public synchronized void setAddress(String address) {
 		if (address == null)
@@ -103,7 +103,7 @@ public class TransportRtp implements Serializable {
 	 * Sets a new UDP port
 	 * 
 	 * @param port
-	 *            UDP port
+	 *            - UDP port
 	 */
 	public synchronized void setPort(int port) {
 		this.port = port;
