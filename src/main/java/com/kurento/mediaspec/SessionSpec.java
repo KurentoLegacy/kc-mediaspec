@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.format;
+package com.kurento.mediaspec;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * interaction.
  * <p>
  * 
- * <img src="doc-files/classdiagram.png"/>
+ * <img src="doc-files/classdiagram.svg"/>
  * 
  * <p>
  * 
