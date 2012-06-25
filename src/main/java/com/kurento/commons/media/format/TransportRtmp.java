@@ -1,8 +1,7 @@
-package com.kurento.commons.media.format.transport;
+package com.kurento.commons.media.format;
 
 import java.io.Serializable;
 
-import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 
 /**
  * 
@@ -135,8 +134,7 @@ public class TransportRtmp implements Serializable {
 		return builder.toString();
 	}
 
-	// TODO: Change method visibility to private / protected
-	public static TransportRtmp[] instersect(TransportRtmp answerer,
+	protected static TransportRtmp[] instersect(TransportRtmp answerer,
 			TransportRtmp offerer) {
 		TransportRtmp neg_answ = new TransportRtmp(answerer);
 		TransportRtmp neg_off = new TransportRtmp(offerer);

@@ -1,4 +1,4 @@
-package com.kurento.commons.media.format.payload;
+package com.kurento.commons.media.format;
 
 import java.io.Serializable;
 

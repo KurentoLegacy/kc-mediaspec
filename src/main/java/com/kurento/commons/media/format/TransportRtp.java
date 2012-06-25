@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.format.transport;
+package com.kurento.commons.media.format;
 
 import java.io.Serializable;
 

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.format.payload;
+package com.kurento.commons.media.format;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 
 /**
  * 
@@ -375,8 +374,8 @@ public class PayloadRtp implements Serializable {
 		return builder.toString();
 	}
 
-	// TODO: change method visibility to protected or private
-	public static PayloadRtp intersect(PayloadRtp answerer, PayloadRtp offerer) {
+	protected static PayloadRtp intersect(PayloadRtp answerer,
+			PayloadRtp offerer) {
 		if (answerer == null || offerer == null)
 			return null;
 

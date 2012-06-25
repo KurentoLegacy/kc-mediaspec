@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.format.exceptions;
+package com.kurento.commons.media.format;
 
 public class ArgumentNotSetException extends Exception {
 

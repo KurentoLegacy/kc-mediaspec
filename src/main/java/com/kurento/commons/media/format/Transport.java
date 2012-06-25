@@ -19,9 +19,6 @@ package com.kurento.commons.media.format;
 
 import java.io.Serializable;
 
-import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
-import com.kurento.commons.media.format.transport.TransportRtmp;
-import com.kurento.commons.media.format.transport.TransportRtp;
 
 /**
  * 

@@ -17,8 +17,6 @@
 
 package com.kurento.commons.media.format;
 
-//TODO: Consolidate all packages to: com.kurento.commons.media.format
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,8 +27,6 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kurento.commons.media.format.enums.Mode;
-import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 
 /**
  * SessionSpec is designed to extend <a

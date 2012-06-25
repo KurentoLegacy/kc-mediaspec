@@ -26,9 +26,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import com.kurento.commons.media.format.enums.MediaType;
-import com.kurento.commons.media.format.enums.Mode;
-import com.kurento.commons.media.format.exceptions.ArgumentNotSetException;
 
 /**
  * <p>

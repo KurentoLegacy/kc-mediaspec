@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.format.enums;
+package com.kurento.commons.media.format;
 
 public enum MediaType {
 	AUDIO("audio"), VIDEO("video");
