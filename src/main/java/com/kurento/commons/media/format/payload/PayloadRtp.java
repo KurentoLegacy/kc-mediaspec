@@ -58,8 +58,7 @@ public class PayloadRtp implements Serializable {
 	/**
 	 * This constructor should not be used, just for serialization
 	 * */
-	// TODO: Change visibility to private
-	public PayloadRtp() {
+	private PayloadRtp() {
 
 	}
 
@@ -72,6 +71,9 @@ public class PayloadRtp implements Serializable {
 	 *            Name of the codec.
 	 * @param clockRate
 	 *            Codec sample rate.
+	 * 
+	 * @throws NullPointerException
+	 *             if codecName is null
 	 */
 	public PayloadRtp(int id, String codecName, int clockRate) {
 		setCodecName(codecName);
@@ -121,6 +123,9 @@ public class PayloadRtp implements Serializable {
 	 * 
 	 * @param codecName
 	 *            Name of the codec to be assigned.
+	 * 
+	 * @throws NullPointerException
+	 *             if codecName is null
 	 */
 	public synchronized void setCodecName(String codecName) {
 		if (codecName == null)
@@ -130,7 +135,7 @@ public class PayloadRtp implements Serializable {
 	}
 
 	/**
-	 * Return codec name or <code>null</code> if not previously assigned.
+	 * Return codec name.
 	 * 
 	 * @return Codec name.
 	 */
@@ -139,7 +144,7 @@ public class PayloadRtp implements Serializable {
 	}
 
 	/**
-	 * Sets stream sample rate. Only applicable to video codecs.
+	 * Sets stream sample rate.
 	 * 
 	 * @param clockRate
 	 *            Sample rate.

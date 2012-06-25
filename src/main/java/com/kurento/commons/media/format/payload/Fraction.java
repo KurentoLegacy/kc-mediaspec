@@ -13,11 +13,10 @@ public class Fraction implements Serializable {
 	private int denom;
 
 	/**
-	 * This constructos is for serialization only, should not be used
+	 * This constructor is for serialization only, should not be used
 	 */
-	// TODO: Change visibility to private
-	public Fraction() {
-
+	@SuppressWarnings("unused")
+	private Fraction() {
 	}
 
 	/**
@@ -84,7 +83,7 @@ public class Fraction implements Serializable {
 	 * @param denom
 	 *            Fraction denominator.
 	 * @throws IllegalArgumentException
-	 *             Denominator can not be null
+	 *             Denominator can not be 0
 	 */
 	public void setDenom(int denom) throws IllegalArgumentException {
 		if (denom == 0)
@@ -106,8 +105,7 @@ public class Fraction implements Serializable {
 		return (double) num / (double) denom;
 	}
 
-	// TODO: Change visibililty to protected
-	public static Fraction intersect(Fraction answerer, Fraction offerer) {
+	protected static Fraction intersect(Fraction answerer, Fraction offerer) {
 		if (answerer == null)
 			return offerer;
 		if (offerer == null)

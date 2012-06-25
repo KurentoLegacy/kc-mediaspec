@@ -71,21 +71,21 @@ public class SessionSpec implements Serializable {
 	private String version;
 
 	/**
-	 * Creates an empty SessionSpec instance.
+	 * To be used just for serialization.
 	 */
-	// TODO: Change visibility to private?
-	public SessionSpec() {
+	@SuppressWarnings("unused")
+	private SessionSpec() {
 	}
 
 	/**
-	 * Create a SessionSpect instance initialized with the specified list of
+	 * Create a SessionSpec instance initialized with the specified list of
 	 * media channels.
 	 * 
 	 * @param medias
 	 *            List of media channels.
 	 * @param id
-	 *            Identification code used by application layer. It is of no use
-	 *            to SessionSpec.
+	 *            Identification code used by application layer. It is of not
+	 *            used by SessionSpec.
 	 */
 	public SessionSpec(List<MediaSpec> medias, String id) {
 		addMediaSpecs(medias);
@@ -96,7 +96,6 @@ public class SessionSpec implements Serializable {
 	 * Add a media channel descriptor to the session descriptor. No action takes
 	 * place if already belongs to this session descriptor. That means a session
 	 * descriptor will store each channel descriptor just once.
-	 * 
 	 * 
 	 * @param spec
 	 *            Media channel descriptor added to this session descriptor.
@@ -114,6 +113,9 @@ public class SessionSpec implements Serializable {
 	 * @param medias
 	 *            List of media channel descriptors to be added to this session
 	 *            descriptor.
+	 * 
+	 * @throws NullPointerException
+	 *             if medias is null
 	 */
 	public void addMediaSpecs(Collection<MediaSpec> medias) {
 		if (medias == null)
@@ -168,6 +170,9 @@ public class SessionSpec implements Serializable {
 	 * 
 	 * @param id
 	 *            Identification
+	 * 
+	 * @throws NullPointerException
+	 *             If id is null
 	 */
 	public synchronized void setId(String id) {
 		if (id == null)

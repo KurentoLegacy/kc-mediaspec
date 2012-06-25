@@ -53,10 +53,10 @@ public class MediaSpec implements Serializable {
 	private Mode mode;
 
 	/**
-	 * Creates a empty instance of MediaSpec.
+	 * Just to be used for serialization.
 	 */
-	// TODO: Change visibility to private?
-	public MediaSpec() {
+	@SuppressWarnings("unused")
+	private MediaSpec() {
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class MediaSpec implements Serializable {
 	 *            List of media types supported by this media channel. Currently
 	 *            only AUDIO and VIDEO are valid media types. Media channel
 	 *            descriptor can announce more than one different media type.
-	 *            This is intended for multiplex payloads like RTMP that
+	 *            This is intended for multiplexed payloads like RTMP that
 	 *            provides at the same time audio and video.
 	 * @param transport
 	 *            Descriptor for the transport layer supporting media delivery.
@@ -91,6 +91,9 @@ public class MediaSpec implements Serializable {
 	 * 
 	 * @param mode
 	 *            Delivery mode to be set to this channel
+	 * 
+	 * @throws NullPointerException
+	 *             if mode is null
 	 */
 	public synchronized void setMode(Mode mode) {
 		if (mode == null)
@@ -114,6 +117,9 @@ public class MediaSpec implements Serializable {
 	 * @param transport
 	 *            Transport descriptor to be associated to this channel
 	 *            descriptor.
+	 * 
+	 * @throws NullPointerException
+	 *             if transport is null
 	 */
 	public synchronized void setTransport(Transport transport) {
 		if (transport == null)
@@ -123,7 +129,7 @@ public class MediaSpec implements Serializable {
 
 	/**
 	 * Return this channel's current transport descriptor or null if not
-	 * previously any assigned.
+	 * previously assigned.
 	 * 
 	 * @return Transport descriptor.
 	 */
@@ -293,8 +299,7 @@ public class MediaSpec implements Serializable {
 		return builder.toString();
 	}
 
-	// TODO: Change method visibility to protected
-	public static boolean checkTransportCompatible(MediaSpec answerer,
+	protected static boolean checkTransportCompatible(MediaSpec answerer,
 			MediaSpec offerer) {
 		boolean ret = false;
 
@@ -313,8 +318,7 @@ public class MediaSpec implements Serializable {
 		return ret;
 	}
 
-	// TODO: change method visibility to protected
-	public static MediaSpec[] intersect(MediaSpec answerer, MediaSpec offerer) {
+	protected static MediaSpec[] intersect(MediaSpec answerer, MediaSpec offerer) {
 		ArrayList<Payload> answererPayloads = new ArrayList<Payload>();
 		ArrayList<Payload> offererPayloads = new ArrayList<Payload>();
 		Mode answererMode = answerer.getMode();

@@ -25,8 +25,8 @@ public class TransportRtmp implements Serializable {
 	/**
 	 * This constructor should not be used, just for serialization
 	 */
-	// TODO: Change visibility of this method to private or protected
-	public TransportRtmp() {
+	@SuppressWarnings("unused")
+	private TransportRtmp() {
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class TransportRtmp implements Serializable {
 
 	/**
 	 * Returns reception stream ID for local descriptors. Its value does not
-	 * make send for remote descriptors.
+	 * make sense for remote descriptors.
 	 * 
 	 * @return RTMP stream id.
 	 * @throws ArgumentNotSetException

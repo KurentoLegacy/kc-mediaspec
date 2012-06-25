@@ -39,8 +39,8 @@ public class TransportRtp implements Serializable {
 	/**
 	 * This constructor should not be used, just for serialization
 	 */
-	// TODO: Change visibility to private??
-	public TransportRtp() {
+	@SuppressWarnings("unused")
+	private TransportRtp() {
 		address = "localhost";
 	}
 
@@ -92,6 +92,9 @@ public class TransportRtp implements Serializable {
 	 * 
 	 * @param address
 	 *            IP address
+	 * 
+	 * @throws NullPointerException
+	 *             if address is null
 	 */
 	public synchronized void setAddress(String address) {
 		if (address == null)

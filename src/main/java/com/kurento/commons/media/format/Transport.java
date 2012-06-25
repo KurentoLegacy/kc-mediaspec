@@ -44,7 +44,6 @@ public class Transport implements Serializable {
 	/**
 	 * Creates an empty transport container
 	 */
-	// TODO: Change visibility to private?
 	public Transport() {
 
 	}
@@ -133,8 +132,7 @@ public class Transport implements Serializable {
 		return builder.toString();
 	}
 
-	// TODO: Change visibility to protected
-	public static Transport[] intersect(Transport answerer, Transport offerer) {
+	protected static Transport[] intersect(Transport answerer, Transport offerer) {
 		Transport neg_answ = new Transport(answerer);
 		Transport neg_off = new Transport(offerer);
 

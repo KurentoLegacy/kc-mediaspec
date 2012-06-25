@@ -42,7 +42,6 @@ public class Payload implements Serializable {
 	/**
 	 * Creates an empty payload container instance.
 	 */
-	// TODO: Change visibility to private?
 	public Payload() {
 	}
 
@@ -94,8 +93,7 @@ public class Payload implements Serializable {
 		return builder.toString();
 	}
 
-	// TODO: Change visibility to protected
-	public static Payload intersect(Payload ansPayload, Payload offPayload) {
+	protected static Payload intersect(Payload ansPayload, Payload offPayload) {
 		if (ansPayload == null || offPayload == null)
 			return null;
 		Payload intersect = new Payload();
