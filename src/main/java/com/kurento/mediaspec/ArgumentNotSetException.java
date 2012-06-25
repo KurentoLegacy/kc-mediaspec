@@ -15,29 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.format;
+package com.kurento.mediaspec;
 
-public enum MediaType {
-	AUDIO("audio"), VIDEO("video");
+public class ArgumentNotSetException extends Exception {
 
-	private String name;
+	private static final long serialVersionUID = 1L;
 
-	private MediaType(String name) {
-		this.name = name;
+	public ArgumentNotSetException() {
 	}
 
-	public static MediaType getInstance(String mediaType) {
-		if (AUDIO.toString().equalsIgnoreCase(mediaType)) {
-			return AUDIO;
-		} else if (VIDEO.toString().equalsIgnoreCase(mediaType)) {
-			return VIDEO;
-		}
-		return null;
+	public ArgumentNotSetException(String message) {
+		super(message);
 	}
 
-	@Override
-	public String toString() {
-		return name;
+	public ArgumentNotSetException(Throwable cause) {
+		super(cause);
+	}
+
+	public ArgumentNotSetException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 }

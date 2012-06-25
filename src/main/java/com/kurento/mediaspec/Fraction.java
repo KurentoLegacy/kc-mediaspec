@@ -1,4 +1,4 @@
-package com.kurento.commons.media.format;
+package com.kurento.mediaspec;
 
 import java.io.Serializable;
 

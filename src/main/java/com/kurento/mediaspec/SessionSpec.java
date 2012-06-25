@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.format;
+package com.kurento.mediaspec;
 
 import java.io.Serializable;
 import java.util.ArrayList;

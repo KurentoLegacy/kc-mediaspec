@@ -15,34 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.format;
+package com.kurento.mediaspec;
 
-public enum Mode {
-	SENDONLY("sendonly"),
-	RECVONLY("recvonly"),
-	SENDRECV("sendrecv"),
-	INACTIVE("inactive");
+public enum MediaType {
+	AUDIO("audio"), VIDEO("video");
 
-	private String desc;
+	private String name;
 
-	private Mode(String desc) {
-		this.desc = desc;
+	private MediaType(String name) {
+		this.name = name;
 	}
 
-	public String toString() {
-		return desc;
-	}
-
-	public static Mode getInstance(String value) {
-		if (value.equalsIgnoreCase(SENDRECV.toString())) {
-			return SENDRECV;
-		} else if (value.equalsIgnoreCase(SENDONLY.toString())) {
-			return SENDONLY;
-		} else if (value.equalsIgnoreCase(RECVONLY.toString())) {
-			return RECVONLY;
-		} else if (value.equalsIgnoreCase(INACTIVE.toString())) {
-			return INACTIVE;
+	public static MediaType getInstance(String mediaType) {
+		if (AUDIO.toString().equalsIgnoreCase(mediaType)) {
+			return AUDIO;
+		} else if (VIDEO.toString().equalsIgnoreCase(mediaType)) {
+			return VIDEO;
 		}
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
 }

@@ -15,25 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kurento.commons.media.format;
+package com.kurento.mediaspec;
 
-public class ArgumentNotSetException extends Exception {
+public enum Mode {
+	SENDONLY("sendonly"),
+	RECVONLY("recvonly"),
+	SENDRECV("sendrecv"),
+	INACTIVE("inactive");
 
-	private static final long serialVersionUID = 1L;
+	private String desc;
 
-	public ArgumentNotSetException() {
+	private Mode(String desc) {
+		this.desc = desc;
 	}
 
-	public ArgumentNotSetException(String message) {
-		super(message);
+	public String toString() {
+		return desc;
 	}
 
-	public ArgumentNotSetException(Throwable cause) {
-		super(cause);
+	public static Mode getInstance(String value) {
+		if (value.equalsIgnoreCase(SENDRECV.toString())) {
+			return SENDRECV;
+		} else if (value.equalsIgnoreCase(SENDONLY.toString())) {
+			return SENDONLY;
+		} else if (value.equalsIgnoreCase(RECVONLY.toString())) {
+			return RECVONLY;
+		} else if (value.equalsIgnoreCase(INACTIVE.toString())) {
+			return INACTIVE;
+		}
+		return null;
 	}
-
-	public ArgumentNotSetException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
 }
