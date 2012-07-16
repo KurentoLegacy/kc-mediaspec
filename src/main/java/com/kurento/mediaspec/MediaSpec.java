@@ -49,11 +49,8 @@ public class MediaSpec implements Serializable {
 
 	private Mode mode;
 
-	/**
-	 * Just to be used for serialization.
-	 */
-	@SuppressWarnings("unused")
-	private MediaSpec() {
+	public MediaSpec() {
+
 	}
 
 	/**
