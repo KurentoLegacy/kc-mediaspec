@@ -66,8 +66,11 @@ public class SessionSpec implements Serializable {
 	private String id = "";
 	private String version;
 
-	public SessionSpec() {
-
+	/**
+	 * To be used just for serialization.
+	 */
+	@SuppressWarnings("unused")
+	private SessionSpec() {
 	}
 
 	/**

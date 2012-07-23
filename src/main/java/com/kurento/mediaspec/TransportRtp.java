@@ -36,7 +36,11 @@ public class TransportRtp implements Serializable {
 	private String address;
 	private int port;
 
-	public TransportRtp() {
+	/**
+	 * This constructor should not be used, just for serialization
+	 */
+	@SuppressWarnings("unused")
+	private TransportRtp() {
 		address = "localhost";
 	}
 
