@@ -22,10 +22,9 @@ public class TransportRtmp implements Serializable {
 	private String publish;
 
 	/**
-	 * This constructor should not be used, just for serialization
+	 * Creates an RTMP transport without initialization
 	 */
-	@SuppressWarnings("unused")
-	private TransportRtmp() {
+	public TransportRtmp() {
 	}
 
 	/**
