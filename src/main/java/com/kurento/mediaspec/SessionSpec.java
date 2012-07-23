@@ -337,9 +337,7 @@ public class SessionSpec implements Serializable {
 		try {
 			newAnswererSpec.setVersion(answerer.getVersion());
 		} catch (ArgumentNotSetException e) {
-			log.error(
-					"Unable to set ansewer version during session descriptor intersection",
-					e);
+			// No version set
 		}
 
 		SessionSpec newOffererSpec = new SessionSpec(newOffererSpecList,
@@ -347,10 +345,7 @@ public class SessionSpec implements Serializable {
 		try {
 			newOffererSpec.setVersion(offerer.getVersion());
 		} catch (ArgumentNotSetException e) {
-			log.error(
-					"Unable to set offerer version during session descriptor intersection",
-					e);
-
+			// No version set
 		}
 
 		return new SessionSpec[] { newAnswererSpec, newOffererSpec };
