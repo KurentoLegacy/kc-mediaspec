@@ -59,7 +59,8 @@ public class SessionSpec implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected static final Logger log = LoggerFactory
+	@SuppressWarnings("unused")
+	private static final Logger log = LoggerFactory
 			.getLogger(SessionSpec.class);
 
 	private Vector<MediaSpec> mediaSpecs = new Vector<MediaSpec>();
