@@ -21,7 +21,11 @@ public class TransportRtmp implements Serializable {
 	private String play;
 	private String publish;
 
-	public TransportRtmp() {
+	/**
+	 * This constructor should not be used, just for serialization
+	 */
+	@SuppressWarnings("unused")
+	private TransportRtmp() {
 	}
 
 	/**
