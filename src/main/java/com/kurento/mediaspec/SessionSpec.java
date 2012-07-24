@@ -24,9 +24,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 /**
  * SessionSpec is designed to extend <a
@@ -58,10 +55,6 @@ import org.slf4j.LoggerFactory;
 public class SessionSpec implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@SuppressWarnings("unused")
-	private static final Logger log = LoggerFactory
-			.getLogger(SessionSpec.class);
 
 	private Vector<MediaSpec> mediaSpecs = new Vector<MediaSpec>();
 	private String id = "";
