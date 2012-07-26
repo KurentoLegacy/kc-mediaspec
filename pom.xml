@@ -12,6 +12,7 @@
 		<maven.compiler.target>1.6</maven.compiler.target>
 
 		<!-- Dependencies Versions -->
+		<kc-mediaspec-interface.version>1.0.2-SNAPSHOT</kc-mediaspec-interface.version>
 
 		<!-- Plugins Versions -->
 
@@ -49,6 +50,11 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.6.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.kurento.commons</groupId>
+			<artifactId>kc-mediaspec-interface</artifactId>
+			<version>${kc-mediaspec-interface.version}</version>
 		</dependency>
 	</dependencies>
 
