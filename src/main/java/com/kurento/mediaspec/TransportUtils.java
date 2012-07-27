@@ -29,8 +29,18 @@ public class TransportUtils {
 
 	private static TransportRtmp[] instersect(TransportRtmp answerer,
 			TransportRtmp offerer) {
-		TransportRtmp neg_answ = new TransportRtmp(answerer);
-		TransportRtmp neg_off = new TransportRtmp(offerer);
+		TransportRtmp neg_answ;
+		TransportRtmp neg_off;
+
+		if (answerer != null)
+			neg_answ = new TransportRtmp(answerer);
+		else
+			neg_answ = new TransportRtmp();
+
+		if (offerer != null)
+			neg_off = new TransportRtmp(offerer);
+		else
+			neg_off = new TransportRtmp();
 
 		if (neg_off.publish != null)
 			neg_answ.play = neg_off.publish;

@@ -28,30 +28,55 @@ public class PayloadUtils {
 
 		rtp.framerate = FractionUtils.intersect(answerer.framerate,
 				offerer.framerate);
-		rtp.channels = selectMinor(answerer.channels, offerer.channels);
-		rtp.width = selectMinor(answerer.width, offerer.width);
-		rtp.height = selectMinor(answerer.height, offerer.height);
-		rtp.bitrate = selectMinor(answerer.bitrate, offerer.bitrate);
+		Integer minor;
+		minor = selectMinor(answerer.channels, answerer.isSetChannels(),
+				offerer.channels, offerer.isSetChannels());
 
-		for (String key : offerer.extraParams.keySet()) {
-			rtp.extraParams.put(key, offerer.extraParams.get(key));
+		if (minor != null)
+			rtp.setChannels(minor);
+
+		minor = selectMinor(answerer.width, answerer.isSetChannels(),
+				offerer.width, offerer.isSetChannels());
+
+		if (minor != null)
+			rtp.setWidth(minor);
+
+		minor = selectMinor(answerer.height, answerer.isSetChannels(),
+				offerer.height, offerer.isSetChannels());
+
+		if (minor != null)
+			rtp.setHeight(minor);
+
+		minor = selectMinor(answerer.bitrate, answerer.isSetChannels(),
+				offerer.bitrate, offerer.isSetChannels());
+
+		if (minor != null)
+			rtp.setBitrate(minor);
+
+		if (offerer.isSetExtraParams()) {
+			for (String key : offerer.extraParams.keySet()) {
+				rtp.putToExtraParams(key, offerer.extraParams.get(key));
+			}
 		}
 
-		for (String key : answerer.extraParams.keySet()) {
-			if (!rtp.extraParams.containsKey(key))
-				rtp.extraParams.put(key, answerer.extraParams.get(key));
+		if (answerer.isSetExtraParams()) {
+			for (String key : answerer.extraParams.keySet()) {
+				if (!rtp.extraParams.containsKey(key))
+					rtp.putToExtraParams(key, answerer.extraParams.get(key));
+			}
 		}
 
 		return rtp;
 	}
 
-	private static Integer selectMinor(Integer a, Integer b) {
-		if (a != null) {
-			if (b != null)
+	private static Integer selectMinor(int a, boolean isSetA, int b,
+			boolean isSetB) {
+		if (isSetA) {
+			if (isSetB)
 				return a < b ? a : b;
 			else
 				return a;
 		}
-		return b;
+		return isSetB ? b : null;
 	}
 }
