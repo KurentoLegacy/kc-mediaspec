@@ -35,20 +35,20 @@ public class PayloadUtils {
 		if (minor != null)
 			rtp.setChannels(minor);
 
-		minor = selectMinor(answerer.width, answerer.isSetChannels(),
-				offerer.width, offerer.isSetChannels());
+		minor = selectMinor(answerer.width, answerer.isSetWidth(),
+				offerer.width, offerer.isSetWidth());
 
 		if (minor != null)
 			rtp.setWidth(minor);
 
-		minor = selectMinor(answerer.height, answerer.isSetChannels(),
-				offerer.height, offerer.isSetChannels());
+		minor = selectMinor(answerer.height, answerer.isSetHeight(),
+				offerer.height, offerer.isSetHeight());
 
 		if (minor != null)
 			rtp.setHeight(minor);
 
-		minor = selectMinor(answerer.bitrate, answerer.isSetChannels(),
-				offerer.bitrate, offerer.isSetChannels());
+		minor = selectMinor(answerer.bitrate, answerer.isSetBitrate(),
+				offerer.bitrate, offerer.isSetBitrate());
 
 		if (minor != null)
 			rtp.setBitrate(minor);
@@ -61,7 +61,8 @@ public class PayloadUtils {
 
 		if (answerer.isSetExtraParams()) {
 			for (String key : answerer.extraParams.keySet()) {
-				if (!rtp.extraParams.containsKey(key))
+				if (!rtp.isSetExtraParams()
+						|| !rtp.extraParams.containsKey(key))
 					rtp.putToExtraParams(key, answerer.extraParams.get(key));
 			}
 		}
