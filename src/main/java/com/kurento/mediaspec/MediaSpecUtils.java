@@ -56,14 +56,16 @@ public class MediaSpecUtils {
 			return null;
 		}
 
-		for (Payload ansPayload : answerer.getPayloads()) {
-			for (Payload offPayload : offerer.getPayloads()) {
-				Payload intersect = PayloadUtils.intersect(ansPayload,
-						offPayload);
-				if (intersect != null) {
-					answererPayloads.add(intersect);
-					offererPayloads.add(new Payload(intersect));
-					break;
+		if (answerer.isSetPayloads() && offerer.isSetPayloads()) {
+			for (Payload ansPayload : answerer.getPayloads()) {
+				for (Payload offPayload : offerer.getPayloads()) {
+					Payload intersect = PayloadUtils.intersect(ansPayload,
+							offPayload);
+					if (intersect != null) {
+						answererPayloads.add(intersect);
+						offererPayloads.add(new Payload(intersect));
+						break;
+					}
 				}
 			}
 		}
