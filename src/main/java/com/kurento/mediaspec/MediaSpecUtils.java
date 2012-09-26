@@ -18,6 +18,11 @@ public class MediaSpecUtils {
 			ret = ret || answerer.getTransport().getRtp() != null
 					&& offerer.getTransport().getRtp() != null;
 
+		if (answerer.getTransport().isSetIce()
+				&& offerer.getTransport().isSetIce())
+			ret = ret || answerer.getTransport().getIce() != null
+					&& offerer.getTransport().getIce() != null;
+
 		return ret;
 	}
 

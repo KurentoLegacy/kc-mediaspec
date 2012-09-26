@@ -20,8 +20,15 @@ public class TransportUtils {
 			neg_off.rtmp = null;
 		}
 
+		if (!neg_answ.isSetIce())
+			neg_off.setIceIsSet(false);
+
+		if (!neg_off.isSetIce())
+			neg_answ.setIceIsSet(false);
+
 		if (neg_answ.rtmp == null && neg_answ.rtp == null
-				|| neg_off.rtmp == null && neg_off.rtp == null)
+				&& neg_answ.ice == null || neg_off.rtmp == null
+				&& neg_off.rtp == null && neg_off.ice == null)
 			return null;
 
 		return new Transport[] { neg_answ, neg_off };
